@@ -27,6 +27,8 @@ Rancangan UI aplikasi yang berfokus pada pengalaman pengguna.
 |- |- |  <img src="https://cdn.discordapp.com/attachments/970580229959606292/1483492154264518810/WhatsApp_Image_2026-03-17_at_10.45.39_PM_1.jpeg?ex=69bac93b&is=69b977bb&hm=e719bf34cdb527c0f686bf193a1950575fb68aa1372789f0d3bd5a27d824a8cd" alt="Riwayat Pemesanan" width="300" height="200">|
 |- |- |  <img src="https://cdn.discordapp.com/attachments/970580229959606292/1483492154985807996/WhatsApp_Image_2026-03-17_at_10.45.39_PM.jpeg?ex=69bac93b&is=69b977bb&hm=2ca65bcee0ce67e1bfc3b1099aab80fe4c62516ad353e182c8343898da9ae80c" alt="Katalog" width="300" height="200">|
 |- |- |  <img src="https://cdn.discordapp.com/attachments/970580229959606292/1483492151534027025/WhatsApp_Image_2026-03-17_at_10.45.38_PM.jpeg?ex=69bac93a&is=69b977ba&hm=e2a8bb5a0ca046389eb60cc4a7e3c4adaccebd5b08e2e8410173a2813ef1a191" alt="Pembayaran" width="300" height="200">|
+|- |- |  <img src="https://cdn.discordapp.com/attachments/970580229959606292/1483686739745833042/8aa8d07d-0780-418d-a938-9c7ab31a9986.png?ex=69bb7e74&is=69ba2cf4&hm=853721a31c38472dc45125c6076810411f08b7b2df372e093fedfe848ec213d0" alt="Detail Pembayaran" width="300" height="200">|
+
 
 
 ---
