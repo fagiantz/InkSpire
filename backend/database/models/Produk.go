@@ -1,0 +1,39 @@
+package models
+
+import (
+	"time"
+
+	"github.com/fagiantz/InkSpire/backend/utils"
+	"gorm.io/gorm"
+)
+
+type Produk struct {
+	Id_produk   string  `gorm:"uniqueIndex;not null" json:"id_produk"`
+	Nama_produk string  `gorm:"not null" json:"nama_produk"`
+	Harga       float64 `gorm:"not null" json:"harga"`
+
+	ID        uint      `gorm:"primaryKey" json:"id"`
+	UpdatedAt time.Time `json:"updated_at"`
+	CreatedAt time.Time `json:"created_at"`
+}
+
+func (Produk) TableName() string {
+	return "produk"
+}
+
+func (p *Produk) BeforeCreate(tx *gorm.DB) (err error) {
+	p.Id_produk = utils.GenerateProdukID()
+	return
+}
+
+func (p *Produk) Create(db *gorm.DB) error {
+	return db.Create(p).Error
+}
+
+func (*Produk) GetDetail(db *gorm.DB, id string) (*Produk, error) {
+	var produk Produk
+	if err := db.Where("id_produk = ?", id).First(&produk).Error; err != nil {
+		return nil, err
+	}
+	return &produk, nil
+}
