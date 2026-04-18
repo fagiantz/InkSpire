@@ -28,3 +28,19 @@ func (c *ProdukController) GetAll(ctx *gin.Context) {
 		"data":    produks,
 	})
 }
+
+// GetById intercepts dynamic paths like /:id to query a single item
+func (c *ProdukController) GetById(ctx *gin.Context) {
+	id := ctx.Param("id")
+
+	produk, err := c.produkService.GetProdukById(id)
+	if err != nil {
+		ctx.JSON(http.StatusNotFound, gin.H{"error": "Product not found"})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"message": "Product retrieved successfully",
+		"data":    produk,
+	})
+}

@@ -20,7 +20,17 @@ func (s *ProdukService) GetAllProduk() ([]dto.ProdukResponse, error) {
 	if err != nil {
 		return nil, err
 	}
-	
-	// Convert data via DTO before sending to controller
+
 	return dto.ProdukResponse{}.ToResponseList(produks), nil
+}
+
+func (s *ProdukService) GetProdukById(id string) (*dto.ProdukResponse, error) {
+	produkModel := &models.Produk{}
+	produk, err := produkModel.GetDetail(s.db, id)
+	if err != nil {
+		return nil, err
+	}
+
+	response := dto.ProdukResponse{}.ToResponse(*produk)
+	return &response, nil
 }

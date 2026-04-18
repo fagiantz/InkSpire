@@ -32,3 +32,11 @@ func (*Produk) GetAll(db *gorm.DB) ([]Produk, error) {
 	}
 	return produks, nil
 }
+
+func (*Produk) GetDetail(db *gorm.DB, id string) (*Produk, error) {
+	var produk Produk
+	if err := db.Where("id_produk = ?", id).First(&produk).Error; err != nil {
+		return nil, err
+	}
+	return &produk, nil
+}

@@ -30,6 +30,7 @@ func SetupRouter() *gin.Engine {
 
 	produk := api.Group("/produk")
 	produk.GET("", produkController.GetAll)
+	produk.GET("/:id", produkController.GetById)
 
 	return r
 }
