@@ -1,20 +1,15 @@
 package models
 
 import (
-	"time"
-
 	"github.com/fagiantz/InkSpire/backend/utils"
 	"gorm.io/gorm"
 )
 
 type Produk struct {
-	Id_produk   string  `gorm:"uniqueIndex;not null" json:"id_produk"`
-	Nama_produk string  `gorm:"not null" json:"nama_produk"`
+	ID          uint    `gorm:"primaryKey" json:"id"`
+	Id_produk   string  `gorm:"uniqueIndex;not null;type:varchar(100)" json:"id_produk"`
+	Nama_produk string  `gorm:"not null;type:varchar(255)" json:"nama_produk"`
 	Harga       float64 `gorm:"not null" json:"harga"`
-
-	ID        uint      `gorm:"primaryKey" json:"id"`
-	UpdatedAt time.Time `json:"updated_at"`
-	CreatedAt time.Time `json:"created_at"`
 }
 
 func (Produk) TableName() string {
@@ -30,10 +25,10 @@ func (p *Produk) Create(db *gorm.DB) error {
 	return db.Create(p).Error
 }
 
-func (*Produk) GetDetail(db *gorm.DB, id string) (*Produk, error) {
-	var produk Produk
-	if err := db.Where("id_produk = ?", id).First(&produk).Error; err != nil {
+func (*Produk) GetAll(db *gorm.DB) ([]Produk, error) {
+	var produks []Produk
+	if err := db.Find(&produks).Error; err != nil {
 		return nil, err
 	}
-	return &produk, nil
+	return produks, nil
 }

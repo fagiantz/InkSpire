@@ -18,29 +18,29 @@ func NewAuthService(db *gorm.DB) *AuthService {
 	return &AuthService{db: db}
 }
 
-func (s *AuthService) Register(req dto.RegisterRequest) (*dto.UserResponse, error) {
-	user := &models.Akun{
-		Email:    req.Email,
-		Password: req.Password,
-		Name:     req.Name,
-		Role:     req.Role,
-	}
+// func (s *AuthService) Register(req dto.RegisterRequest) (*dto.UserResponse, error) {
+// 	user := &models.Akun{
+// 		Email:    req.Email,
+// 		Password: req.Password,
+// 		Name:     req.Name,
+// 		Role:     req.Role,
+// 	}
 
-	if user.Role == "" {
-		user.Role = "user"
-	}
+// 	if user.Role == "" {
+// 		user.Role = "user"
+// 	}
 
-	if err := user.HashPassword(); err != nil {
-		return nil, err
-	}
+// 	if err := user.HashPassword(); err != nil {
+// 		return nil, err
+// 	}
 
-	if err := user.Register(s.db); err != nil {
-		return nil, err
-	}
+// 	if err := user.Register(s.db); err != nil {
+// 		return nil, err
+// 	}
 
-	response := dto.UserResponse{}.ToResponse(user)
-	return &response, nil
-}
+// 	response := dto.UserResponse{}.ToResponse(user)
+// 	return &response, nil
+// }
 
 func (s *AuthService) Login(req dto.LoginRequest) (string, *dto.UserResponse, error) {
 	user := &models.Akun{Email: req.Email}

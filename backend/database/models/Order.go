@@ -11,15 +11,12 @@ import (
 type Order struct {
 	IdPesanan    uint      `gorm:"primaryKey" json:"id_pesanan"`
 	TotalHarga   float64   `gorm:"not null" json:"total_harga"`
-	Status       string    `gorm:"not null" json:"status"`
-	EmailPembeli string    `gorm:"not null" json:"email_pembeli"`
-	NoPesanan    string    `gorm:"not null" json:"no_pesanan"`
+	Status       string    `gorm:"not null;type:enum('done','unpaid','process');default:'unpaid'" json:"status"`
+	EmailPembeli string    `gorm:"not null;type:varchar(255)" json:"email_pembeli"`
+	NoPesanan    string    `gorm:"not null;type:varchar(255)" json:"no_pesanan"`
 	OrderDate    time.Time `gorm:"not null" json:"order_date"`
 
 	OrderItems []OrderItem `gorm:"foreignKey:IdPesanan;references:IdPesanan" json:"order_items"`
-
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time `json:"updated_at"`
 }
 
 func (o *Order) TableName() string {

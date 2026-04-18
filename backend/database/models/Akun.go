@@ -9,29 +9,26 @@ import (
 )
 
 type Akun struct {
-	Email     string    `gorm:"uniqueIndex;not null" json:"email"`
-	Password  string    `gorm:"not null" json:"-"`
-	Name      string    `gorm:"not null" json:"name"`
-	Role      string    `gorm:"default:user" json:"role"`
+	ID        uint      `gorm:"primaryKey" json:"id"`
+	Email     string    `gorm:"uniqueIndex;not null;type:varchar(255)" json:"email"`
+	Password  string    `gorm:"not null;type:varchar(255)" json:"-"`
+	Name      string    `gorm:"not null;type:varchar(255)" json:"name"`
+	Role      string    `gorm:"default:user;type:enum('user','staff')" json:"role"`
 	CreatedAt time.Time `json:"created_at"`
-
-	ID        uint           `gorm:"primaryKey" json:"id"`
-	UpdatedAt time.Time      `json:"updated_at"`
-	DeletedAt gorm.DeletedAt `gorm:"index" json:"-"`
 }
 
 func (Akun) TableName() string {
 	return "users"
 }
 
-func (u *Akun) Register(db *gorm.DB) error {
-	var exisitingAkun Akun
-	if err := db.Where("email = ?", u.Email).First(&exisitingAkun).Error; err == nil {
-		return fmt.Errorf("email already registered")
-	}
+// func (u *Akun) Register(db *gorm.DB) error {
+// 	var exisitingAkun Akun
+// 	if err := db.Where("email = ?", u.Email).First(&exisitingAkun).Error; err == nil {
+// 		return fmt.Errorf("email already registered")
+// 	}
 
-	return db.Create(u).Error
-}
+// 	return db.Create(u).Error
+// }
 
 func (u *Akun) Login(db *gorm.DB, password string) (bool, error) {
 	if err := db.Where("email = ?", u.Email).First(u).Error; err != nil {
