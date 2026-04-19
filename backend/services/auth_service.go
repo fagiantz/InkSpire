@@ -50,7 +50,7 @@ func (s *AuthService) Login(req dto.LoginRequest) (string, *dto.UserResponse, er
 		return "", nil, errors.New("invalid credentials")
 	}
 
-	token, err := utils.GenerateJWT(user.ID, user.Email, user.Role)
+	token, err := utils.GenerateJWT(user.ID)
 	if err != nil {
 		return "", nil, err
 	}

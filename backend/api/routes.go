@@ -32,5 +32,11 @@ func SetupRouter() *gin.Engine {
 	produk.GET("", produkController.GetAll)
 	produk.GET("/:id", produkController.GetById)
 
+	produkProtected := produk.Group("")
+	produkProtected.Use(middleware.AuthMiddleware(), middleware.StaffOnly(database.DB))
+	produkProtected.POST("", produkController.Create)
+	produkProtected.PUT("/:id", produkController.Update)
+	produkProtected.DELETE("/:id", produkController.Delete)
+
 	return r
 }

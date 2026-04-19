@@ -2,6 +2,16 @@ package dto
 
 import "github.com/fagiantz/InkSpire/backend/database/models"
 
+type CreateProdukRequest struct {
+	NamaProduk string  `json:"nama_produk" binding:"required"`
+	Harga      float64 `json:"harga" binding:"required,gt=0"`
+}
+
+type UpdateProdukRequest struct {
+	NamaProduk string  `json:"nama_produk" binding:"required"`
+	Harga      float64 `json:"harga" binding:"required,gt=0"`
+}
+
 type ProdukResponse struct {
 	ID         uint    `json:"id"`
 	IdProduk   string  `json:"id_produk"`

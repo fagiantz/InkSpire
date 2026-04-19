@@ -40,3 +40,14 @@ func (*Produk) GetDetail(db *gorm.DB, id string) (*Produk, error) {
 	}
 	return &produk, nil
 }
+
+func (*Produk) Update(db *gorm.DB, id string, nama string, harga float64) error {
+	return db.Model(&Produk{}).Where("id_produk = ?", id).Updates(map[string]interface{}{
+		"nama_produk": nama,
+		"harga":       harga,
+	}).Error
+}
+
+func (*Produk) Delete(db *gorm.DB, id string) error {
+	return db.Where("id_produk = ?", id).Delete(&Produk{}).Error
+}

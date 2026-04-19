@@ -4,8 +4,10 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/fagiantz/InkSpire/backend/database/models"
 	"github.com/fagiantz/InkSpire/backend/utils"
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
 func AuthMiddleware() gin.HandlerFunc {
@@ -32,21 +34,32 @@ func AuthMiddleware() gin.HandlerFunc {
 		}
 
 		c.Set("userID", claims.UserID)
-		c.Set("email", claims.Email)
-		c.Set("role", claims.Role)
-
 		c.Next()
 	}
 }
 
-func AdminOnly() gin.HandlerFunc {
+func StaffOnly(db *gorm.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		role, exists := c.Get("role")
-		if !exists || role != "admin" {
-			c.JSON(http.StatusForbidden, gin.H{"error": "Admin access required"})
+		userID, exists := c.Get("userID")
+		if !exists {
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized access"})
 			c.Abort()
 			return
 		}
+
+		var user models.Akun
+		if err := db.Select("role").First(&user, userID).Error; err != nil {
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "User record not found"})
+			c.Abort()
+			return
+		}
+
+		if user.Role != "staff" {
+			c.JSON(http.StatusForbidden, gin.H{"error": "Staff access required"})
+			c.Abort()
+			return
+		}
+
 		c.Next()
 	}
 }
