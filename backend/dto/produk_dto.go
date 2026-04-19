@@ -8,13 +8,12 @@ type CreateProdukRequest struct {
 }
 
 type UpdateProdukRequest struct {
-	NamaProduk string  `json:"nama_produk" binding:"required"`
+	NamaProduk string  `json:"nama_produk"`
 	Harga      float64 `json:"harga" binding:"required,gt=0"`
 }
 
 type ProdukResponse struct {
-	ID         uint    `json:"id"`
-	IdProduk   string  `json:"id_produk"`
+	IdProduk   uint    `json:"id_produk"`
 	NamaProduk string  `json:"nama_produk"`
 	Harga      float64 `json:"harga"`
 }
@@ -22,7 +21,6 @@ type ProdukResponse struct {
 // ToResponse formats a single model into a API-safe response struct
 func (ProdukResponse) ToResponse(produk models.Produk) ProdukResponse {
 	return ProdukResponse{
-		ID:         produk.ID,
 		IdProduk:   produk.Id_produk,
 		NamaProduk: produk.Nama_produk,
 		Harga:      produk.Harga,

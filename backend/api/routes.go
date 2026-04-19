@@ -19,6 +19,9 @@ func SetupRouter() *gin.Engine {
 	produkService := services.NewProdukService(database.DB)
 	produkController := controllers.NewProdukController(produkService)
 
+	orderService := services.NewOrderService(database.DB)
+	orderController := controllers.NewOrderController(orderService)
+
 	api := r.Group("/api")
 
 	auth := api.Group("/auth")
@@ -37,6 +40,18 @@ func SetupRouter() *gin.Engine {
 	produkProtected.POST("", produkController.Create)
 	produkProtected.PUT("/:id", produkController.Update)
 	produkProtected.DELETE("/:id", produkController.Delete)
+
+	orderRoute := api.Group("/order")
+	orderRoute.Use(middleware.AuthMiddleware())
+	{
+		orderRoute.POST("", orderController.Create)
+
+		staffProtectedOrder := orderRoute.Group("")
+		staffProtectedOrder.Use(middleware.StaffOnly(database.DB))
+		{
+			staffProtectedOrder.PUT("/:id/status", orderController.UpdateStatus)
+		}
+	}
 
 	return r
 }

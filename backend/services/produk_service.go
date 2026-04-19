@@ -24,7 +24,7 @@ func (s *ProdukService) GetAllProduk() ([]dto.ProdukResponse, error) {
 	return dto.ProdukResponse{}.ToResponseList(produks), nil
 }
 
-func (s *ProdukService) GetProdukById(id string) (*dto.ProdukResponse, error) {
+func (s *ProdukService) GetProdukById(id uint) (*dto.ProdukResponse, error) {
 	produkModel := &models.Produk{}
 	produk, err := produkModel.GetDetail(s.db, id)
 	if err != nil {
@@ -49,23 +49,27 @@ func (s *ProdukService) CreateProduk(req dto.CreateProdukRequest) (*dto.ProdukRe
 	return &response, nil
 }
 
-func (s *ProdukService) UpdateProduk(id string, req dto.UpdateProdukRequest) (*dto.ProdukResponse, error) {
+func (s *ProdukService) UpdateProduk(id uint, req dto.UpdateProdukRequest) (*dto.ProdukResponse, error) {
 	produkModel := &models.Produk{}
 
-	// Verify existence
-	if _, err := produkModel.GetDetail(s.db, id); err != nil {
+	existing, err := produkModel.GetDetail(s.db, id)
+	if err != nil {
 		return nil, err
 	}
 
-	if err := produkModel.Update(s.db, id, req.NamaProduk, req.Harga); err != nil {
+	namaToUpdate := existing.Nama_produk
+	if req.NamaProduk != "" {
+		namaToUpdate = req.NamaProduk
+	}
+
+	if err := produkModel.Update(s.db, id, namaToUpdate, req.Harga); err != nil {
 		return nil, err
 	}
 
 	return s.GetProdukById(id)
 }
 
-func (s *ProdukService) DeleteProduk(id string) error {
+func (s *ProdukService) DeleteProduk(id uint) error {
 	produkModel := &models.Produk{}
 	return produkModel.Delete(s.db, id)
 }
-

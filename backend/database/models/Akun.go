@@ -54,7 +54,3 @@ func (u *Akun) HashPassword() error {
 	u.Password = string(hashedPassword)
 	return nil
 }
-
-func (u *Akun) IsAdmin() bool {
-	return u.Role == "admin"
-}

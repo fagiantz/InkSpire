@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/fagiantz/InkSpire/backend/dto"
 	"github.com/fagiantz/InkSpire/backend/services"
@@ -32,9 +33,14 @@ func (c *ProdukController) GetAll(ctx *gin.Context) {
 
 // GetById intercepts dynamic paths like /:id to query a single item
 func (c *ProdukController) GetById(ctx *gin.Context) {
-	id := ctx.Param("id")
+	idParam := ctx.Param("id")
+	id, err := strconv.ParseUint(idParam, 10, 32)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Product ID must be a numeric value"})
+		return
+	}
 
-	produk, err := c.produkService.GetProdukById(id)
+	produk, err := c.produkService.GetProdukById(uint(id))
 	if err != nil {
 		ctx.JSON(http.StatusNotFound, gin.H{"error": "Product not found"})
 		return
@@ -68,14 +74,20 @@ func (c *ProdukController) Create(ctx *gin.Context) {
 
 // Update handles PUT requests to modify existing products (requires staff)
 func (c *ProdukController) Update(ctx *gin.Context) {
-	id := ctx.Param("id")
+	idParam := ctx.Param("id")
+	id, err := strconv.ParseUint(idParam, 10, 32)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Product ID must be a numeric value"})
+		return
+	}
+
 	var req dto.UpdateProdukRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	produk, err := c.produkService.UpdateProduk(id, req)
+	produk, err := c.produkService.UpdateProduk(uint(id), req)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update product"})
 		return
@@ -89,9 +101,14 @@ func (c *ProdukController) Update(ctx *gin.Context) {
 
 // Delete handles DELETE requests to remove a product (requires staff)
 func (c *ProdukController) Delete(ctx *gin.Context) {
-	id := ctx.Param("id")
+	idParam := ctx.Param("id")
+	id, err := strconv.ParseUint(idParam, 10, 32)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Product ID must be a numeric value"})
+		return
+	}
 
-	err := c.produkService.DeleteProduk(id)
+	err = c.produkService.DeleteProduk(uint(id))
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to delete product"})
 		return

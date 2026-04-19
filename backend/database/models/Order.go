@@ -15,8 +15,6 @@ type Order struct {
 	EmailPembeli string    `gorm:"not null;type:varchar(255)" json:"email_pembeli"`
 	NoPesanan    string    `gorm:"not null;type:varchar(255)" json:"no_pesanan"`
 	OrderDate    time.Time `gorm:"not null" json:"order_date"`
-
-	OrderItems []OrderItem `gorm:"foreignKey:IdPesanan;references:IdPesanan" json:"order_items"`
 }
 
 func (o *Order) TableName() string {
@@ -30,4 +28,8 @@ func (o *Order) BeforeCreate(tx *gorm.DB) (err error) {
 
 func (o *Order) Create(db *gorm.DB) error {
 	return db.Create(o).Error
+}
+
+func (o *Order) UpdateStatus(db *gorm.DB, orderID uint, status string) error {
+	return db.Model(&Order{}).Where("id_pesanan = ?", orderID).Update("status", status).Error
 }
