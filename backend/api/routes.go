@@ -45,6 +45,7 @@ func SetupRouter() *gin.Engine {
 	orderRoute.Use(middleware.AuthMiddleware())
 	{
 		orderRoute.POST("", orderController.Create)
+		orderRoute.GET("/my-active", orderController.GetMyActiveOrders)
 
 		staffProtectedOrder := orderRoute.Group("")
 		staffProtectedOrder.Use(middleware.StaffOnly(database.DB))

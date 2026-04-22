@@ -88,3 +88,16 @@ func (s *OrderService) GetActiveOrders() ([]models.Order, error) {
 	}
 	return orders, nil
 }
+
+func (s *OrderService) GetActiveOrdersByUserID(userID uint) ([]models.Order, error) {
+	var user models.Akun
+	if err := s.db.First(&user, userID).Error; err != nil {
+		return nil, err
+	}
+
+	var orders []models.Order
+	if err := s.db.Preload("OrderItems").Where("email_pembeli = ? AND status IN ?", user.Email, []string{"unpaid", "process"}).Order("order_date desc").Find(&orders).Error; err != nil {
+		return nil, err
+	}
+	return orders, nil
+}

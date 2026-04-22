@@ -77,3 +77,23 @@ func (c *OrderController) GetActiveOrders(ctx *gin.Context) {
 		"data":    orders,
 	})
 }
+
+func (c *OrderController) GetMyActiveOrders(ctx *gin.Context) {
+	userIDVal, exists := ctx.Get("userID")
+	if !exists {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized user context"})
+		return
+	}
+	userID := userIDVal.(uint)
+
+	orders, err := c.orderService.GetActiveOrdersByUserID(userID)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve your active orders"})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"message": "Your active orders retrieved successfully",
+		"data":    orders,
+	})
+}
