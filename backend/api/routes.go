@@ -49,6 +49,7 @@ func SetupRouter() *gin.Engine {
 		staffProtectedOrder := orderRoute.Group("")
 		staffProtectedOrder.Use(middleware.StaffOnly(database.DB))
 		{
+			staffProtectedOrder.GET("/active", orderController.GetActiveOrders)
 			staffProtectedOrder.PUT("/:id/status", orderController.UpdateStatus)
 		}
 	}

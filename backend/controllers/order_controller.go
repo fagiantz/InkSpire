@@ -62,5 +62,18 @@ func (c *OrderController) UpdateStatus(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"message": "Order status updated successfully"})
+	ctx.JSON(http.StatusOK, gin.H{"message": "Order status changed cleanly"})
+}
+
+func (c *OrderController) GetActiveOrders(ctx *gin.Context) {
+	orders, err := c.orderService.GetActiveOrders()
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve active orders"})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"message": "Active orders retrieved successfully",
+		"data":    orders,
+	})
 }

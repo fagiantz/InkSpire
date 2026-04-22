@@ -79,3 +79,12 @@ func (s *OrderService) UpdateOrderStatus(orderID uint, status string) error {
 	orderModel := &models.Order{}
 	return orderModel.UpdateStatus(s.db, orderID, status)
 }
+
+func (s *OrderService) GetActiveOrders() ([]models.Order, error) {
+	var orders []models.Order
+	// Fetch orders that are not 'done', meaning they are active ('unpaid' or 'process')
+	if err := s.db.Preload("OrderItems").Where("status IN ?", []string{"unpaid", "process"}).Order("order_date desc").Find(&orders).Error; err != nil {
+		return nil, err
+	}
+	return orders, nil
+}
