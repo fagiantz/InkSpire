@@ -133,6 +133,10 @@
         </div>
     </main>
 
+    <footer class="text-center text-muted py-4">
+        <small>&copy; 2025 InkSpire. All rights reserved.</small>
+    </footer>
+
     <script>
         function togglePassword(inputId, iconId) {
             const input = document.getElementById(inputId);

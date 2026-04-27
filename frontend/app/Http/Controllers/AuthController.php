@@ -28,39 +28,39 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
-    public function login(Request $request)
-    {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
+public function login(Request $request)
+{
+    $request->validate([
+        'email' => 'required|email',
+        'password' => 'required',
+    ]);
 
-        // --- Untuk sementara, simulasi login berhasil ---
-        // Nanti ganti dengan panggilan ke backend Go:
-        // $response = Http::post('http://localhost:8080/api/auth/login', [
-        //     'email' => $request->email,
-        //     'password' => $request->password,
-        // ]);
-        // if ($response->failed()) {
-        //     return back()->with('error', 'Login gagal, periksa email dan password.');
-        // }
-        // $data = $response->json();
-        // session(['token' => $data['token'], 'user' => $data['user']]);
-        // return redirect()->route('home');
-
-        // Simulasi login sukses (pakai data dummy)
+    // Simulasi login (nanti diganti panggilan ke backend Go)
+    if ($request->email === 'staff@example.com' && $request->password === 'password123') {
         session([
-            'token' => 'dummy_token',
+            'token' => 'dummy_token_staff',
             'user' => [
                 'id' => 1,
-                'email' => $request->email,
-                'name' => 'User Dummy',
+                'email' => 'staff@example.com',
+                'name' => 'Staff Admin',
                 'role' => 'staff',
             ]
         ]);
-
+        return redirect()->route('admin.dashboard');
+    } else {
+        // User biasa
+        session([
+            'token' => 'dummy_token_user',
+            'user' => [
+                'id' => 2,
+                'email' => $request->email,
+                'name' => 'User Dummy',
+                'role' => 'user',
+            ]
+        ]);
         return redirect()->route('home');
     }
+}
 
     public function logout()
     {
