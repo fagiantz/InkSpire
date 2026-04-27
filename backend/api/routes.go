@@ -5,11 +5,18 @@ import (
 	"github.com/fagiantz/InkSpire/backend/database"
 	"github.com/fagiantz/InkSpire/backend/middleware"
 	"github.com/fagiantz/InkSpire/backend/services"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
 func SetupRouter() *gin.Engine {
 	r := gin.Default()
+
+	r.Use(cors.New(cors.Config{
+		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
+		AllowCredentials: true,
+	}))
 
 	r.SetTrustedProxies([]string{"127.0.0.1"})
 

@@ -5,9 +5,14 @@ import (
 
 	"github.com/fagiantz/InkSpire/backend/api"
 	"github.com/fagiantz/InkSpire/backend/database"
+	"github.com/joho/godotenv"
 )
 
 func main() {
+	if err := godotenv.Load(); err != nil {
+		log.Println("No .env file found, using system environment variables")
+	}
+
 	database.ConnectDB()
 
 	r := api.SetupRouter()
