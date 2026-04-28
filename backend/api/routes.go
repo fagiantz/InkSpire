@@ -13,7 +13,11 @@ func SetupRouter() *gin.Engine {
 	r := gin.Default()
 
 	r.Use(cors.New(cors.Config{
-		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE"},
+		AllowOrigins: []string{
+			"http://localhost:8000",
+			"http://127.0.0.1:8000",
+		},
+		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
 		AllowCredentials: true,
 	}))
@@ -39,14 +43,19 @@ func SetupRouter() *gin.Engine {
 	protectedAuth.POST("/logout", authController.Logout)
 
 	produk := api.Group("/produk")
-	produk.GET("", produkController.GetAll)
-	produk.GET("/:id", produkController.GetById)
+	produk.Use(middleware.AuthMiddleware())
+	{
+		produk.GET("", produkController.GetAll)
+		produk.GET("/:id", produkController.GetById)
 
-	produkProtected := produk.Group("")
-	produkProtected.Use(middleware.AuthMiddleware(), middleware.StaffOnly(database.DB))
-	produkProtected.POST("", produkController.Create)
-	produkProtected.PUT("/:id", produkController.Update)
-	produkProtected.DELETE("/:id", produkController.Delete)
+		produkProtected := produk.Group("")
+		produkProtected.Use(middleware.StaffOnly(database.DB))
+		{
+			produkProtected.POST("", produkController.Create)
+			produkProtected.PUT("/:id", produkController.Update)
+			produkProtected.DELETE("/:id", produkController.Delete)
+		}
+	}
 
 	orderRoute := api.Group("/order")
 	orderRoute.Use(middleware.AuthMiddleware())
