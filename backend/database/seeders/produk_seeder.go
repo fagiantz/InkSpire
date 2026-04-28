@@ -10,16 +10,16 @@ import (
 // SeedProduk generates 10 initial dummy products if they don't already exist
 func SeedProduk(db *gorm.DB) {
 	dummyProduk := []models.Produk{
-		{Nama_produk: "Premium Black Ink 50ml", Harga: 75000},
-		{Nama_produk: "Ocean Blue Ink 50ml", Harga: 75000},
-		{Nama_produk: "Crimson Red Ink 50ml", Harga: 75000},
-		{Nama_produk: "Classic Fountain Pen - Silver", Harga: 250000},
-		{Nama_produk: "Classic Fountain Pen - Gold", Harga: 300000},
-		{Nama_produk: "Calligraphy Pen Set with 3 Nibs", Harga: 150000},
-		{Nama_produk: "A5 Leather Bound Journal", Harga: 120000},
-		{Nama_produk: "High-Grade Calligraphy Paper Pad", Harga: 45000},
-		{Nama_produk: "Pen Cleaning Solution 100ml", Harga: 55000},
-		{Nama_produk: "Vintage Wooden Pen Rest", Harga: 35000},
+		{Nama_produk: "Custom Mug", Harga: 25000},
+		{Nama_produk: "Stiker", Harga: 10000},
+		{Nama_produk: "Custom Banner", Harga: 85000},
+		{Nama_produk: "Custom Undangan", Harga: 5000},
+		{Nama_produk: "Custom 3D Model", Harga: 300000},
+		{Nama_produk: "Jasa Print 3D Model", Harga: 100000},
+		{Nama_produk: "Kalender", Harga: 20000},
+		{Nama_produk: "Pin Gantungan Kunci", Harga: 5000},
+		{Nama_produk: "ID Card / Kartu Pelajar", Harga: 5000},
+		{Nama_produk: "Name Tag / Nametag", Harga: 5000},
 	}
 
 	for _, produk := range dummyProduk {
