@@ -48,6 +48,7 @@ func ConnectDB() {
 		&models.Produk{},
 		&models.Order{},
 		&models.OrderItem{},
+		&models.Payment{},
 	)
 	if err != nil {
 		log.Fatalf("Failed to migrate database: %v", err)

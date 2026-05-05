@@ -101,3 +101,24 @@ func (s *OrderService) GetActiveOrdersByUserID(userID uint) ([]models.Order, err
 	}
 	return orders, nil
 }
+
+func (s *OrderService) GetOrderById(orderID uint) (*models.Order, error) {
+	var order models.Order
+	if err := s.db.First(&order, orderID).Error; err != nil {
+		return nil, err
+	}
+	return &order, nil
+}
+
+func (s *OrderService) CreatePaymentRecord(orderID uint, imagePath string) (*models.Payment, error) {
+	payment := &models.Payment{
+		IdPesanan: orderID,
+		ImagePath: imagePath,
+	}
+
+	if err := payment.Create(s.db); err != nil {
+		return nil, err
+	}
+
+	return payment, nil
+}
