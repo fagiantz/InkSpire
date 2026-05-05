@@ -24,6 +24,9 @@ func SetupRouter() *gin.Engine {
 
 	r.SetTrustedProxies([]string{"127.0.0.1"})
 
+	// Serve uploaded receipts publicly
+	r.Static("/receipts", "./transaction_receipts")
+
 	authService := services.NewAuthService(database.DB)
 	authController := controllers.NewAuthController(authService)
 
@@ -60,8 +63,9 @@ func SetupRouter() *gin.Engine {
 	orderRoute := api.Group("/order")
 	orderRoute.Use(middleware.AuthMiddleware())
 	{
-		orderRoute.POST("", orderController.Create)
+		orderRoute.POST("", orderController.CreateOrder)
 		orderRoute.GET("/my-active", orderController.GetMyActiveOrders)
+		orderRoute.POST("/:id/receipt", orderController.UploadReceipt)
 
 		staffProtectedOrder := orderRoute.Group("")
 		staffProtectedOrder.Use(middleware.StaffOnly(database.DB))
