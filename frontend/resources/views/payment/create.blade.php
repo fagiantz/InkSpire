@@ -35,15 +35,6 @@
             font-size: 0.8rem;
         }
 
-        .step-inactive-text {
-            color: #adb5bd;
-            text-decoration: none;
-        }
-
-        .step-inactive-text:hover {
-            text-decoration: underline;
-        }
-
         .step-active {
             background-color: #38BDF8;
             color: white;
@@ -120,7 +111,6 @@
 
         .btn-bayar:hover {
             background-color: #0ea5e9;
-            color: white;
         }
 
         .btn-kembali {
@@ -134,12 +124,6 @@
         .btn-kembali:hover {
             background-color: #f0f9ff;
         }
-
-        /* Modal */
-        .modal-content {
-            border: none;
-            border-radius: 20px;
-        }
     </style>
 </head>
 
@@ -150,7 +134,7 @@
         <!-- Breadcrumb Progress -->
         <div class="progress-indicator">
             <span class="step-done">✓</span>
-            <a href="{{ route('orders.detail') }}" class="step-inactive-text">Pesanan</a>
+            <a href="{{ route('orders.detail') }}" class="text-muted">Pesanan</a>
             <span class="step-arrow">›</span>
             <span class="step-active">Pembayaran</span>
         </div>
@@ -161,11 +145,14 @@
                     <div class="card-body p-4">
                         <h5 class="fw-bold mb-3">Ringkasan Pembayaran</h5>
                         <div class="border-bottom pb-2 mb-2">
-                            <p class="mb-1">Produk : Lorem Ipsum</p>
-                            <p class="mb-0">Jumlah : 2</p>
+                            <p class="mb-1">No. Pesanan: {{ $order['no_pesanan'] }}</p>
+                            <p class="mb-1">Jumlah Item: {{ count($order['items'] ?? []) }}</p>
                         </div>
-                        <p class="fw-bold fs-5 mt-2">Total Pembayaran : Rp 20.000</p>
+                        <p class="fw-bold fs-5 mt-2">Total Pembayaran : Rp
+                            {{ number_format($order['total_harga'], 0, ',', '.') }}</p>
+
                         <hr>
+
                         <h5 class="fw-bold mb-3">Metode Pembayaran</h5>
                         <div class="payment-methods">
                             <div class="form-check">
@@ -221,7 +208,6 @@
                     </div>
                 </div>
 
-                <!-- Tombol Kembali dan Bayar sekarang -->
                 <div class="d-flex justify-content-between align-items-center mt-3">
                     <a href="{{ route('orders.detail') }}" class="btn btn-kembali">Kembali</a>
                     <button type="button" class="btn btn-bayar" data-bs-toggle="modal"
@@ -255,6 +241,7 @@
     <footer class="text-center text-muted py-4">
         <small>&copy; 2025 InkSpire. All rights reserved.</small>
     </footer>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 

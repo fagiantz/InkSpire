@@ -27,11 +27,13 @@
         .search-wrapper {
             position: relative;
         }
+
         .search-wrapper .form-control {
             border-color: #38BDF8;
             border-radius: 20px;
             padding-right: 40px;
         }
+
         .search-wrapper .search-icon {
             position: absolute;
             top: 50%;
@@ -40,6 +42,7 @@
             color: #333;
             font-size: 1.2rem;
         }
+
         .search-divider {
             height: 1px;
             background-color: #38BDF8;
@@ -50,14 +53,17 @@
         .category-item {
             margin-bottom: 8px;
         }
+
         .category-item .form-check-input {
             border-color: #38BDF8;
             background-color: white;
         }
+
         .category-item .form-check-input:checked {
             background-color: #38BDF8;
             border-color: #38BDF8;
         }
+
         .category-item .form-check-label {
             font-weight: 500;
         }
@@ -70,9 +76,11 @@
             transition: 0.2s;
             background: white;
         }
+
         .product-card:hover {
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
         }
+
         .product-img {
             background-color: #e9ecef;
             height: 160px;
@@ -80,13 +88,16 @@
             align-items: center;
             justify-content: center;
         }
+
         .product-info {
             padding: 15px;
         }
+
         .product-title {
             font-weight: 700;
             margin-bottom: 5px;
         }
+
         .product-desc {
             color: #6c757d;
             font-size: 0.875rem;
@@ -140,21 +151,26 @@
             <!-- Konten Utama -->
             <div class="col-md-9">
                 <div class="row g-4">
-                    @for ($i = 1; $i <= 6; $i++)
+                    @forelse ($produks as $produk)
                         <div class="col-6 col-lg-4">
-                            <div class="product-card">
-                                <div class="product-img">
-                                    <i class="bi bi-image" style="font-size: 3rem; color: #38BDF8;"></i>
+                            <a href="{{ route('produk.detail', $produk['id_produk']) }}" class="text-decoration-none">
+                                <div class="product-card">
+                                    <div class="product-img">
+                                        <i class="bi bi-image" style="font-size: 3rem; color: #38BDF8;"></i>
+                                    </div>
+                                    <div class="product-info">
+                                        <h6 class="product-title">{{ $produk['nama_produk'] }}</h6>
+                                        <p class="product-desc">Rp {{ number_format($produk['harga'], 0, ',', '.') }}
+                                        </p>
+                                    </div>
                                 </div>
-                                <div class="product-info">
-                                    <h6 class="product-title">Lorem Ipsum</h6>
-                                    <p class="product-desc">
-                                        Aliquam sit amet justo euismod, ultrices libero eu, hendrerit purus. Proin vel diam posuere, tincidunt quam vel, sollicitudin nunc. Nulla facilisi.
-                                    </p>
-                                </div>
-                            </div>
+                            </a>
                         </div>
-                    @endfor
+                    @empty
+                        <div class="col-12 text-center py-5">
+                            <p class="text-muted">Belum ada produk tersedia.</p>
+                        </div>
+                    @endforelse
                 </div>
             </div>
         </div>

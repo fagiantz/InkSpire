@@ -3,10 +3,22 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
+use App\Services\AuthService;
 
 class AuthController extends Controller
 {
+    protected AuthService $authService;
+
+    public function __construct(AuthService $authService)
+    {
+        $this->authService = $authService;
+    }
+
+    public function showLoginForm()
+    {
+        return view('auth.login');
+    }
+
     public function showRegisterForm()
     {
         return view('auth.register');
@@ -15,57 +27,54 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $request->validate([
-            'email' => 'required|email',
-            'password' => 'required|min:6|confirmed',
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'password' => 'required|string|min:6|confirmed',
         ]);
 
-        // Placeholder, nanti panggil backend Go
-        return back()->with('error', 'Fitur registrasi belum tersedia.');
+        $data = $this->authService->register(
+            $request->email,
+            $request->password,
+            $request->name
+        );
+
+        if (isset($data['error'])) {
+            return back()->with('error', $data['error'])->withInput();
+        }
+
+        return redirect()->route('login')->with('success', 'Registrasi berhasil! Silakan login.');
     }
 
-    public function showLoginForm()
+    public function login(Request $request)
     {
-        return view('auth.login');
-    }
-
-public function login(Request $request)
-{
-    $request->validate([
-        'email' => 'required|email',
-        'password' => 'required',
-    ]);
-
-    // Simulasi login (nanti diganti panggilan ke backend Go)
-    if ($request->email === 'staff@example.com' && $request->password === 'password123') {
-        session([
-            'token' => 'dummy_token_staff',
-            'user' => [
-                'id' => 1,
-                'email' => 'staff@example.com',
-                'name' => 'Staff Admin',
-                'role' => 'staff',
-            ]
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
         ]);
-        return redirect()->route('admin.dashboard');
-    } else {
-        // User biasa
+
+        $data = $this->authService->login($request->email, $request->password);
+
+        if (isset($data['error'])) {
+            return back()->with('error', $data['error'])->withInput();
+        }
+
         session([
-            'token' => 'dummy_token_user',
-            'user' => [
-                'id' => 2,
-                'email' => $request->email,
-                'name' => 'User Dummy',
-                'role' => 'user',
-            ]
+            'token' => $data['token'],
+            'user' => $data['user'],
         ]);
+
+        if (isset($data['user']['role']) && $data['user']['role'] === 'staff') {
+            return redirect()->route('admin.dashboard');
+        }
+
         return redirect()->route('home');
     }
-}
 
     public function logout()
     {
-        // Hapus token dan data dari session
-        session()->forget(['token', 'user']);
-        return redirect()->route('login');
+        $this->authService->logout();           // Panggil backend Go (opsional, karena token tidak disimpan di server)
+        session()->forget(['token', 'user']);   // Hapus token dan data user dari session Laravel
+        return redirect()->route('login');      // Arahkan kembali ke halaman login
     }
+
 }

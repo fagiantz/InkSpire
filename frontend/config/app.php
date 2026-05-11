@@ -123,4 +123,6 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    'go_backend_url' => env('GO_BACKEND_URL', 'http://127.0.0.1:8080/api'),
+
 ];

@@ -10,10 +10,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     @vite(['resources/css/app.scss', 'resources/js/app.js'])
     <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #FEFEFD;
-        }
+        body { font-family: 'Roboto', sans-serif; background-color: #FEFEFD; }
         .sidebar {
             background-color: #fff;
             border-right: 2px solid #38BDF8;
@@ -33,23 +30,15 @@
             background-color: #E6F4FE;
             color: #0D95D2;
         }
-        .sidebar .nav-link i {
-            font-size: 1.2rem;
-        }
-        .main-content {
-            background-color: #F8F9FA;
-            padding: 30px;
-        }
+        .sidebar .nav-link i { font-size: 1.2rem; }
+        .main-content { background-color: #F8F9FA; padding: 30px; }
         .table-card {
             background: white;
             border-radius: 12px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.05);
             padding: 20px;
         }
-        .search-box {
-            position: relative;
-            max-width: 250px;
-        }
+        .search-box { position: relative; max-width: 250px; }
         .search-box .form-control {
             border-color: #38BDF8;
             border-radius: 20px;
@@ -66,9 +55,6 @@
             font-weight: 700;
             border-bottom: 2px solid #dee2e6;
         }
-        .table tbody tr.highlight {
-            background-color: #E6F4FE;
-        }
         .btn-edit {
             background-color: #38BDF8;
             border: none;
@@ -77,9 +63,7 @@
             padding: 5px 15px;
             font-size: 0.9rem;
         }
-        .btn-edit:hover {
-            background-color: #0ea5e9;
-        }
+        .btn-edit:hover { background-color: #0ea5e9; }
         .btn-simpan {
             background-color: #38BDF8;
             color: white;
@@ -87,15 +71,9 @@
             padding: 10px 25px;
             border: none;
         }
-        .btn-simpan:hover {
-            background-color: #0ea5e9;
-        }
+        .btn-simpan:hover { background-color: #0ea5e9; }
 
-        /* Dropdown kustom (tanpa Bootstrap dropdown) */
-        .custom-dropdown {
-            position: relative;
-            width: 100%;
-        }
+        .custom-dropdown { position: relative; width: 100%; }
         .custom-dropdown-toggle {
             background-color: white;
             border: 2px solid #38BDF8;
@@ -129,21 +107,15 @@
             display: none;
             z-index: 1000;
         }
-        .custom-dropdown-menu.show {
-            display: block;
-        }
+        .custom-dropdown-menu.show { display: block; }
         .custom-dropdown-item {
             padding: 8px 15px;
             cursor: pointer;
             border-bottom: 1px solid #eee;
             transition: background-color 0.1s;
         }
-        .custom-dropdown-item:last-child {
-            border-bottom: none;
-        }
-        .custom-dropdown-item:hover {
-            background-color: #F0F9FF;
-        }
+        .custom-dropdown-item:last-child { border-bottom: none; }
+        .custom-dropdown-item:hover { background-color: #F0F9FF; }
         .custom-dropdown-item.active {
             background-color: #E6F4FE;
             color: #0D95D2;
@@ -187,6 +159,14 @@
             <div class="col-md-9 col-lg-10 main-content">
                 <h2 class="fw-bold mb-4">PESANAN</h2>
 
+                @if(session('success'))
+                <div class="alert alert-success">{{ session('success') }}</div>
+                @endif
+
+                @if(session('error'))
+                <div class="alert alert-danger">{{ session('error') }}</div>
+                @endif
+
                 <div class="table-card">
                     <!-- Search Bar -->
                     <div class="d-flex justify-content-end mb-3">
@@ -209,18 +189,35 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="highlight">
-                                    <td>#123456</td>
-                                    <td>Jane Doe</td>
-                                    <td>15-01-2029</td>
-                                    <td>Belum dibayar</td>
-                                    <td>
-                                        <button type="button" class="btn btn-edit" data-bs-toggle="modal" data-bs-target="#editStatusModal"
-                                            data-order-id="123456" data-current-status="Belum dibayar">
-                                            Edit
-                                        </button>
-                                    </td>
-                                </tr>
+                                @forelse ($orders as $order)
+                                    <tr>
+                                        <td>#{{ $order['no_pesanan'] }}</td>
+                                        <td>{{ $order['email_pembeli'] ?? 'N/A' }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($order['order_date'])->format('d-m-Y') }}</td>
+                                        <td>
+                                            <span class="badge
+                                                @if($order['status'] == 'unpaid') bg-warning text-dark
+                                                @elseif($order['status'] == 'process') bg-info
+                                                @elseif($order['status'] == 'done') bg-success
+                                                @endif">
+                                                {{ $order['status'] }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-edit" data-bs-toggle="modal" data-bs-target="#editStatusModal"
+                                                data-order-id="{{ $order['id_pesanan'] }}" data-current-status="{{ $order['status'] }}">
+                                                Edit
+                                            </button>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="5" class="text-center py-4">
+                                            <i class="bi bi-inbox display-4 text-muted"></i>
+                                            <p class="mt-2 mb-0">Belum ada pesanan aktif.</p>
+                                        </td>
+                                    </tr>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>
@@ -237,29 +234,35 @@
                     <h4 class="fw-bold mb-3">Ubah Status</h4>
                     <label class="fw-semibold mb-2">Status Pesanan</label>
 
-                    <!-- Dropdown kustom yang independen -->
-                    <div class="custom-dropdown" id="customStatusDropdown">
-                        <div class="custom-dropdown-toggle" id="customDropdownToggle">
-                            <span id="selectedStatusText">Belum dibayar</span>
-                            <i class="bi bi-chevron-down"></i>
-                        </div>
-                        <div class="custom-dropdown-menu" id="customDropdownMenu">
-                            <div class="custom-dropdown-item" data-value="Sudah dibayar">Sudah dibayar</div>
-                            <div class="custom-dropdown-item" data-value="Diproses">Diproses</div>
-                            <div class="custom-dropdown-item" data-value="Selesai">Selesai</div>
-                            <div class="custom-dropdown-item active" data-value="Belum dibayar">Belum dibayar</div>
-                        </div>
-                    </div>
+                    <form id="formUpdateStatus" method="POST" action="">
+                        @csrf
+                        @method('PUT')
 
-                    <div class="mt-4">
-                        <button type="button" class="btn btn-simpan w-100" id="btnSimpanStatus">Simpan</button>
-                    </div>
+                        <div class="custom-dropdown" id="customStatusDropdown">
+                            <div class="custom-dropdown-toggle" id="customDropdownToggle">
+                                <span id="selectedStatusText">Belum dibayar</span>
+                                <i class="bi bi-chevron-down"></i>
+                            </div>
+                            <div class="custom-dropdown-menu" id="customDropdownMenu">
+                                <div class="custom-dropdown-item" data-value="unpaid">Belum dibayar</div>
+                                <div class="custom-dropdown-item" data-value="process">Diproses</div>
+                                <div class="custom-dropdown-item" data-value="done">Selesai</div>
+                            </div>
+                        </div>
+
+                        <!-- Input hidden untuk menyimpan status yang dipilih -->
+                        <input type="hidden" name="status" id="inputStatus" value="">
+
+                        <div class="mt-4">
+                            <button type="submit" class="btn btn-simpan w-100" id="btnSimpanStatus">Simpan</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Bootstrap JS harus dimuat sebelum script custom -->
+    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
@@ -268,14 +271,19 @@
             var customToggle = document.getElementById('customDropdownToggle');
             var customMenu = document.getElementById('customDropdownMenu');
             var selectedText = document.getElementById('selectedStatusText');
-            var btnSimpan = document.getElementById('btnSimpanStatus');
-            var modalInstance = new bootstrap.Modal(editStatusModal); // simpan instance
+            var inputStatus = document.getElementById('inputStatus');
+            var formUpdateStatus = document.getElementById('formUpdateStatus');
 
             editStatusModal.addEventListener('show.bs.modal', function (event) {
                 var button = event.relatedTarget;
+                var orderId = button.getAttribute('data-order-id');
                 var currentStatus = button.getAttribute('data-current-status');
-                selectedText.textContent = currentStatus;
 
+                // Set teks dropdown
+                selectedText.textContent = currentStatus;
+                inputStatus.value = currentStatus;
+
+                // Tandai item yang aktif
                 var items = customMenu.querySelectorAll('.custom-dropdown-item');
                 items.forEach(function(item) {
                     item.classList.remove('active');
@@ -284,22 +292,28 @@
                     }
                 });
 
+                // Set action form
+                formUpdateStatus.action = '/admin/orders/' + orderId + '/status';
+
+                // Pastikan dropdown tertutup
                 customMenu.classList.remove('show');
                 customToggle.classList.remove('open');
             });
 
-            // Toggle dropdown kustom
+            // Toggle dropdown
             customToggle.addEventListener('click', function(e) {
                 e.stopPropagation();
                 customMenu.classList.toggle('show');
                 customToggle.classList.toggle('open');
             });
 
+            // Pilih item dropdown
             customMenu.addEventListener('click', function(e) {
                 var item = e.target.closest('.custom-dropdown-item');
                 if (item) {
                     var value = item.getAttribute('data-value');
                     selectedText.textContent = value;
+                    inputStatus.value = value;
 
                     var items = customMenu.querySelectorAll('.custom-dropdown-item');
                     items.forEach(function(el) { el.classList.remove('active'); });
@@ -310,29 +324,12 @@
                 }
             });
 
+            // Tutup dropdown jika klik di luar
             document.addEventListener('click', function(e) {
                 if (!customToggle.contains(e.target) && !customMenu.contains(e.target)) {
                     customMenu.classList.remove('show');
                     customToggle.classList.remove('open');
                 }
-            });
-
-            // Tombol Simpan – perbaikan untuk backdrop
-            btnSimpan.addEventListener('click', function() {
-                var newStatus = selectedText.textContent;
-                alert('Status berhasil diubah menjadi: ' + newStatus);
-
-                // Sembunyikan modal dengan backdrop
-                modalInstance.hide();
-
-                // Hapus backdrop sisa secara manual setelah timeout kecil
-                setTimeout(function() {
-                    var backdrops = document.querySelectorAll('.modal-backdrop');
-                    backdrops.forEach(function(backdrop) {
-                        backdrop.remove();
-                    });
-                    document.body.classList.remove('modal-open');
-                }, 200);
             });
         });
     </script>

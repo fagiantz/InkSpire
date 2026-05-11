@@ -116,33 +116,34 @@
                 <h5 class="fw-bold mb-4">Statistik penjualan</h5>
 
                 <div class="row g-4">
-                    <!-- Kartu 1: Pesanan Baru -->
+                    <!-- Pesanan Baru Hari ini -->
                     <div class="col-md-4">
                         <div class="stat-card">
                             <div class="stat-label">Pesanan Baru (Hari ini)</div>
-                            <div class="stat-number">67</div>
-                            <div class="stat-sub mt-2">Belum diproses: 21</div>
+                            <div class="stat-number">{{ $data['new_orders_today'] ?? 0 }}</div>
+                            <div class="stat-sub mt-2">Belum diproses: {{ $data['unpaid_today'] ?? 0 }}</div>
                         </div>
                     </div>
-                    <!-- Kartu 2: Pesanan Selesai -->
+                    <!-- Pesanan Selesai -->
                     <div class="col-md-4">
                         <div class="stat-card">
                             <div class="stat-label">Pesanan Selesai</div>
-                            <div class="stat-number">271</div>
+                            <div class="stat-number">{{ $data['done_orders'] ?? 0 }}</div>
                         </div>
                     </div>
-                    <!-- Kartu 3: Total Pesanan -->
+                    <!-- Total Pesanan -->
                     <div class="col-md-4">
                         <div class="stat-card">
                             <div class="stat-label">Total Pesanan</div>
-                            <div class="stat-number">911</div>
+                            <div class="stat-number">{{ $data['total_orders'] ?? 0 }}</div>
                         </div>
                     </div>
-                    <!-- Kartu 4: Total Pendapatan -->
+                    <!-- Total Pendapatan -->
                     <div class="col-md-4">
                         <div class="stat-card">
                             <div class="stat-label">Total Pendapatan</div>
-                            <div class="stat-number">Rp. 6.000.000</div>
+                            <div class="stat-number">Rp {{ number_format($data['total_revenue'] ?? 0, 0, ',', '.') }}
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -53,6 +53,8 @@
             border-radius: 12px;
             padding: 20px;
             margin-top: 20px;
+            position: relative;
+            /* agar tombol hapus bisa absolute */
         }
 
         .product-placeholder {
@@ -75,6 +77,42 @@
 
         .btn-detail:hover {
             background-color: #0ea5e9;
+        }
+
+        /* Style tambahan untuk edit dan hapus */
+        .edit-qty {
+            cursor: pointer;
+            color: #0D95D2;
+            font-size: 0.9rem;
+            margin-left: 6px;
+            vertical-align: middle;
+        }
+
+        .edit-qty:hover {
+            color: #085a7c;
+        }
+
+        .qty-input {
+            width: 60px;
+            text-align: center;
+            border: 1px solid #38BDF8;
+            border-radius: 6px;
+            padding: 2px 4px;
+        }
+
+        .btn-hapus {
+            position: absolute;
+            top: 12px;
+            right: 16px;
+            background: none;
+            border: none;
+            color: #dc3545;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        .btn-hapus:hover {
+            color: #a71d2a;
         }
     </style>
 </head>
@@ -107,30 +145,124 @@
                 <h2 class="fw-bold mb-2">DASHBOARD</h2>
                 <h5 class="fw-bold mb-3">Pesanan Aktif</h5>
 
-                <!-- Kartu Pesanan Dummy -->
-                <div class="order-card d-flex flex-column flex-md-row align-items-md-center gap-3">
-                    <!-- Gambar Produk -->
-                    <div class="product-placeholder">
-                        <i class="bi bi-image" style="font-size: 2.5rem; color: #38BDF8;"></i>
+                <!-- Kartu Pesanan Dummy (sekarang interaktif) -->
+                @forelse ($orders as $order)
+                    <div class="order-card d-flex flex-column flex-md-row align-items-md-center gap-3">
+                        <!-- Tombol Hapus (opsional, bisa diaktifkan nanti) -->
+                        <button class="btn-hapus" onclick="hapusPesanan('order-{{ $order['id_pesanan'] }}')"
+                            title="Hapus pesanan"
+                            style="position: absolute; top: 12px; right: 16px; background: none; border: none; color: #dc3545; font-size: 1.2rem; cursor: pointer;">
+                            <i class="bi bi-trash-fill"></i>
+                        </button>
+
+                        <!-- Gambar Produk (placeholder, karena belum ada gambar di backend) -->
+                        <div class="product-placeholder">
+                            <i class="bi bi-image" style="font-size: 2.5rem; color: #38BDF8;"></i>
+                        </div>
+
+                        <!-- Detail Pesanan -->
+                        <div class="flex-grow-1">
+                            <h6 class="fw-bold">
+                                @if (!empty($order['items']))
+                                    @php $produk = $order['items'][0]; @endphp
+                                    Produk ID: {{ $produk['id_produk'] ?? 'N/A' }}
+                                @else
+                                    Produk tidak diketahui
+                                @endif
+                            </h6>
+                            <p class="mb-1">No. Pesanan: {{ $order['no_pesanan'] }}</p>
+                            <p class="mb-1">Jumlah Item: {{ count($order['items'] ?? []) }}</p>
+                            <p class="mb-0 text-muted">Status:
+                                <span
+                                    class="badge 
+                    @if ($order['status'] == 'unpaid') bg-warning text-dark
+                    @elseif($order['status'] == 'process') bg-info
+                    @elseif($order['status'] == 'done') bg-success @endif">
+                                    {{ $order['status'] }}
+                                </span>
+                            </p>
+                        </div>
+
+                        <!-- Total & Aksi -->
+                        <div class="text-md-end">
+                            <p class="fw-bold fs-5">Rp {{ number_format($order['total_harga'], 0, ',', '.') }}</p>
+                            <a href="{{ route('orders.detail') }}" class="btn btn-detail">Detail</a>
+                        </div>
                     </div>
-                    <!-- Detail Pesanan -->
-                    <div class="flex-grow-1">
-                        <h6 class="fw-bold">Lorem Ipsum</h6>
-                        <p class="mb-1">Harga: Rp. 10.000</p>
-                        <p class="mb-1">Jumlah: 2x</p>
-                        <p class="mb-0 text-muted">Status Pesanan: Belum dibayar</p>
+                @empty
+                    <div class="text-center py-5">
+                        <i class="bi bi-inbox display-1 text-muted"></i>
+                        <p class="mt-3">Belum ada pesanan aktif.</p>
+                        <a href="{{ route('katalog') }}" class="btn btn-primary"
+                            style="background-color: #38BDF8; border: none;">Mulai Belanja</a>
                     </div>
-                    <!-- Total & Aksi -->
-                    <div class="text-md-end">
-                        <p class="fw-bold fs-5">Rp. 20.000</p>
-                        <a href="{{ route('orders.detail') }}" class="btn btn-detail">Detail</a>
-                    </div>
-                </div>
+                @endforelse
             </div>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Simpan harga satuan di sini atau ambil dari data-attribute
+        const hargaSatuan = {
+            '1': 10000 // id pesanan -> harga satuan
+        };
+
+        function editJumlah(orderId, harga) {
+            const displaySpan = document.getElementById(`qty-display-${orderId}`);
+            const currentQty = parseInt(displaySpan.textContent);
+
+            // Buat input field
+            const input = document.createElement('input');
+            input.type = 'number';
+            input.min = 1;
+            input.value = currentQty;
+            input.className = 'qty-input';
+            input.id = `qty-input-${orderId}`;
+
+            // Ganti span dengan input
+            displaySpan.replaceWith(input);
+            input.focus();
+            input.select();
+
+            // Simpan saat kehilangan fokus atau tekan Enter
+            const simpanPerubahan = () => {
+                let newQty = parseInt(input.value);
+                if (isNaN(newQty) || newQty < 1) {
+                    newQty = 1; // minimal 1
+                }
+                // Kembalikan ke span dengan nilai baru
+                const newSpan = document.createElement('span');
+                newSpan.className = 'qty-display';
+                newSpan.id = `qty-display-${orderId}`;
+                newSpan.textContent = newQty;
+                input.replaceWith(newSpan);
+
+                // Update total
+                const totalDisplay = document.getElementById(`total-display-${orderId}`);
+                const totalBaru = harga * newQty;
+                totalDisplay.textContent = `Rp. ${totalBaru.toLocaleString('id-ID')}`;
+
+                // Di sini bisa ditambahkan panggilan API ke backend untuk menyimpan perubahan
+            };
+
+            input.addEventListener('blur', simpanPerubahan);
+            input.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    simpanPerubahan();
+                }
+            });
+        }
+
+        function hapusPesanan(orderId) {
+            const card = document.getElementById(`order-${orderId}`);
+            if (card && confirm('Apakah Anda yakin ingin menghapus pesanan ini?')) {
+                card.remove();
+                // Di sini bisa ditambahkan panggilan API ke backend untuk menghapus
+            }
+        }
+    </script>
 </body>
 
 </html>

@@ -96,48 +96,39 @@
                             </div>
                         @endif
 
-                        <form method="POST" action="/register">
+                        <form method="POST" action="{{ route('register') }}">
                             @csrf
+
+                            <!-- Nama -->
+                            <div class="mb-3">
+                                <label for="name" class="form-label fw-semibold">Nama</label>
+                                <input type="text" class="form-control" id="name" name="name"
+                                    placeholder="Nama lengkap" required autofocus>
+                            </div>
 
                             <!-- Email -->
                             <div class="mb-3">
                                 <label for="email" class="form-label fw-semibold">Email</label>
-                                <div class="input-icon-wrapper">
-                                    <i class="bi bi-envelope-fill icon-left"></i>
-                                    <input type="email" class="form-control" id="email" name="email"
-                                        placeholder="email@example.com" required autofocus>
-                                </div>
+                                <input type="email" class="form-control" id="email" name="email"
+                                    placeholder="email@example.com" required>
                             </div>
 
                             <!-- Password -->
                             <div class="mb-3">
                                 <label for="password" class="form-label fw-semibold">Password</label>
-                                <div class="input-icon-wrapper">
-                                    <i class="bi bi-lock-fill icon-left"></i>
-                                    <input type="password" class="form-control" id="password" name="password"
-                                        placeholder="masukkan kata sandi" required>
-                                    <i class="bi bi-eye-fill icon-eye" id="togglePasswordIcon1"
-                                        onclick="togglePassword('password', 'togglePasswordIcon1')"></i>
-                                </div>
+                                <input type="password" class="form-control" id="password" name="password"
+                                    placeholder="masukkan kata sandi" required>
                             </div>
 
                             <!-- Konfirmasi Password -->
                             <div class="mb-3">
                                 <label for="password_confirmation" class="form-label fw-semibold">Konfirmasi
                                     Password</label>
-                                <div class="input-icon-wrapper">
-                                    <i class="bi bi-lock-fill icon-left"></i>
-                                    <input type="password" class="form-control" id="password_confirmation"
-                                        name="password_confirmation" placeholder="masukkan kata sandi" required>
-                                    <i class="bi bi-eye-fill icon-eye" id="togglePasswordIcon2"
-                                        onclick="togglePassword('password_confirmation', 'togglePasswordIcon2')"></i>
-                                </div>
+                                <input type="password" class="form-control" id="password_confirmation"
+                                    name="password_confirmation" placeholder="masukkan kata sandi" required>
                             </div>
 
-                            <!-- Tombol Daftar -->
-                            <div class="mt-4">
-                                <button type="submit" class="btn btn-daftar">Daftar</button>
-                            </div>
+                            <button type="submit" class="btn btn-daftar">Daftar</button>
                         </form>
 
                         <div class="text-center mt-3">

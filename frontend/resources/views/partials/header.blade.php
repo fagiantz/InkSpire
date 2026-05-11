@@ -21,11 +21,13 @@
 
             <ul class="navbar-nav ms-auto d-flex align-items-center">
                 @if (session('token'))
+                    <!-- Teks Dashboard (hanya jika bukan halaman dashboard) -->
                     @if (request()->route()->getName() !== 'dashboard')
                         <li class="nav-item d-flex align-items-center">
                             <a class="nav-link text-white" href="{{ route('dashboard') }}">Dashboard</a>
                         </li>
                     @endif
+                    <!-- Tombol Logout -->
                     <li class="nav-item d-flex align-items-center">
                         <form method="POST" action="{{ route('logout') }}" class="d-inline">
                             @csrf
@@ -36,6 +38,7 @@
                         </form>
                     </li>
                 @else
+                    <!-- Tombol Masuk untuk yang belum login -->
                     <li class="nav-item d-flex align-items-center">
                         <a href="{{ route('login') }}" class="btn btn-sm ms-2"
                             style="background-color: white; color: #0D95D2; border-radius: 20px; line-height: 1.5;">
