@@ -97,3 +97,12 @@ func (c *OrderController) GetMyActiveOrders(ctx *gin.Context) {
 		"data":    orders,
 	})
 }
+
+func (c *OrderController) GetAdminStats(ctx *gin.Context) {
+    stats, err := c.orderService.GetAdminStats()
+    if err != nil {
+        ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve stats"})
+        return
+    }
+    ctx.JSON(http.StatusOK, gin.H{"data": stats})
+}

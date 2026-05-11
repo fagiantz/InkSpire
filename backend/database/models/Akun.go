@@ -21,14 +21,13 @@ func (Akun) TableName() string {
 	return "users"
 }
 
-// func (u *Akun) Register(db *gorm.DB) error {
-// 	var exisitingAkun Akun
-// 	if err := db.Where("email = ?", u.Email).First(&exisitingAkun).Error; err == nil {
-// 		return fmt.Errorf("email already registered")
-// 	}
-
-// 	return db.Create(u).Error
-// }
+func (u *Akun) Register(db *gorm.DB) error {
+    var exisitingAkun Akun
+    if err := db.Where("email = ?", u.Email).First(&exisitingAkun).Error; err == nil {
+        return fmt.Errorf("email already registered")
+    }
+    return db.Create(u).Error
+}
 
 func (u *Akun) Login(db *gorm.DB, password string) (bool, error) {
 	if err := db.Where("email = ?", u.Email).First(u).Error; err != nil {

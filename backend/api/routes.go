@@ -26,6 +26,7 @@ func SetupRouter() *gin.Engine {
 
 	auth := api.Group("/auth")
 	auth.POST("/login", authController.Login)
+	auth.POST("/register", authController.Register)
 
 	protectedAuth := auth.Group("")
 	protectedAuth.Use(middleware.AuthMiddleware())
@@ -52,6 +53,7 @@ func SetupRouter() *gin.Engine {
 		{
 			staffProtectedOrder.GET("/active", orderController.GetActiveOrders)
 			staffProtectedOrder.PUT("/:id/status", orderController.UpdateStatus)
+			staffProtectedOrder.GET("/stats", orderController.GetAdminStats) // ✅ di dalam sini
 		}
 	}
 

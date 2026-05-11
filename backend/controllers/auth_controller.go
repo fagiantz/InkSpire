@@ -3,6 +3,7 @@ package controllers
 import (
 	"net/http"
 
+	// "github.com/fagiantz/InkSpire/backend/database/models"
 	"github.com/fagiantz/InkSpire/backend/dto"
 	"github.com/fagiantz/InkSpire/backend/services"
 	"github.com/gin-gonic/gin"
@@ -18,24 +19,48 @@ func NewAuthController(authService *services.AuthService) *AuthController {
 	}
 }
 
-// func (c *AuthController) Register(ctx *gin.Context) {
-// 	var req dto.RegisterRequest
+func (c *AuthController) Register(ctx *gin.Context) {
+    var req dto.RegisterRequest
 
-// 	if err := ctx.ShouldBindJSON(&req); err != nil {
-// 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-// 		return
-// 	}
+    if err := ctx.ShouldBindJSON(&req); err != nil {
+        ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+        return
+    }
 
-// 	user, err := c.authService.Register(req)
-// 	if err != nil {
-// 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-// 		return
-// 	}
+    user, err := c.authService.Register(req)
+    if err != nil {
+        ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+        return
+    }
 
-// 	ctx.JSON(http.StatusCreated, gin.H{
-// 		"mesasge": "User registered successfully",
-// 		"user":    user,
-// 	})
+    ctx.JSON(http.StatusCreated, gin.H{
+        "message": "User registered successfully",
+        "user":    user,
+    })
+}
+// func (s *AuthService) Register(req dto.RegisterRequest) (*dto.UserResponse, error) {
+//     user := &models.Akun{
+//         Email:    req.Email,
+//         Password: req.Password,
+//         Name:     req.Name,
+//         Role:     req.Role,
+//     }
+
+//     if user.Role == "" {
+//         user.Role = "user"
+//     }
+
+//     if err := user.HashPassword(); err != nil {
+//         return nil, err
+//     }
+
+//     // ✅ Pastikan method ini aktif dan return errornya diambil
+//     if err := user.Register(s.db); err != nil {
+//         return nil, err
+//     }
+
+//     response := dto.UserResponse{}.ToResponse(user)
+//     return &response, nil
 // }
 
 func (c *AuthController) Login(ctx *gin.Context) {
