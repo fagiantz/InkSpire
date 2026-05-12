@@ -123,9 +123,9 @@
                             </div>
                         </form>
 
-                        <div class="text-center mt-3">
+                        {{-- <div class="text-center mt-3">
                             <small>Belum punya akun? <a href="/register" style="color: #38BDF8;">Daftar di sini</a></small>
-                        </div>
+                        </div> --}}
 
                     </div>
                 </div>

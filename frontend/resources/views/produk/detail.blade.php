@@ -55,7 +55,7 @@
                 <p class="text-muted">Produk berkualitas tinggi dari InkSpire.</p>
                 <h4 class="fw-bold text-primary">Rp {{ number_format($produk['harga'], 0, ',', '.') }}</h4>
                 <div class="mt-4">
-                    <a href="{{ route('order.create', $produk['id_produk']) }}" class="btn btn-lg"
+                    <a href="{{ route('orders.create', $produk['id_produk']) }}" class="btn btn-lg"
                         style="background-color: #38BDF8; color: white; border-radius: 30px; padding: 10px 30px;">
                         <i class="bi bi-cart-plus"></i> Pesan Sekarang
                     </a>

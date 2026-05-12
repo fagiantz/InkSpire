@@ -10,5 +10,5 @@ type CreateOrderRequest struct {
 }
 
 type UpdateStatusRequest struct {
-	Status string `json:"status" binding:"required,oneof=done unpaid process"`
+	Status string `json:"status" binding:"required,oneof=done unpaid process paid"`
 }

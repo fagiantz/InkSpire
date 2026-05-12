@@ -27,4 +27,19 @@ class DashboardController extends Controller
 
         return view('dashboard', compact('orders'));
     }
+
+    public function updateQuantity(Request $request, $orderId, $itemId)
+    {
+        $data = $this->orderService->updateItemQuantity(
+            (int) $orderId,
+            (int) $itemId,
+            (int) $request->quantity
+        );
+
+        if (isset($data['error'])) {
+            return response()->json(['error' => $data['error']], 400);
+        }
+
+        return response()->json($data);
+    }
 }

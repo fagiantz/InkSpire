@@ -48,7 +48,7 @@ class AdminOrderController extends Controller
         }
 
         $request->validate([
-            'status' => 'required|in:unpaid,process,done',
+            'status' => 'required|in:unpaid,process,done,paid',
         ]);
 
         $data = $this->orderService->updateStatus((int) $id, $request->status);

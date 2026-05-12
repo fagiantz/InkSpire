@@ -32,8 +32,9 @@ Route::get('/home', function () {
 })->name('home');
 
 // Autentikasi
-Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
-Route::post('/register', [AuthController::class, 'register']);
+// Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
+// Route::post('/register', [AuthController::class, 'register']);
+Route::redirect('/register', '/login');
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
@@ -70,7 +71,7 @@ Route::get('/produk/{id}', [KatalogController::class, 'show'])->name('produk.det
 
 // Admin Routes (staff only)
 Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+    // Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
     Route::get('/orders', [AdminOrderController::class, 'index'])->name('orders');
     Route::put('/orders/{id}/status', [AdminOrderController::class, 'updateStatus'])->name('orders.updateStatus');
 
@@ -80,3 +81,6 @@ Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
     Route::put('/produk/{id}', [AdminProdukController::class, 'update'])->name('produk.update');
     Route::delete('/produk/{id}', [AdminProdukController::class, 'destroy'])->name('produk.destroy');
 });
+
+Route::put('/orders/{orderId}/items/{itemId}', [DashboardController::class, 'updateQuantity'])
+    ->name('orders.updateQuantity');

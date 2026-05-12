@@ -159,3 +159,42 @@ func (s *OrderService) CreatePaymentRecord(orderID uint, imagePath string) (*mod
 
 	return payment, nil
 }
+
+func (s *OrderService) UpdateOrderItemQuantity(orderID uint, itemID uint, newQuantity int) error {
+	if newQuantity < 1 {
+		return errors.New("quantity must be at least 1")
+	}
+
+	return s.db.Transaction(func(tx *gorm.DB) error {
+		var item models.OrderItem
+		if err := tx.Where("id_order_item = ? AND id_pesanan = ?", itemID, orderID).First(&item).Error; err != nil {
+			return errors.New("order item not found")
+		}
+
+		var produk models.Produk
+		if err := tx.First(&produk, item.IdProduk).Error; err != nil {
+			return errors.New("product not found")
+		}
+
+		item.Kuantitas = newQuantity
+		item.HargaOrder = produk.Harga * float64(newQuantity)
+		if err := tx.Save(&item).Error; err != nil {
+			return err
+		}
+
+		var total float64
+		if err := tx.Model(&models.OrderItem{}).
+			Where("id_pesanan = ?", orderID).
+			Select("COALESCE(SUM(harga_order), 0)").
+			Scan(&total).Error; err != nil {
+			return err
+		}
+
+		if err := tx.Model(&models.Order{}).Where("id_pesanan = ?", orderID).
+			Update("total_harga", total).Error; err != nil {
+			return err
+		}
+
+		return nil
+	})
+}

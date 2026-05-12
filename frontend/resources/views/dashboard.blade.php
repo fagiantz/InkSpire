@@ -147,45 +147,71 @@
 
                 <!-- Kartu Pesanan Dummy (sekarang interaktif) -->
                 @forelse ($orders as $order)
-                    <div class="order-card d-flex flex-column flex-md-row align-items-md-center gap-3">
-                        <!-- Tombol Hapus (opsional, bisa diaktifkan nanti) -->
-                        <button class="btn-hapus" onclick="hapusPesanan('order-{{ $order['id_pesanan'] }}')"
+                    @php
+                        // Ambil item pertama untuk ditampilkan (secara sederhana)
+                        $firstItem = $order['items'][0] ?? null;
+                        $hargaSatuan = $firstItem ? $firstItem['harga_order'] / $firstItem['kuantitas'] : 0;
+                    @endphp
+                    <div class="order-card d-flex flex-column flex-md-row align-items-md-center gap-3"
+                        id="order-{{ $order['id_pesanan'] }}" data-order-id="{{ $order['id_pesanan'] }}"
+                        data-item-id="{{ $firstItem ? $firstItem['id_order_item'] : '' }}"
+                        data-unit-price="{{ $hargaSatuan }}" data-total-harga="{{ $order['total_harga'] }}">
+
+                        <!-- Tombol Hapus (placeholder) -->
+                        <button class="btn-hapus" onclick="hapusPesanan('{{ $order['id_pesanan'] }}')"
                             title="Hapus pesanan"
                             style="position: absolute; top: 12px; right: 16px; background: none; border: none; color: #dc3545; font-size: 1.2rem; cursor: pointer;">
                             <i class="bi bi-trash-fill"></i>
                         </button>
 
-                        <!-- Gambar Produk (placeholder, karena belum ada gambar di backend) -->
+                        <!-- Gambar Produk -->
                         <div class="product-placeholder">
                             <i class="bi bi-image" style="font-size: 2.5rem; color: #38BDF8;"></i>
                         </div>
 
-                        <!-- Detail Pesanan -->
+                        <!-- Detail Produk -->
                         <div class="flex-grow-1">
                             <h6 class="fw-bold">
-                                @if (!empty($order['items']))
-                                    @php $produk = $order['items'][0]; @endphp
-                                    Produk ID: {{ $produk['id_produk'] ?? 'N/A' }}
+                                @if ($firstItem)
+                                    Produk ID: {{ $firstItem['id_produk'] }}
                                 @else
                                     Produk tidak diketahui
                                 @endif
                             </h6>
                             <p class="mb-1">No. Pesanan: {{ $order['no_pesanan'] }}</p>
-                            <p class="mb-1">Jumlah Item: {{ count($order['items'] ?? []) }}</p>
+                            <p class="mb-1">
+                                Jumlah:
+                                <span class="qty-display"
+                                    id="qty-display-{{ $order['id_pesanan'] }}">{{ $firstItem ? $firstItem['kuantitas'] : 0 }}</span>x
+                                <i class="bi bi-pencil-square edit-qty"
+                                    onclick="editJumlah('{{ $order['id_pesanan'] }}', '{{ $firstItem ? $firstItem['id_order_item'] : '' }}', {{ $hargaSatuan }})"
+                                    title="Edit jumlah"></i>
+                            </p>
                             <p class="mb-0 text-muted">Status:
-                                <span
-                                    class="badge 
-                    @if ($order['status'] == 'unpaid') bg-warning text-dark
-                    @elseif($order['status'] == 'process') bg-info
-                    @elseif($order['status'] == 'done') bg-success @endif">
-                                    {{ $order['status'] }}
-                                </span>
+                                @php
+                                    $badgeClass = match ($order['status']) {
+                                        'unpaid' => 'bg-warning text-dark',
+                                        'paid' => 'bg-primary',
+                                        'process' => 'bg-info',
+                                        'done' => 'bg-success',
+                                        default => 'bg-secondary',
+                                    };
+                                    $statusText = match ($order['status']) {
+                                        'unpaid' => 'Belum dibayar',
+                                        'paid' => 'Sudah dibayar',
+                                        'process' => 'Diproses',
+                                        'done' => 'Selesai',
+                                        default => $order['status'],
+                                    };
+                                @endphp
+                                <span class="badge {{ $badgeClass }}">{{ $statusText }}</span>
                             </p>
                         </div>
 
                         <!-- Total & Aksi -->
                         <div class="text-md-end">
-                            <p class="fw-bold fs-5">Rp {{ number_format($order['total_harga'], 0, ',', '.') }}</p>
+                            <p class="fw-bold fs-5" id="total-display-{{ $order['id_pesanan'] }}">Rp
+                                {{ number_format($order['total_harga'], 0, ',', '.') }}</p>
                             <a href="{{ route('orders.detail') }}" class="btn btn-detail">Detail</a>
                         </div>
                     </div>
@@ -203,63 +229,74 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Simpan harga satuan di sini atau ambil dari data-attribute
-        const hargaSatuan = {
-            '1': 10000 // id pesanan -> harga satuan
-        };
-
-        function editJumlah(orderId, harga) {
+        function editJumlah(orderId, itemId, hargaSatuan) {
             const displaySpan = document.getElementById(`qty-display-${orderId}`);
-            const currentQty = parseInt(displaySpan.textContent);
+            if (!displaySpan) return;
 
-            // Buat input field
+            const currentQty = parseInt(displaySpan.textContent) || 1;
             const input = document.createElement('input');
             input.type = 'number';
             input.min = 1;
             input.value = currentQty;
             input.className = 'qty-input';
-            input.id = `qty-input-${orderId}`;
+            input.style.width = '70px';
 
-            // Ganti span dengan input
             displaySpan.replaceWith(input);
             input.focus();
-            input.select();
 
-            // Simpan saat kehilangan fokus atau tekan Enter
-            const simpanPerubahan = () => {
+            const simpan = () => {
                 let newQty = parseInt(input.value);
-                if (isNaN(newQty) || newQty < 1) {
-                    newQty = 1; // minimal 1
-                }
-                // Kembalikan ke span dengan nilai baru
+                if (isNaN(newQty) || newQty < 1) newQty = 1;
+
+                // Tampilkan dulu secara lokal (optimistic)
                 const newSpan = document.createElement('span');
                 newSpan.className = 'qty-display';
-                newSpan.id = `qty-display-${orderId}`;
+                newSpan.id = displaySpan.id;
                 newSpan.textContent = newQty;
                 input.replaceWith(newSpan);
 
-                // Update total
+                // Hitung total baru sementara
+                const newTotal = hargaSatuan * newQty;
                 const totalDisplay = document.getElementById(`total-display-${orderId}`);
-                const totalBaru = harga * newQty;
-                totalDisplay.textContent = `Rp. ${totalBaru.toLocaleString('id-ID')}`;
+                if (totalDisplay) {
+                    totalDisplay.innerText = `Rp ${newTotal.toLocaleString('id-ID')}`;
+                }
 
-                // Di sini bisa ditambahkan panggilan API ke backend untuk menyimpan perubahan
+                // Panggil API untuk menyimpan perubahan
+                fetch(`http://localhost:8080/api/order/${orderId}/items/${itemId}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer {{ session('token') }}`
+                        },
+                        body: JSON.stringify({
+                            quantity: newQty
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.error) {
+                            alert('Gagal mengupdate: ' + data.error);
+                            // Kembalikan tampilan lama (bisa di-improve)
+                        }
+                    })
+                    .catch(err => {
+                        alert('Gagal menghubungi server.');
+                    });
             };
 
-            input.addEventListener('blur', simpanPerubahan);
-            input.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    e.preventDefault();
-                    simpanPerubahan();
-                }
+            input.addEventListener('blur', simpan);
+            input.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') simpan();
             });
         }
 
         function hapusPesanan(orderId) {
+            if (!confirm('Apakah Anda yakin ingin menghapus pesanan ini?')) return;
             const card = document.getElementById(`order-${orderId}`);
-            if (card && confirm('Apakah Anda yakin ingin menghapus pesanan ini?')) {
+            if (card) {
                 card.remove();
-                // Di sini bisa ditambahkan panggilan API ke backend untuk menghapus
+                // nanti bisa panggil API hapus jika tersedia
             }
         }
     </script>

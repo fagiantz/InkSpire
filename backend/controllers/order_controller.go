@@ -9,6 +9,9 @@ import (
 	"github.com/fagiantz/InkSpire/backend/dto"
 	"github.com/fagiantz/InkSpire/backend/services"
 	"github.com/gin-gonic/gin"
+
+	"github.com/fagiantz/InkSpire/backend/database"
+    "github.com/fagiantz/InkSpire/backend/database/models"
 )
 
 type OrderController struct {
@@ -151,4 +154,61 @@ func (c *OrderController) UploadReceipt(ctx *gin.Context) {
 	ctx.JSON(http.StatusCreated, gin.H{
 		"message": "Transaction receipt uploaded successfully",
 	})
+}
+
+func (c *OrderController) UpdateItemQuantity(ctx *gin.Context) {
+    orderIDParam := ctx.Param("id")
+    orderID, err := strconv.ParseUint(orderIDParam, 10, 32)
+    if err != nil {
+        ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid order ID"})
+        return
+    }
+
+    itemIDParam := ctx.Param("itemId")
+    itemID, err := strconv.ParseUint(itemIDParam, 10, 32)
+    if err != nil {
+        ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid item ID"})
+        return
+    }
+
+    var req struct {
+        Quantity int `json:"quantity" binding:"required,gt=0"`
+    }
+    if err := ctx.ShouldBindJSON(&req); err != nil {
+        ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+        return
+    }
+
+    userIDVal, exists := ctx.Get("userID")
+    if !exists {
+        ctx.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized"})
+        return
+    }
+    userID := userIDVal.(uint)
+
+    // Ambil user
+    var user models.Akun
+    if err := database.DB.First(&user, userID).Error; err != nil {
+        ctx.JSON(http.StatusUnauthorized, gin.H{"error": "User not found"})
+        return
+    }
+
+    // Ambil order via service
+    order, err := c.orderService.GetOrderById(uint(orderID))
+    if err != nil {
+        ctx.JSON(http.StatusNotFound, gin.H{"error": "Order not found"})
+        return
+    }
+
+    if order.EmailPembeli != user.Email {
+        ctx.JSON(http.StatusForbidden, gin.H{"error": "You can only edit your own orders"})
+        return
+    }
+
+    if err := c.orderService.UpdateOrderItemQuantity(uint(orderID), uint(itemID), req.Quantity); err != nil {
+        ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+        return
+    }
+
+    ctx.JSON(http.StatusOK, gin.H{"message": "Quantity updated successfully"})
 }

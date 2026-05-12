@@ -40,7 +40,7 @@ func SetupRouter() *gin.Engine {
 
 	auth := api.Group("/auth")
 	auth.POST("/login", authController.Login)
-	auth.POST("/register", authController.Register)
+	// auth.POST("/register", authController.Register)
 
 	protectedAuth := auth.Group("")
 	protectedAuth.Use(middleware.AuthMiddleware())
@@ -65,6 +65,7 @@ func SetupRouter() *gin.Engine {
 	orderRoute.Use(middleware.AuthMiddleware())
 	{
 		orderRoute.POST("", orderController.CreateOrder)
+		orderRoute.PUT("/:id/items/:itemId", orderController.UpdateItemQuantity)
 		orderRoute.GET("/my-active", orderController.GetMyActiveOrders)
 		orderRoute.POST("/:id/receipt", orderController.UploadReceipt)
 

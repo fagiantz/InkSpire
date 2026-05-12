@@ -19,25 +19,25 @@ func NewAuthController(authService *services.AuthService) *AuthController {
 	}
 }
 
-func (c *AuthController) Register(ctx *gin.Context) {
-    var req dto.RegisterRequest
+// func (c *AuthController) Register(ctx *gin.Context) {
+//     var req dto.RegisterRequest
 
-    if err := ctx.ShouldBindJSON(&req); err != nil {
-        ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-        return
-    }
+//     if err := ctx.ShouldBindJSON(&req); err != nil {
+//         ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+//         return
+//     }
 
-    user, err := c.authService.Register(req)
-    if err != nil {
-        ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-        return
-    }
+//     user, err := c.authService.Register(req)
+//     if err != nil {
+//         ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+//         return
+//     }
 
-    ctx.JSON(http.StatusCreated, gin.H{
-        "message": "User registered successfully",
-        "user":    user,
-    })
-}
+//     ctx.JSON(http.StatusCreated, gin.H{
+//         "message": "User registered successfully",
+//         "user":    user,
+//     })
+// }
 // func (s *AuthService) Register(req dto.RegisterRequest) (*dto.UserResponse, error) {
 //     user := &models.Akun{
 //         Email:    req.Email,

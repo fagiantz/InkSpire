@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,13 +11,18 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     @vite(['resources/css/app.scss', 'resources/js/app.js'])
     <style>
-        body { font-family: 'Roboto', sans-serif; background-color: #FEFEFD; }
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #FEFEFD;
+        }
+
         .sidebar {
             background-color: #fff;
             border-right: 2px solid #38BDF8;
             min-height: calc(100vh - 56px);
             padding: 30px 20px;
         }
+
         .sidebar .nav-link {
             color: #6c757d;
             border-radius: 8px;
@@ -26,24 +32,39 @@
             gap: 10px;
             margin-bottom: 5px;
         }
+
         .sidebar .nav-link.active {
             background-color: #E6F4FE;
             color: #0D95D2;
         }
-        .sidebar .nav-link i { font-size: 1.2rem; }
-        .main-content { background-color: #F8F9FA; padding: 30px; }
+
+        .sidebar .nav-link i {
+            font-size: 1.2rem;
+        }
+
+        .main-content {
+            background-color: #F8F9FA;
+            padding: 30px;
+        }
+
         .table-card {
             background: white;
             border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
             padding: 20px;
         }
-        .search-box { position: relative; max-width: 250px; }
+
+        .search-box {
+            position: relative;
+            max-width: 250px;
+        }
+
         .search-box .form-control {
             border-color: #38BDF8;
             border-radius: 20px;
             padding-right: 35px;
         }
+
         .search-box .search-icon {
             position: absolute;
             top: 50%;
@@ -51,10 +72,12 @@
             transform: translateY(-50%);
             color: #6c757d;
         }
+
         .table thead th {
             font-weight: 700;
             border-bottom: 2px solid #dee2e6;
         }
+
         .btn-edit {
             background-color: #38BDF8;
             border: none;
@@ -63,7 +86,11 @@
             padding: 5px 15px;
             font-size: 0.9rem;
         }
-        .btn-edit:hover { background-color: #0ea5e9; }
+
+        .btn-edit:hover {
+            background-color: #0ea5e9;
+        }
+
         .btn-simpan {
             background-color: #38BDF8;
             color: white;
@@ -71,9 +98,16 @@
             padding: 10px 25px;
             border: none;
         }
-        .btn-simpan:hover { background-color: #0ea5e9; }
 
-        .custom-dropdown { position: relative; width: 100%; }
+        .btn-simpan:hover {
+            background-color: #0ea5e9;
+        }
+
+        .custom-dropdown {
+            position: relative;
+            width: 100%;
+        }
+
         .custom-dropdown-toggle {
             background-color: white;
             border: 2px solid #38BDF8;
@@ -84,6 +118,7 @@
             position: relative;
             cursor: pointer;
         }
+
         .custom-dropdown-toggle i {
             position: absolute;
             right: 15px;
@@ -92,9 +127,11 @@
             color: #0D95D2;
             transition: transform 0.2s;
         }
+
         .custom-dropdown-toggle.open i {
             transform: translateY(-50%) rotate(180deg);
         }
+
         .custom-dropdown-menu {
             position: absolute;
             top: 100%;
@@ -107,15 +144,26 @@
             display: none;
             z-index: 1000;
         }
-        .custom-dropdown-menu.show { display: block; }
+
+        .custom-dropdown-menu.show {
+            display: block;
+        }
+
         .custom-dropdown-item {
             padding: 8px 15px;
             cursor: pointer;
             border-bottom: 1px solid #eee;
             transition: background-color 0.1s;
         }
-        .custom-dropdown-item:last-child { border-bottom: none; }
-        .custom-dropdown-item:hover { background-color: #F0F9FF; }
+
+        .custom-dropdown-item:last-child {
+            border-bottom: none;
+        }
+
+        .custom-dropdown-item:hover {
+            background-color: #F0F9FF;
+        }
+
         .custom-dropdown-item.active {
             background-color: #E6F4FE;
             color: #0D95D2;
@@ -123,6 +171,7 @@
         }
     </style>
 </head>
+
 <body>
     <!-- Header Admin -->
     <nav class="navbar navbar-expand-lg" style="background-color: #0D95D2;">
@@ -130,7 +179,8 @@
             <a class="navbar-brand text-white fw-bold mb-0" href="#">InkSpire</a>
             <form method="POST" action="{{ route('logout') }}" class="d-inline">
                 @csrf
-                <button type="submit" class="btn btn-sm" style="background-color: white; color: #0D95D2; border-radius: 20px;">Logout</button>
+                <button type="submit" class="btn btn-sm"
+                    style="background-color: white; color: #0D95D2; border-radius: 20px;">Logout</button>
             </form>
         </div>
     </nav>
@@ -140,12 +190,11 @@
             <!-- Sidebar -->
             <div class="col-md-3 col-lg-2 sidebar">
                 <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('admin.dashboard') }}">
-                            <i class="bi bi-grid-fill"></i>
+                    {{-- <li class="nav-item">
+                        <a class="nav-link" href="{{ route('admin.orders') }}"> <i class="bi bi-grid-fill"></i>
                             Dashboard
                         </a>
-                    </li>
+                    </li> --}}
                     <li class="nav-item">
                         <a class="nav-link active" href="{{ route('admin.orders') }}">
                             <i class="bi bi-cart-fill"></i>
@@ -159,12 +208,12 @@
             <div class="col-md-9 col-lg-10 main-content">
                 <h2 class="fw-bold mb-4">PESANAN</h2>
 
-                @if(session('success'))
-                <div class="alert alert-success">{{ session('success') }}</div>
+                @if (session('success'))
+                    <div class="alert alert-success">{{ session('success') }}</div>
                 @endif
 
-                @if(session('error'))
-                <div class="alert alert-danger">{{ session('error') }}</div>
+                @if (session('error'))
+                    <div class="alert alert-danger">{{ session('error') }}</div>
                 @endif
 
                 <div class="table-card">
@@ -195,17 +244,33 @@
                                         <td>{{ $order['email_pembeli'] ?? 'N/A' }}</td>
                                         <td>{{ \Carbon\Carbon::parse($order['order_date'])->format('d-m-Y') }}</td>
                                         <td>
-                                            <span class="badge
-                                                @if($order['status'] == 'unpaid') bg-warning text-dark
-                                                @elseif($order['status'] == 'process') bg-info
-                                                @elseif($order['status'] == 'done') bg-success
-                                                @endif">
-                                                {{ $order['status'] }}
-                                            </span>
+                                            @php
+                                                $badgeClass = match ($order['status']) {
+                                                    'unpaid' => 'bg-warning text-dark',
+                                                    'paid' => 'bg-primary',
+                                                    'process' => 'bg-info',
+                                                    'done' => 'bg-success',
+                                                    default => 'bg-secondary',
+                                                };
+
+                                                $statusText = match ($order['status']) {
+                                                    'unpaid' => 'Belum dibayar',
+                                                    'paid' => 'Sudah dibayar',
+                                                    'process' => 'Diproses',
+                                                    'done' => 'Selesai',
+                                                    default => $order[
+                                                        'status'
+                                                    ], // fallback ke teks asli jika status tidak dikenali
+                                                };
+                                            @endphp
+
+                                            <span class="badge {{ $badgeClass }}">{{ $statusText }}</span>
                                         </td>
                                         <td>
-                                            <button type="button" class="btn btn-edit" data-bs-toggle="modal" data-bs-target="#editStatusModal"
-                                                data-order-id="{{ $order['id_pesanan'] }}" data-current-status="{{ $order['status'] }}">
+                                            <button type="button" class="btn btn-edit" data-bs-toggle="modal"
+                                                data-bs-target="#editStatusModal"
+                                                data-order-id="{{ $order['id_pesanan'] }}"
+                                                data-current-status="{{ $order['status'] }}">
                                                 Edit
                                             </button>
                                         </td>
@@ -245,6 +310,7 @@
                             </div>
                             <div class="custom-dropdown-menu" id="customDropdownMenu">
                                 <div class="custom-dropdown-item" data-value="unpaid">Belum dibayar</div>
+                                <div class="custom-dropdown-item" data-value="paid">Sudah dibayar</div>
                                 <div class="custom-dropdown-item" data-value="process">Diproses</div>
                                 <div class="custom-dropdown-item" data-value="done">Selesai</div>
                             </div>
@@ -274,7 +340,7 @@
             var inputStatus = document.getElementById('inputStatus');
             var formUpdateStatus = document.getElementById('formUpdateStatus');
 
-            editStatusModal.addEventListener('show.bs.modal', function (event) {
+            editStatusModal.addEventListener('show.bs.modal', function(event) {
                 var button = event.relatedTarget;
                 var orderId = button.getAttribute('data-order-id');
                 var currentStatus = button.getAttribute('data-current-status');
@@ -316,7 +382,9 @@
                     inputStatus.value = value;
 
                     var items = customMenu.querySelectorAll('.custom-dropdown-item');
-                    items.forEach(function(el) { el.classList.remove('active'); });
+                    items.forEach(function(el) {
+                        el.classList.remove('active');
+                    });
                     item.classList.add('active');
 
                     customMenu.classList.remove('show');
@@ -334,4 +402,5 @@
         });
     </script>
 </body>
+
 </html>

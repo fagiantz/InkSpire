@@ -36,4 +36,12 @@ class OrderService
         ]);
         return $response->json();
     }
+
+    public function updateItemQuantity(int $orderId, int $itemId, int $quantity): array
+    {
+        $response = $this->client->request('put', "/order/{$orderId}/items/{$itemId}", [
+            'quantity' => $quantity,
+        ]);
+        return $response->json();
+    }
 }
