@@ -12,6 +12,7 @@ func RunAll(db *gorm.DB) {
 
 	SeedAkun(db)
 	SeedProduk(db)
+	SeedOrder(db)
 
 	log.Println("Database seeding finished.")
 }

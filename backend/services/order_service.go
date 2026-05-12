@@ -82,7 +82,6 @@ func (s *OrderService) UpdateOrderStatus(orderID uint, status string) error {
 
 func (s *OrderService) GetActiveOrders() ([]models.Order, error) {
 	var orders []models.Order
-	// Fetch orders that are not 'done', meaning they are active ('unpaid' or 'process')
 	if err := s.db.Preload("OrderItems").Where("status IN ?", []string{"unpaid", "process"}).Order("order_date desc").Find(&orders).Error; err != nil {
 		return nil, err
 	}
@@ -103,45 +102,60 @@ func (s *OrderService) GetActiveOrdersByUserID(userID uint) ([]models.Order, err
 }
 
 func (s *OrderService) GetAdminStats() (map[string]interface{}, error) {
-    var stats = make(map[string]interface{})
+	var stats = make(map[string]interface{})
 
-    // Total semua pesanan
-    var totalOrders int64
-    s.db.Model(&models.Order{}).Count(&totalOrders)
-    stats["total_orders"] = totalOrders
+	var totalOrders int64
+	s.db.Model(&models.Order{}).Count(&totalOrders)
+	stats["total_orders"] = totalOrders
 
-    // Pesanan selesai (done)
-    var doneOrders int64
-    s.db.Model(&models.Order{}).Where("status = ?", "done").Count(&doneOrders)
-    stats["done_orders"] = doneOrders
+	var doneOrders int64
+	s.db.Model(&models.Order{}).Where("status = ?", "done").Count(&doneOrders)
+	stats["done_orders"] = doneOrders
 
-    // Pesanan baru hari ini (unpaid atau process, dan tanggal hari ini)
-    today := time.Now().Format("2006-01-02")
-    var newOrders int64
-    s.db.Model(&models.Order{}).
-        Where("status IN ?", []string{"unpaid", "process"}).
-        Where("DATE(order_date) = ?", today).
-        Count(&newOrders)
-    stats["new_orders_today"] = newOrders
+	today := time.Now().Format("2006-01-02")
+	var newOrders int64
+	s.db.Model(&models.Order{}).
+		Where("status IN ?", []string{"unpaid", "process"}).
+		Where("DATE(order_date) = ?", today).
+		Count(&newOrders)
+	stats["new_orders_today"] = newOrders
 
-    // Belum diproses (unpaid) hari ini
-    var unpaidToday int64
-    s.db.Model(&models.Order{}).
-        Where("status = ?", "unpaid").
-        Where("DATE(order_date) = ?", today).
-        Count(&unpaidToday)
-    stats["unpaid_today"] = unpaidToday
+	var unpaidToday int64
+	s.db.Model(&models.Order{}).
+		Where("status = ?", "unpaid").
+		Where("DATE(order_date) = ?", today).
+		Count(&unpaidToday)
+	stats["unpaid_today"] = unpaidToday
 
-    // Total pendapatan (dari semua pesanan yang sudah selesai? atau semua?)
-    // Biasanya pendapatan dari yang sudah done, tapi Anda bisa sesuaikan.
-    var totalRevenue struct {
-        Sum float64
-    }
-    s.db.Model(&models.Order{}).
-        Select("COALESCE(SUM(total_harga), 0) as sum").
-        Where("status = ?", "done").
-        Scan(&totalRevenue)
-    stats["total_revenue"] = totalRevenue.Sum
+	var totalRevenue struct {
+		Sum float64
+	}
+	s.db.Model(&models.Order{}).
+		Select("COALESCE(SUM(total_harga), 0) as sum").
+		Where("status = ?", "done").
+		Scan(&totalRevenue)
+	stats["total_revenue"] = totalRevenue.Sum
 
-    return stats, nil
+	return stats, nil
+}
+
+func (s *OrderService) GetOrderById(orderID uint) (*models.Order, error) {
+	var order models.Order
+	if err := s.db.First(&order, orderID).Error; err != nil {
+		return nil, err
+	}
+	return &order, nil
+}
+
+func (s *OrderService) CreatePaymentRecord(orderID uint, imagePath string) (*models.Payment, error) {
+	payment := &models.Payment{
+		IdPesanan: orderID,
+		ImagePath: imagePath,
+	}
+
+	if err := payment.Create(s.db); err != nil {
+		return nil, err
+	}
+
+	return payment, nil
 }

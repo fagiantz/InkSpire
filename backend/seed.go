@@ -5,9 +5,13 @@ import (
 
 	"github.com/fagiantz/InkSpire/backend/database"
 	"github.com/fagiantz/InkSpire/backend/database/seeders"
+	"github.com/joho/godotenv"
 )
 
 func main() {
+	if err := godotenv.Load(); err != nil {
+		log.Println("No .env file found, using system environtment variables")
+	}
 	// 1. Initialize DB connection
 	// This will use your existing database.ConnectDB logic which includes AutoMigrate
 	database.ConnectDB()

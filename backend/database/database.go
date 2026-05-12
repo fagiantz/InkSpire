@@ -1,6 +1,7 @@
 package database
 
 import (
+	"fmt"
 	"log"
 	"os"
 
@@ -12,7 +13,27 @@ import (
 var DB *gorm.DB
 
 func ConnectDB() {
-	dsn := "root:@tcp(127.0.0.1:3306)/inkspire?charset=utf8mb4&parseTime=True&loc=Local"
+	dbUser := os.Getenv("DB_USER")
+	dbPassword := os.Getenv("DB_PASSWORD")
+	dbHost := os.Getenv("DB_HOST")
+	dbPort := os.Getenv("DB_PORT")
+	dbName := os.Getenv("DB_NAME")
+
+	if dbUser == "" {
+		dbUser = "root"
+	}
+	if dbHost == "" {
+		dbHost = "127.0.0.1"
+	}
+	if dbPort == "" {
+		dbPort = "3306"
+	}
+	if dbName == "" {
+		dbName = "inkspire"
+	}
+
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local", dbUser, dbPassword, dbHost, dbPort, dbName)
+
 	if dbURL := os.Getenv("DATABASE_URL"); dbURL != "" {
 		dsn = dbURL
 	}
@@ -27,6 +48,7 @@ func ConnectDB() {
 		&models.Produk{},
 		&models.Order{},
 		&models.OrderItem{},
+		&models.Payment{},
 	)
 	if err != nil {
 		log.Fatalf("Failed to migrate database: %v", err)
