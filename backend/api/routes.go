@@ -65,7 +65,6 @@ func SetupRouter() *gin.Engine {
 	orderRoute.Use(middleware.AuthMiddleware())
 	{
 		orderRoute.POST("", orderController.CreateOrder)
-		orderRoute.PUT("/:id/items/:itemId", orderController.UpdateItemQuantity)
 		orderRoute.GET("/my-active", orderController.GetMyActiveOrders)
 		orderRoute.POST("/:id/receipt", orderController.UploadReceipt)
 
@@ -74,7 +73,6 @@ func SetupRouter() *gin.Engine {
 		{
 			staffProtectedOrder.GET("/active", orderController.GetActiveOrders)
 			staffProtectedOrder.PUT("/:id/status", orderController.UpdateStatus)
-			// staffProtectedOrder.GET("/stats", orderController.GetAdminStats) // ✅ di dalam sini
 		}
 	}
 
