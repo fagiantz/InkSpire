@@ -14,9 +14,11 @@
                         <a class="nav-link text-white" href="{{ route('main') }}">Beranda</a>
                     @endif
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="{{ route('katalog') }}">Katalog</a>
-                </li>
+                @if (session('token'))
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="{{ route('katalog') }}">Katalog</a>
+                    </li>
+                @endif
             </ul>
 
             <ul class="navbar-nav ms-auto d-flex align-items-center">

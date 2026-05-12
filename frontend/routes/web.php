@@ -16,7 +16,7 @@ Route::get('/', function () {
     if (session('token')) {
         $user = session('user');
         if ($user && isset($user['role']) && $user['role'] === 'staff') {
-            return redirect()->route('admin.dashboard');
+            return redirect()->route('admin.orders');
         }
         return redirect()->route('home');
     }
