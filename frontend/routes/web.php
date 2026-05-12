@@ -9,7 +9,8 @@ use App\Http\Controllers\AdminOrderController;
 use App\Http\Controllers\AdminProdukController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\OrderStatusController;
-use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\CartController;
+// use App\Http\Controllers\AdminDashboardController;
 
 // Halaman utama
 Route::get('/', function () {
@@ -61,6 +62,13 @@ Route::get('/payment', [PaymentController::class, 'create'])->name('payment.crea
 
 // Order Status
 Route::get('/orders/status', [OrderStatusController::class, 'show'])->name('orders.status');
+
+// Cart
+Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
+Route::post('/cart/remove', [CartController::class, 'remove'])->name('cart.remove');
+Route::post('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
+
 
 // Buat Pesanan
 Route::get('/order/create/{id}', [OrderController::class, 'create'])->name('orders.create');
