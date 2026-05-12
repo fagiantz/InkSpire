@@ -7,11 +7,11 @@
 ## 📊 Perancangan Sistem (DFD)
 
 ### DFD Level 0
-![DFD Level 0](pic/IPPL-DFD0.jpg)<br/>
+![DFD Level 0](docs/diagrams/IPPL-DFD0.jpg)<br/>
 *Diagram Konteks yang menunjukkan aliran data global.*
 
 ### DFD Level 1
-![DFD Level 1](pic/IPPL-DFD1.jpg)<br/>
+![DFD Level 1](docs/diagrams/IPPL-DFD1.jpg)<br/>
 *Detail proses bisnis dan integrasi database.*
 
 ---
