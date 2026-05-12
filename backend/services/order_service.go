@@ -101,43 +101,43 @@ func (s *OrderService) GetActiveOrdersByUserID(userID uint) ([]models.Order, err
 	return orders, nil
 }
 
-func (s *OrderService) GetAdminStats() (map[string]interface{}, error) {
-	var stats = make(map[string]interface{})
+// func (s *OrderService) GetAdminStats() (map[string]interface{}, error) {
+// 	var stats = make(map[string]interface{})
 
-	var totalOrders int64
-	s.db.Model(&models.Order{}).Count(&totalOrders)
-	stats["total_orders"] = totalOrders
+// 	var totalOrders int64
+// 	s.db.Model(&models.Order{}).Count(&totalOrders)
+// 	stats["total_orders"] = totalOrders
 
-	var doneOrders int64
-	s.db.Model(&models.Order{}).Where("status = ?", "done").Count(&doneOrders)
-	stats["done_orders"] = doneOrders
+// 	var doneOrders int64
+// 	s.db.Model(&models.Order{}).Where("status = ?", "done").Count(&doneOrders)
+// 	stats["done_orders"] = doneOrders
 
-	today := time.Now().Format("2006-01-02")
-	var newOrders int64
-	s.db.Model(&models.Order{}).
-		Where("status IN ?", []string{"unpaid", "process"}).
-		Where("DATE(order_date) = ?", today).
-		Count(&newOrders)
-	stats["new_orders_today"] = newOrders
+// 	today := time.Now().Format("2006-01-02")
+// 	var newOrders int64
+// 	s.db.Model(&models.Order{}).
+// 		Where("status IN ?", []string{"unpaid", "process"}).
+// 		Where("DATE(order_date) = ?", today).
+// 		Count(&newOrders)
+// 	stats["new_orders_today"] = newOrders
 
-	var unpaidToday int64
-	s.db.Model(&models.Order{}).
-		Where("status = ?", "unpaid").
-		Where("DATE(order_date) = ?", today).
-		Count(&unpaidToday)
-	stats["unpaid_today"] = unpaidToday
+// 	var unpaidToday int64
+// 	s.db.Model(&models.Order{}).
+// 		Where("status = ?", "unpaid").
+// 		Where("DATE(order_date) = ?", today).
+// 		Count(&unpaidToday)
+// 	stats["unpaid_today"] = unpaidToday
 
-	var totalRevenue struct {
-		Sum float64
-	}
-	s.db.Model(&models.Order{}).
-		Select("COALESCE(SUM(total_harga), 0) as sum").
-		Where("status = ?", "done").
-		Scan(&totalRevenue)
-	stats["total_revenue"] = totalRevenue.Sum
+// 	var totalRevenue struct {
+// 		Sum float64
+// 	}
+// 	s.db.Model(&models.Order{}).
+// 		Select("COALESCE(SUM(total_harga), 0) as sum").
+// 		Where("status = ?", "done").
+// 		Scan(&totalRevenue)
+// 	stats["total_revenue"] = totalRevenue.Sum
 
-	return stats, nil
-}
+// 	return stats, nil
+// }
 
 func (s *OrderService) GetOrderById(orderID uint) (*models.Order, error) {
 	var order models.Order

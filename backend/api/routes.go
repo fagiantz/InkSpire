@@ -74,7 +74,7 @@ func SetupRouter() *gin.Engine {
 		{
 			staffProtectedOrder.GET("/active", orderController.GetActiveOrders)
 			staffProtectedOrder.PUT("/:id/status", orderController.UpdateStatus)
-			staffProtectedOrder.GET("/stats", orderController.GetAdminStats) // ✅ di dalam sini
+			// staffProtectedOrder.GET("/stats", orderController.GetAdminStats) // ✅ di dalam sini
 		}
 	}
 
