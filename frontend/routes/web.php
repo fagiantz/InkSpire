@@ -9,14 +9,19 @@ use App\Http\Controllers\AdminOrderController;
 use App\Http\Controllers\AdminProdukController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\OrderStatusController;
-use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\CartController;
+// use App\Http\Controllers\AdminDashboardController;
 
 // Halaman utama
 Route::get('/', function () {
     if (session('token')) {
         $user = session('user');
         if ($user && isset($user['role']) && $user['role'] === 'staff') {
+<<<<<<< HEAD
             return redirect()->route('admin.orders'); // Sesuaikan jika perlu
+=======
+            return redirect()->route('admin.orders');
+>>>>>>> 8e5dcb6bf93efaaa8734bb0341fa65ad332071a7
         }
         return redirect()->route('home');
     }
@@ -62,6 +67,13 @@ Route::get('/payment', [PaymentController::class, 'create'])->name('payment.crea
 
 // Order Status
 Route::get('/orders/status', [OrderStatusController::class, 'show'])->name('orders.status');
+
+// Cart
+Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
+Route::post('/cart/remove', [CartController::class, 'remove'])->name('cart.remove');
+Route::post('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
+
 
 // Buat Pesanan
 Route::get('/order/create/{id}', [OrderController::class, 'create'])->name('orders.create');

@@ -55,10 +55,18 @@
                 <p class="text-muted">Produk berkualitas tinggi dari InkSpire.</p>
                 <h4 class="fw-bold text-primary">Rp {{ number_format($produk['harga'], 0, ',', '.') }}</h4>
                 <div class="mt-4">
-                    <a href="{{ route('orders.create', $produk['id_produk']) }}" class="btn btn-lg"
-                        style="background-color: #38BDF8; color: white; border-radius: 30px; padding: 10px 30px;">
-                        <i class="bi bi-cart-plus"></i> Pesan Sekarang
-                    </a>
+                    <form action="{{ route('cart.add') }}" method="POST" class="d-inline">
+                        @csrf
+                        <input type="hidden" name="id_produk" value="{{ $produk['id_produk'] }}">
+                        <div class="d-flex align-items-center mb-3">
+                            <label for="kuantitas" class="form-label me-2 mb-0 fw-semibold">Jumlah:</label>
+                            <input type="number" name="kuantitas" id="kuantitas" value="1" min="1" class="form-control" style="width: 80px; border-color: #38BDF8;">
+                        </div>
+                        <button type="submit" class="btn btn-lg"
+                            style="background-color: #38BDF8; color: white; border-radius: 30px; padding: 10px 30px;">
+                            <i class="bi bi-cart-plus"></i> Tambah ke Keranjang
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>

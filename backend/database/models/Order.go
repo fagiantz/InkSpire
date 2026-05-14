@@ -11,7 +11,7 @@ import (
 type Order struct {
 	IdPesanan    uint        `gorm:"primaryKey" json:"id_pesanan"`
 	TotalHarga   float64     `gorm:"not null" json:"total_harga"`
-	Status       string      `gorm:"not null;type:enum('done','unpaid','process', 'paid');default:'unpaid'" json:"status"`
+	Status       string      `gorm:"not null;type:enum('done','unpaid','process','paid');default:'unpaid'" json:"status"`
 	EmailPembeli string      `gorm:"not null;type:varchar(255)" json:"email_pembeli"`
 	NoPesanan    string      `gorm:"not null;type:varchar(255)" json:"no_pesanan"`
 	OrderDate    time.Time   `gorm:"not null" json:"order_date"`

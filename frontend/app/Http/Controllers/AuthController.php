@@ -64,7 +64,7 @@ class AuthController extends Controller
         ]);
 
         if (isset($data['user']['role']) && $data['user']['role'] === 'staff') {
-            return redirect()->route('admin.dashboard');
+            return redirect()->route('admin.orders');
         }
 
         return redirect()->route('home');

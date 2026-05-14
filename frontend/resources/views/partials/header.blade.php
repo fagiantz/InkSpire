@@ -14,13 +14,25 @@
                         <a class="nav-link text-white" href="{{ route('main') }}">Beranda</a>
                     @endif
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="{{ route('katalog') }}">Katalog</a>
-                </li>
+                @if (session('token'))
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="{{ route('katalog') }}">Katalog</a>
+                    </li>
+                @endif
             </ul>
 
             <ul class="navbar-nav ms-auto d-flex align-items-center">
                 @if (session('token'))
+                    <li class="nav-item d-flex align-items-center me-3">
+                        <a class="nav-link text-white position-relative" href="{{ route('cart.index') }}">
+                            <i class="bi bi-cart3 fs-5"></i>
+                            @if(session('cart') && count(session('cart')) > 0)
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.6rem;">
+                                    {{ count(session('cart')) }}
+                                </span>
+                            @endif
+                        </a>
+                    </li>
                     <!-- Teks Dashboard (hanya jika bukan halaman dashboard) -->
                     @if (request()->route()->getName() !== 'dashboard')
                         <li class="nav-item d-flex align-items-center">
