@@ -16,11 +16,12 @@ Route::get('/', function () {
     if (session('token')) {
         $user = session('user');
         if ($user && isset($user['role']) && $user['role'] === 'staff') {
-            return redirect()->route('admin.dashboard');
+            return redirect()->route('admin.orders'); // Sesuaikan jika perlu
         }
         return redirect()->route('home');
     }
-    return view('welcome');
+    // Jika belum login, langsung ke halaman login
+    return redirect()->route('login');
 })->name('main');
 
 // Landing page khusus user biasa
