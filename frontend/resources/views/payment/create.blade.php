@@ -63,44 +63,7 @@
             gap: 8px;
         }
 
-        .va-number {
-            background-color: #38BDF8;
-            color: white;
-            font-size: 1.5rem;
-            padding: 10px 20px;
-            border-radius: 12px;
-            display: inline-block;
-            letter-spacing: 2px;
-        }
-
-        .payment-methods .form-check {
-            margin-bottom: 10px;
-        }
-
-        .payment-methods .form-check-input:checked {
-            background-color: #38BDF8;
-            border-color: #38BDF8;
-        }
-
-        .list-step li {
-            margin-bottom: 10px;
-        }
-
-        .list-step .step-number {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            background-color: #E6F4FE;
-            color: #0D95D2;
-            font-weight: 700;
-            margin-right: 8px;
-            font-size: 0.8rem;
-        }
-
-        .btn-bayar {
+        .btn-upload {
             background-color: #38BDF8;
             color: white;
             border-radius: 30px;
@@ -109,20 +72,8 @@
             border: none;
         }
 
-        .btn-bayar:hover {
+        .btn-upload:hover {
             background-color: #0ea5e9;
-        }
-
-        .btn-kembali {
-            border: 1px solid #38BDF8;
-            color: #38BDF8;
-            border-radius: 30px;
-            padding: 10px 20px;
-            background: white;
-        }
-
-        .btn-kembali:hover {
-            background-color: #f0f9ff;
         }
     </style>
 </head>
@@ -153,26 +104,24 @@
 
                         <hr>
 
-                        <h5 class="fw-bold mb-3">Metode Pembayaran</h5>
-                        <div class="payment-methods">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="paymentMethod" id="bni"
-                                    checked>
-                                <label class="form-check-label" for="bni">BNI Virtual Account</label>
+                        <h5 class="fw-bold mb-3">Upload Bukti Pembayaran</h5>
+                        <form method="POST" action="{{ route('payment.store') }}" enctype="multipart/form-data">
+                            @csrf
+                            <input type="hidden" name="order_id" value="{{ $order['id_pesanan'] }}">
+
+                            <div class="mb-3">
+                                <label for="receipt" class="form-label fw-semibold">Pilih File Bukti Pembayaran</label>
+                                <input type="file" class="form-control" id="receipt" name="receipt"
+                                    accept="image/jpeg,image/png,image/jpg" required style="border-color: #38BDF8;">
+                                <div class="form-text">Format: JPG, JPEG, PNG. Maksimal 2MB.</div>
                             </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="paymentMethod" id="bca">
-                                <label class="form-check-label" for="bca">BCA Virtual Account</label>
+
+                            <div class="text-center mt-4">
+                                <button type="submit" class="btn btn-upload">
+                                    <i class="bi bi-cloud-upload-fill"></i> Upload & Selesaikan Pembayaran
+                                </button>
                             </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="paymentMethod" id="cc">
-                                <label class="form-check-label" for="cc">Kartu Kredit/Debit</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="paymentMethod" id="qris">
-                                <label class="form-check-label" for="qris">QRIS</label>
-                            </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -187,62 +136,36 @@
                         <ol class="list-unstyled list-step">
                             <li>
                                 <span class="step-number">1</span>
-                                Buka aplikasi BNI
+                                Lakukan transfer ke rekening tujuan
                             </li>
                             <li>
                                 <span class="step-number">2</span>
-                                Pilih menu “Bayar” kemudian “Virtual Account”
+                                Screenshot atau simpan bukti transfer
                             </li>
                             <li>
                                 <span class="step-number">3</span>
-                                Masukkan Nomor Virtual Account:
-                                <div class="text-center mt-2 mb-2">
-                                    <div class="va-number">1234 5678 9101 1213</div>
-                                </div>
+                                Upload bukti transfer melalui form di samping
                             </li>
                             <li>
                                 <span class="step-number">4</span>
-                                Lanjutkan dan konfirmasi pembayaran
+                                Admin akan memverifikasi pembayaran Anda
                             </li>
                         </ol>
                     </div>
                 </div>
 
-                <div class="d-flex justify-content-between align-items-center mt-3">
-                    <a href="{{ route('orders.detail') }}" class="btn btn-kembali">Kembali</a>
-                    <button type="button" class="btn btn-bayar" data-bs-toggle="modal"
-                        data-bs-target="#successModal">Bayar sekarang</button>
+                <div class="text-start mt-3">
+                    <a href="{{ route('orders.detail') }}" class="btn btn-kembali">
+                        <i class="bi bi-arrow-left"></i> Kembali
+                    </a>
                 </div>
             </div>
         </div>
     </main>
 
-    <!-- Modal Notifikasi Sukses -->
-    <div class="modal fade" id="successModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content rounded-4 shadow">
-                <div class="modal-body text-center p-5">
-                    <p class="mb-1">Pembayaran berhasil.</p>
-                    <p class="mb-4">Pesanan Anda sedang diproses.</p>
-                    <div class="d-flex justify-content-center mb-4">
-                        <div
-                            style="width: 80px; height: 80px; border-radius: 50%; border: 2px solid #38BDF8; display: flex; align-items: center; justify-content: center;">
-                            <i class="bi bi-check-lg" style="font-size: 2.5rem; color: #38BDF8;"></i>
-                        </div>
-                    </div>
-                    <a href="{{ route('orders.status') }}" class="btn btn-lg"
-                        style="background-color: #38BDF8; color: white; border-radius: 10px; padding: 10px 25px;">Lihat
-                        status pesanan</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <footer class="text-center text-muted py-4">
         <small>&copy; 2025 InkSpire. All rights reserved.</small>
     </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

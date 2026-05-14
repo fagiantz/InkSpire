@@ -7,29 +7,23 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\AdminOrderController;
 use App\Http\Controllers\AdminProdukController;
-use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\OrderStatusController;
 use App\Http\Controllers\CartController;
-// use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\PaymentController;
 
 // Halaman utama
 Route::get('/', function () {
     if (session('token')) {
         $user = session('user');
         if ($user && isset($user['role']) && $user['role'] === 'staff') {
-<<<<<<< HEAD
-            return redirect()->route('admin.orders'); // Sesuaikan jika perlu
-=======
             return redirect()->route('admin.orders');
->>>>>>> 8e5dcb6bf93efaaa8734bb0341fa65ad332071a7
         }
         return redirect()->route('home');
     }
-    // Jika belum login, langsung ke halaman login
     return redirect()->route('login');
 })->name('main');
 
-// Landing page khusus user biasa
+// Landing page
 Route::get('/home', function () {
     if (!session('token')) {
         return redirect()->route('login');
@@ -38,13 +32,9 @@ Route::get('/home', function () {
 })->name('home');
 
 // Autentikasi
-// Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
-// Route::post('/register', [AuthController::class, 'register']);
 Route::redirect('/register', '/login');
-
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
-
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Katalog
@@ -64,6 +54,7 @@ Route::get('/orders/detail', function () {
 
 // Payment
 Route::get('/payment', [PaymentController::class, 'create'])->name('payment.create');
+Route::post('/payment', [PaymentController::class, 'store'])->name('payment.store');
 
 // Order Status
 Route::get('/orders/status', [OrderStatusController::class, 'show'])->name('orders.status');
@@ -74,7 +65,6 @@ Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
 Route::post('/cart/remove', [CartController::class, 'remove'])->name('cart.remove');
 Route::post('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
 
-
 // Buat Pesanan
 Route::get('/order/create/{id}', [OrderController::class, 'create'])->name('orders.create');
 Route::post('/order/store', [OrderController::class, 'store'])->name('orders.store');
@@ -84,16 +74,15 @@ Route::get('/produk/{id}', [KatalogController::class, 'show'])->name('produk.det
 
 // Admin Routes (staff only)
 Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
-    // Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
     Route::get('/orders', [AdminOrderController::class, 'index'])->name('orders');
     Route::put('/orders/{id}/status', [AdminOrderController::class, 'updateStatus'])->name('orders.updateStatus');
 
-    // Admin Produk (CRUD)
     Route::get('/produk', [AdminProdukController::class, 'index'])->name('produk.index');
     Route::post('/produk', [AdminProdukController::class, 'store'])->name('produk.store');
     Route::put('/produk/{id}', [AdminProdukController::class, 'update'])->name('produk.update');
     Route::delete('/produk/{id}', [AdminProdukController::class, 'destroy'])->name('produk.destroy');
 });
 
+// Update Quantity
 Route::put('/orders/{orderId}/items/{itemId}', [DashboardController::class, 'updateQuantity'])
     ->name('orders.updateQuantity');

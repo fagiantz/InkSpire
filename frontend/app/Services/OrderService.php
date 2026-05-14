@@ -11,15 +11,15 @@ class OrderService
         $this->client = $client;
     }
 
-    public function getMyActiveOrders(): array
-    {
-        $response = $this->client->request('get', '/order/my-active');
-        return $response->json();
-    }
-
     public function create(array $items): array
     {
         $response = $this->client->request('post', '/order', ['items' => $items]);
+        return $response->json();
+    }
+
+    public function getMyActiveOrders(): array
+    {
+        $response = $this->client->request('get', '/order/my-active');
         return $response->json();
     }
 
@@ -37,11 +37,21 @@ class OrderService
         return $response->json();
     }
 
-    public function updateItemQuantity(int $orderId, int $itemId, int $quantity): array
+    public function getOrderById(int $id): array
     {
-        $response = $this->client->request('put', "/order/{$orderId}/items/{$itemId}", [
-            'quantity' => $quantity,
-        ]);
+        $response = $this->client->request('get', "/order/{$id}");
+        return $response->json();
+    }
+
+    /**
+     * Upload bukti pembayaran ke backend Go.
+     */
+    public function uploadReceipt(int $orderId, $file): array
+    {
+        $response = $this->client->request('post', "/order/{$orderId}/receipt", [
+            'receipt' => $file,
+        ], true); // true = multipart
+
         return $response->json();
     }
 }
