@@ -6,10 +6,11 @@ import (
 
 type OrderItem struct {
 	IdOrderItem uint    `gorm:"primaryKey" json:"id_order_item"`
-	IdPesanan   uint    `gorm:"not null" json:"id_pesanan"`
-	IdProduk    uint    `gorm:"not null" json:"id_produk"`
+	OrderID     uint    `gorm:"column:id_pesanan;not null;index" json:"id_pesanan"`
+	ProdukID    uint    `gorm:"column:id_produk;not null;index" json:"id_produk"`
 	Kuantitas   int     `gorm:"not null" json:"kuantitas"`
 	HargaOrder  float64 `gorm:"not null" json:"harga_order"`
+	Produk      *Produk `gorm:"foreignKey:ProdukID;references:Id_produk" json:"produk,omitempty"`
 }
 
 func (oi *OrderItem) TableName() string {

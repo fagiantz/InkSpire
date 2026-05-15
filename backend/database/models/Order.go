@@ -15,7 +15,7 @@ type Order struct {
 	EmailPembeli string      `gorm:"not null;type:varchar(255)" json:"email_pembeli"`
 	NoPesanan    string      `gorm:"not null;type:varchar(255)" json:"no_pesanan"`
 	OrderDate    time.Time   `gorm:"not null" json:"order_date"`
-	OrderItems   []OrderItem `gorm:"foreignKey:IdPesanan" json:"items,omitempty"`
+	OrderItems   []OrderItem `gorm:"foreignKey:OrderID" json:"items,omitempty"`
 }
 
 func (o *Order) TableName() string {

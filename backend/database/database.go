@@ -43,6 +43,9 @@ func ConnectDB() {
 		log.Fatalf("Failed to connect to database: %v", err)
 	}
 
+	// Disable foreign key checks to prevent errors during re-migration if constraints are flipped
+	database.Exec("SET FOREIGN_KEY_CHECKS=0;")
+
 	err = database.AutoMigrate(
 		&models.Akun{},
 		&models.Produk{},
@@ -50,6 +53,8 @@ func ConnectDB() {
 		&models.OrderItem{},
 		&models.Payment{},
 	)
+
+	database.Exec("SET FOREIGN_KEY_CHECKS=1;")
 	if err != nil {
 		log.Fatalf("Failed to migrate database: %v", err)
 	}

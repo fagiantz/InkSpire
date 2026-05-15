@@ -143,3 +143,23 @@ func (c *OrderController) UploadReceipt(ctx *gin.Context) {
 		"message": "Transaction receipt uploaded successfully",
 	})
 }
+
+func (c *OrderController) GetOrderById(ctx *gin.Context) {
+	idParam := ctx.Param("id")
+	orderID, err := strconv.ParseUint(idParam, 10, 32)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid order ID format"})
+		return
+	}
+
+	order, err := c.orderService.GetOrderById(uint(orderID))
+	if err != nil {
+		ctx.JSON(http.StatusNotFound, gin.H{"error": "Order not found"})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"message": "Order details retrieved successfully",
+		"data":    order,
+	})
+}

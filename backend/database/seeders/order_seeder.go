@@ -27,7 +27,7 @@ func SeedOrder(db *gorm.DB) {
 
 	orderItems := []models.OrderItem{
 		{
-			IdProduk:   products[0].Id_produk,
+			ProdukID:   products[0].Id_produk,
 			Kuantitas:  2,
 			HargaOrder: harga1,
 		},
@@ -37,7 +37,7 @@ func SeedOrder(db *gorm.DB) {
 		harga2 := products[1].Harga * 1
 		totalHarga += harga2
 		orderItems = append(orderItems, models.OrderItem{
-			IdProduk:   products[1].Id_produk,
+			ProdukID:   products[1].Id_produk,
 			Kuantitas:  1,
 			HargaOrder: harga2,
 		})
@@ -58,7 +58,7 @@ func SeedOrder(db *gorm.DB) {
 			OrderDate:    time.Now().Add(-2 * time.Hour),
 			OrderItems: []models.OrderItem{
 				{
-					IdProduk:   products[0].Id_produk,
+					ProdukID:   products[0].Id_produk,
 					Kuantitas:  5,
 					HargaOrder: products[0].Harga * 5,
 				},

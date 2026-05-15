@@ -66,6 +66,7 @@ func SetupRouter() *gin.Engine {
 	{
 		orderRoute.POST("", orderController.CreateOrder)
 		orderRoute.GET("/my-active", orderController.GetMyActiveOrders)
+		orderRoute.GET("/:id", orderController.GetOrderById)
 		orderRoute.POST("/:id/receipt", orderController.UploadReceipt)
 
 		staffProtectedOrder := orderRoute.Group("")
