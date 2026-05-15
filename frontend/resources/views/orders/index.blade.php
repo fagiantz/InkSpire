@@ -126,7 +126,7 @@
                         </div>
                         <div class="text-md-end">
                             <p class="fw-bold fs-5">Rp {{ number_format($order['total_harga'], 0, ',', '.') }}</p>
-                            <a href="{{ route('orders.detail') }}" class="btn btn-sm"
+                            <a href="{{ route('orders.detail', $order['id_pesanan']) }}" class="btn btn-sm"
                                 style="background-color: #38BDF8; color: white;">Detail</a>
                         </div>
                     </div>

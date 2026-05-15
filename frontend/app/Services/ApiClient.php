@@ -11,7 +11,7 @@ class ApiClient
 
     public function __construct()
     {
-        $this->baseUrl = config('app.go_backend_url', env('GO_BACKEND_URL', 'http://127.0.0.1:8080/api'));
+        $this->baseUrl = config('app.go_backend_url', env('BACKEND_URL', 'http://127.0.0.1:8080/api'));
     }
 
     /**

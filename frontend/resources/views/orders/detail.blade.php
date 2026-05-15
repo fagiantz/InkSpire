@@ -104,10 +104,30 @@
                         Detail Pesanan
                     </div>
                     <div class="card-body">
-                        <p><strong>Produk :</strong> Lorem Ipsum</p>
-                        <p><strong>Harga :</strong> Rp 10.000</p>
-                        <p><strong>Jumlah :</strong> 2</p>
-                        <p><strong>Total :</strong> Rp 20.000</p>
+                        <p><strong>No. Pesanan :</strong> {{ $order['no_pesanan'] }}</p>
+                        <p><strong>Tanggal :</strong>
+                            {{ \Carbon\Carbon::parse($order['order_date'])->format('d M Y, H:i') }}</p>
+                        <hr>
+                        <h6 class="fw-bold mb-3">Item Pesanan:</h6>
+                        @foreach($order['items'] as $item)
+                            <div class="mb-3">
+                                <p class="mb-1"><strong>Produk :</strong>
+                                    {{ $item['produk']['nama_produk'] ?? 'Produk ID: ' . $item['id_produk'] }}</p>
+                                <p class="mb-1"><strong>Harga Satuan :</strong> Rp
+                                    {{ number_format($item['harga_order'] / $item['kuantitas'], 0, ',', '.') }}
+                                </p>
+                                <p class="mb-1"><strong>Jumlah :</strong> {{ $item['kuantitas'] }}</p>
+                                <p class="mb-0"><strong>Subtotal :</strong> Rp
+                                    {{ number_format($item['harga_order'], 0, ',', '.') }}
+                                </p>
+                                @if(!$loop->last)
+                                <hr class="border-secondary opacity-25"> @endif
+                            </div>
+                        @endforeach
+                        <hr>
+                        <h5 class="fw-bold text-primary">Total : Rp
+                            {{ number_format($order['total_harga'], 0, ',', '.') }}
+                        </h5>
                     </div>
                 </div>
 
@@ -118,26 +138,15 @@
                         Data Pembeli
                     </div>
                     <div class="card-body">
-                        <form>
-                            <div class="mb-3 row align-items-center">
-                                <label class="col-sm-3 col-form-label">Nama</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" placeholder="John Doe">
-                                </div>
+                        <div class="mb-3 row align-items-center">
+                            <label class="col-sm-3 col-form-label font-weight-bold">Email Pembeli</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control bg-light" value="{{ $order['email_pembeli'] }}"
+                                    readonly>
                             </div>
-                            <div class="mb-3 row align-items-center">
-                                <label class="col-sm-3 col-form-label">Alamat</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" placeholder="Bandung">
-                                </div>
-                            </div>
-                            <div class="mb-3 row align-items-center">
-                                <label class="col-sm-3 col-form-label">No. HP</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" placeholder="0821xxxxxxxx">
-                                </div>
-                            </div>
-                        </form>
+                        </div>
+                        <p class="text-muted small mb-0"><i class="bi bi-info-circle"></i> Data ini diambil dari akun
+                            Anda saat melakukan pemesanan.</p>
                     </div>
                 </div>
             </div>
@@ -147,20 +156,24 @@
                 <div class="product-image-placeholder flex-grow-1 d-flex align-items-center justify-content-center">
                     <i class="bi bi-image" style="font-size: 4rem; color: #38BDF8;"></i>
                 </div>
-                <h4 class="fw-bold mt-3">Lorem Ipsum</h4>
-                <p class="text-muted flex-shrink-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec erat
-                    dui, luctus vel semper in, ultricies varius massa. Aliquam erat volutpat. Curabitur vehicula tortor
-                    sapien, lobortis varius enim pulvinar sit amet.</p>
+                <h4 class="fw-bold mt-3">{{ $order['items'][0]['produk']['nama_produk'] ?? 'Detail Pesanan' }}</h4>
+                <p class="text-muted flex-shrink-0">
+                    Terima kasih telah berbelanja di InkSpire. Pesanan Anda dengan nomor
+                    <strong>{{ $order['no_pesanan'] }}</strong> sedang kami proses.
+                    Pastikan data pesanan di samping sudah benar sebelum melanjutkan ke tahap pembayaran.
+                </p>
             </div>
         </div>
 
         <!-- Tombol Lanjut Bayar -->
-        <div class="text-end mt-4">
-            <a href="{{ route('payment.create') }}" class="btn btn-lg"
-                style="background-color: #38BDF8; color: white; border-radius: 30px; padding: 10px 30px;">
-                Lanjut Bayar
-            </a>
-        </div>
+        @if ($order['status'] != 'process')
+            <div class="text-end mt-4">
+                <a href="{{ route('payment.create') }}" class="btn btn-lg"
+                    style="background-color: #38BDF8; color: white; border-radius: 30px; padding: 10px 30px;">
+                    Lanjut Bayar
+                </a>
+            </div>
+        @endif
     </main>
 
     <footer class="text-center text-muted py-4">

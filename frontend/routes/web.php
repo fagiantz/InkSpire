@@ -45,12 +45,7 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 
 // Orders (User)
 Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
-Route::get('/orders/detail', function () {
-    if (!session('token')) {
-        return redirect()->route('login');
-    }
-    return view('orders.detail');
-})->name('orders.detail');
+Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.detail');
 
 // Payment
 Route::get('/payment', [PaymentController::class, 'create'])->name('payment.create');
@@ -82,7 +77,3 @@ Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
     Route::put('/produk/{id}', [AdminProdukController::class, 'update'])->name('produk.update');
     Route::delete('/produk/{id}', [AdminProdukController::class, 'destroy'])->name('produk.destroy');
 });
-
-// Update Quantity
-Route::put('/orders/{orderId}/items/{itemId}', [DashboardController::class, 'updateQuantity'])
-    ->name('orders.updateQuantity');

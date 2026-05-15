@@ -85,7 +85,7 @@
         <!-- Breadcrumb Progress -->
         <div class="progress-indicator">
             <span class="step-done">✓</span>
-            <a href="{{ route('orders.detail') }}" class="text-muted">Pesanan</a>
+            <a href="{{ route('orders.detail', $order['id_pesanan']) }}" class="text-muted">Pesanan</a>
             <span class="step-arrow">›</span>
             <span class="step-active">Pembayaran</span>
         </div>
@@ -100,7 +100,8 @@
                             <p class="mb-1">Jumlah Item: {{ count($order['items'] ?? []) }}</p>
                         </div>
                         <p class="fw-bold fs-5 mt-2">Total Pembayaran : Rp
-                            {{ number_format($order['total_harga'], 0, ',', '.') }}</p>
+                            {{ number_format($order['total_harga'], 0, ',', '.') }}
+                        </p>
 
                         <hr>
 
@@ -155,7 +156,7 @@
                 </div>
 
                 <div class="text-start mt-3">
-                    <a href="{{ route('orders.detail') }}" class="btn btn-kembali">
+                    <a href="{{ route('orders.detail', $order['id_pesanan']) }}" class="btn btn-kembali">
                         <i class="bi bi-arrow-left"></i> Kembali
                     </a>
                 </div>

@@ -67,7 +67,7 @@ class AuthController extends Controller
             return redirect()->route('admin.orders');
         }
 
-        return redirect()->route('home');
+        return redirect()->route('dashboard');
     }
 
     public function logout()

@@ -7,13 +7,13 @@
 
         <div class="collapse navbar-collapse" id="navbarHeader">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     @if (session('token'))
-                        <a class="nav-link text-white" href="{{ route('home') }}">Beranda</a>
+                    <a class="nav-link text-white" href="{{ route('home') }}">Beranda</a>
                     @else
-                        <a class="nav-link text-white" href="{{ route('main') }}">Beranda</a>
+                    <a class="nav-link text-white" href="{{ route('main') }}">Beranda</a>
                     @endif
-                </li>
+                </li> --}}
                 @if (session('token'))
                     <li class="nav-item">
                         <a class="nav-link text-white" href="{{ route('katalog') }}">Katalog</a>
@@ -27,7 +27,8 @@
                         <a class="nav-link text-white position-relative" href="{{ route('cart.index') }}">
                             <i class="bi bi-cart3 fs-5"></i>
                             @if(session('cart') && count(session('cart')) > 0)
-                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.6rem;">
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                    style="font-size: 0.6rem;">
                                     {{ count(session('cart')) }}
                                 </span>
                             @endif

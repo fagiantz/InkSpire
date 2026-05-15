@@ -80,4 +80,23 @@ class OrderController extends Controller
 
         return view('orders.index', compact('orders'));
     }
+
+    /**
+     * Menampilkan detail pesanan berdasarkan ID.
+     */
+    public function show($id)
+    {
+        if (!session('token')) {
+            return redirect()->route('login');
+        }
+
+        $response = $this->orderService->getOrderById((int) $id);
+        $order = $response['data'] ?? null;
+
+        if (!$order) {
+            return redirect()->route('orders.index')->with('error', 'Pesanan tidak ditemukan.');
+        }
+
+        return view('orders.detail', compact('order'));
+    }
 }
