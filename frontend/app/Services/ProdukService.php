@@ -24,27 +24,5 @@ class ProdukService
         return $response->json();
     }
 
-    public function create(string $namaProduk, float $harga): array
-    {
-        $response = $this->client->request('post', '/produk', [
-            'nama_produk' => $namaProduk,
-            'harga' => $harga,
-        ]);
-        return $response->json();
-    }
 
-    public function update(int $id, string $namaProduk, float $harga): array
-    {
-        $response = $this->client->request('put', '/produk/' . $id, [
-            'nama_produk' => $namaProduk,
-            'harga' => $harga,
-        ]);
-        return $response->json();
-    }
-
-    public function delete(int $id): array
-    {
-        $response = $this->client->request('delete', '/produk/' . $id);
-        return $response->json();
-    }
 }

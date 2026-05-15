@@ -6,7 +6,7 @@ use App\Http\Controllers\KatalogController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\AdminOrderController;
-use App\Http\Controllers\AdminProdukController;
+
 use App\Http\Controllers\OrderStatusController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\PaymentController;
@@ -18,18 +18,10 @@ Route::get('/', function () {
         if ($user && isset($user['role']) && $user['role'] === 'staff') {
             return redirect()->route('admin.orders');
         }
-        return redirect()->route('home');
+        return redirect()->route('dashboard');
     }
     return redirect()->route('login');
 })->name('main');
-
-// Landing page
-Route::get('/home', function () {
-    if (!session('token')) {
-        return redirect()->route('login');
-    }
-    return view('landing');
-})->name('home');
 
 // Autentikasi
 Route::redirect('/register', '/login');
@@ -72,8 +64,5 @@ Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
     Route::get('/orders', [AdminOrderController::class, 'index'])->name('orders');
     Route::put('/orders/{id}/status', [AdminOrderController::class, 'updateStatus'])->name('orders.updateStatus');
 
-    Route::get('/produk', [AdminProdukController::class, 'index'])->name('produk.index');
-    Route::post('/produk', [AdminProdukController::class, 'store'])->name('produk.store');
-    Route::put('/produk/{id}', [AdminProdukController::class, 'update'])->name('produk.update');
-    Route::delete('/produk/{id}', [AdminProdukController::class, 'destroy'])->name('produk.destroy');
+
 });

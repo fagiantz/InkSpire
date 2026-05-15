@@ -27,7 +27,7 @@ class AdminOrderController extends Controller
 
         // Proteksi ganda: hanya staff yang bisa akses
         if (!isset($user['role']) || $user['role'] !== 'staff') {
-            return redirect()->route('home')->with('error', 'Akses khusus admin.');
+            return redirect()->route('main')->with('error', 'Akses khusus admin.');
         }
 
         $response = $this->orderService->getActiveOrders();
