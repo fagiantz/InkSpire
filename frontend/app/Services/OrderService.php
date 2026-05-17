@@ -23,6 +23,12 @@ class OrderService
         return $response->json();
     }
 
+    public function getMyTransactionHistory(): array
+    {
+        $response = $this->client->request('get', '/order/history');
+        return $response->json();
+    }
+
     public function getActiveOrders(): array
     {
         $response = $this->client->request('get', '/order/active');

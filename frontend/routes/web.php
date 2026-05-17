@@ -63,6 +63,5 @@ Route::get('/produk/{id}', [KatalogController::class, 'show'])->name('produk.det
 Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
     Route::get('/orders', [AdminOrderController::class, 'index'])->name('orders');
     Route::put('/orders/{id}/status', [AdminOrderController::class, 'updateStatus'])->name('orders.updateStatus');
-
-
+    Route::get('/receipt/{filename}', [AdminOrderController::class, 'viewReceipt'])->name('orders.receipt');
 });

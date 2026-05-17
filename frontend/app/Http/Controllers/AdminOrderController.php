@@ -59,4 +59,37 @@ class AdminOrderController extends Controller
 
         return redirect()->route('admin.orders')->with('success', 'Status pesanan berhasil diperbarui!');
     }
+
+    /**
+     * Proxy request ke backend Go untuk menampilkan bukti pembayaran.
+     */
+    public function viewReceipt($filename)
+    {
+        if (!session('token')) {
+            abort(401);
+        }
+
+        $user = session('user', []);
+        if (!isset($user['role']) || $user['role'] !== 'staff') {
+            abort(403, 'Akses khusus admin.');
+        }
+
+        $backendHost = env('BACKEND_HOST', 'localhost');
+        $backendPort = env('BACKEND_PORT', '5000');
+        $backendUrl = "http://{$backendHost}:{$backendPort}/receipts/{$filename}";
+
+        $token = session('token');
+        $response = \Illuminate\Support\Facades\Http::withHeaders([
+            'Authorization' => 'Bearer ' . $token
+        ])->get($backendUrl);
+
+        if ($response->failed()) {
+            abort(404, 'Bukti pembayaran tidak ditemukan.');
+        }
+
+        $contentType = $response->header('Content-Type') ?: 'image/jpeg';
+
+        return response($response->body(), 200)
+            ->header('Content-Type', $contentType);
+    }
 }

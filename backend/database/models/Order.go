@@ -16,6 +16,7 @@ type Order struct {
 	NoPesanan    string      `gorm:"not null;type:varchar(255)" json:"no_pesanan"`
 	OrderDate    time.Time   `gorm:"not null" json:"order_date"`
 	OrderItems   []OrderItem `gorm:"foreignKey:OrderID" json:"items,omitempty"`
+	Payment      *Payment    `gorm:"foreignKey:IdPesanan;references:IdPesanan" json:"payment,omitempty"`
 }
 
 func (o *Order) TableName() string {

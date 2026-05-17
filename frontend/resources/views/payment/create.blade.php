@@ -154,12 +154,6 @@
                         </ol>
                     </div>
                 </div>
-
-                <div class="text-start mt-3">
-                    <a href="{{ route('orders.detail', $order['id_pesanan']) }}" class="btn btn-kembali">
-                        <i class="bi bi-arrow-left"></i> Kembali
-                    </a>
-                </div>
             </div>
         </div>
     </main>

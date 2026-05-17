@@ -63,7 +63,7 @@ class OrderController extends Controller
 
         session(['last_order' => $data['data']]);
 
-        return redirect()->route('payment.create')->with('success', 'Pesanan berhasil dibuat! Silakan lanjutkan pembayaran.');
+        return redirect()->route('payment.create', ['order_id' => $data['data']['id_pesanan']])->with('success', 'Pesanan berhasil dibuat! Silakan lanjutkan pembayaran.');
     }
 
     /**
@@ -75,7 +75,7 @@ class OrderController extends Controller
             return redirect()->route('login');
         }
 
-        $response = $this->orderService->getMyActiveOrders();
+        $response = $this->orderService->getMyTransactionHistory();
         $orders = $response['data'] ?? [];
 
         return view('orders.index', compact('orders'));

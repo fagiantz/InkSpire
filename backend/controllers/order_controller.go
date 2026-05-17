@@ -163,3 +163,24 @@ func (c *OrderController) GetOrderById(ctx *gin.Context) {
 		"data":    order,
 	})
 }
+
+func (c *OrderController) GetMyTransactionHistory(ctx *gin.Context) {
+	userIDVal, exists := ctx.Get("userID")
+	if !exists {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized"})
+		return
+	}
+
+	userID := userIDVal.(uint)
+
+	orders, err := c.orderService.GetTransactionHistoryByUserID(userID)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"message": "Transaction history retrieved successfully",
+		"data":    orders,
+	})
+}

@@ -91,6 +91,24 @@
             background-color: #0ea5e9;
         }
 
+        .btn-receipt {
+            background-color: #10B981;
+            border: none;
+            color: white;
+            border-radius: 8px;
+            padding: 5px 15px;
+            font-size: 0.9rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn-receipt:hover {
+            background-color: #059669;
+            color: white;
+        }
+
         .btn-simpan {
             background-color: #38BDF8;
             color: white;
@@ -173,17 +191,7 @@
 </head>
 
 <body>
-    <!-- Header Admin -->
-    <nav class="navbar navbar-expand-lg" style="background-color: #0D95D2;">
-        <div class="container d-flex justify-content-between align-items-center">
-            <a class="navbar-brand text-white fw-bold mb-0" href="#">InkSpire</a>
-            <form method="POST" action="{{ route('logout') }}" class="d-inline">
-                @csrf
-                <button type="submit" class="btn btn-sm"
-                    style="background-color: white; color: #0D95D2; border-radius: 20px;">Logout</button>
-            </form>
-        </div>
-    </nav>
+    @include('admin.partials.header')
 
     <div class="container-fluid">
         <div class="row">
@@ -268,11 +276,16 @@
                                         </td>
                                         <td>
                                             <button type="button" class="btn btn-edit" data-bs-toggle="modal"
-                                                data-bs-target="#editStatusModal"
-                                                data-order-id="{{ $order['id_pesanan'] }}"
+                                                data-bs-target="#editStatusModal" data-order-id="{{ $order['id_pesanan'] }}"
                                                 data-current-status="{{ $order['status'] }}">
                                                 Edit
                                             </button>
+                                            @if (isset($order['payment']) && !empty($order['payment']['image_path']))
+                                                <a href="{{ route('admin.orders.receipt', basename($order['payment']['image_path'])) }}"
+                                                    target="_blank" class="btn-receipt ms-1">
+                                                    <i class="bi bi-file-earmark-image"></i> Bukti
+                                                </a>
+                                            @endif
                                         </td>
                                     </tr>
                                 @empty
@@ -332,7 +345,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             var editStatusModal = document.getElementById('editStatusModal');
             var customToggle = document.getElementById('customDropdownToggle');
             var customMenu = document.getElementById('customDropdownMenu');
@@ -340,7 +353,7 @@
             var inputStatus = document.getElementById('inputStatus');
             var formUpdateStatus = document.getElementById('formUpdateStatus');
 
-            editStatusModal.addEventListener('show.bs.modal', function(event) {
+            editStatusModal.addEventListener('show.bs.modal', function (event) {
                 var button = event.relatedTarget;
                 var orderId = button.getAttribute('data-order-id');
                 var currentStatus = button.getAttribute('data-current-status');
@@ -351,7 +364,7 @@
 
                 // Tandai item yang aktif
                 var items = customMenu.querySelectorAll('.custom-dropdown-item');
-                items.forEach(function(item) {
+                items.forEach(function (item) {
                     item.classList.remove('active');
                     if (item.getAttribute('data-value') === currentStatus) {
                         item.classList.add('active');
@@ -367,14 +380,14 @@
             });
 
             // Toggle dropdown
-            customToggle.addEventListener('click', function(e) {
+            customToggle.addEventListener('click', function (e) {
                 e.stopPropagation();
                 customMenu.classList.toggle('show');
                 customToggle.classList.toggle('open');
             });
 
             // Pilih item dropdown
-            customMenu.addEventListener('click', function(e) {
+            customMenu.addEventListener('click', function (e) {
                 var item = e.target.closest('.custom-dropdown-item');
                 if (item) {
                     var value = item.getAttribute('data-value');
@@ -382,7 +395,7 @@
                     inputStatus.value = value;
 
                     var items = customMenu.querySelectorAll('.custom-dropdown-item');
-                    items.forEach(function(el) {
+                    items.forEach(function (el) {
                         el.classList.remove('active');
                     });
                     item.classList.add('active');
@@ -393,7 +406,7 @@
             });
 
             // Tutup dropdown jika klik di luar
-            document.addEventListener('click', function(e) {
+            document.addEventListener('click', function (e) {
                 if (!customToggle.contains(e.target) && !customMenu.contains(e.target)) {
                     customMenu.classList.remove('show');
                     customToggle.classList.remove('open');

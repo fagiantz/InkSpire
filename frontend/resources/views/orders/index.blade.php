@@ -101,7 +101,20 @@
                             <i class="bi bi-image" style="font-size: 2.5rem; color: #38BDF8;"></i>
                         </div>
                         <div class="flex-grow-1">
-                            <h6 class="fw-bold">Pesanan #{{ $order['no_pesanan'] }}</h6>
+                            <h6 class="fw-bold mb-1">
+                                @if (count($order['items'] ?? []) > 0)
+                                    {{ $order['items'][0]['produk']['nama_produk'] ?? 'Produk tidak diketahui' }}
+                                    @if (count($order['items']) > 1)
+                                        <span class="text-muted small"> (+{{ count($order['items']) - 1 }} item lainnya)</span>
+                                    @endif
+                                @else
+                                    Tidak ada produk
+                                @endif
+                            </h6>
+                            <p class="mb-1 text-muted small">No. Pesanan: #{{ $order['no_pesanan'] }}</p>
+                            <p class="mb-1">
+                                Total Item: <strong>{{ collect($order['items'] ?? [])->sum('kuantitas') }}</strong>
+                            </p>
                             <p class="mb-1">Status:
                                 @php
                                     $badgeClass = match ($order['status']) {
@@ -121,7 +134,7 @@
                                 @endphp
                                 <span class="badge {{ $badgeClass }}">{{ $statusText }}</span>
                             </p>
-                            <p class="mb-0 text-muted">Tanggal:
+                            <p class="mb-0 text-muted small">Tanggal:
                                 {{ \Carbon\Carbon::parse($order['order_date'])->format('d M Y, H:i') }}</p>
                         </div>
                         <div class="text-md-end">

@@ -66,6 +66,7 @@ func SetupRouter() *gin.Engine {
 	{
 		orderRoute.POST("", orderController.CreateOrder)
 		orderRoute.GET("/my-active", orderController.GetMyActiveOrders)
+		orderRoute.GET("/history", orderController.GetMyTransactionHistory)
 		orderRoute.GET("/:id", orderController.GetOrderById)
 		orderRoute.POST("/:id/receipt", orderController.UploadReceipt)
 

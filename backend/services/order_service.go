@@ -89,7 +89,7 @@ func (s *OrderService) UpdateOrderStatus(orderID uint, status string) error {
 
 func (s *OrderService) GetActiveOrders() ([]models.Order, error) {
 	var orders []models.Order
-	if err := s.db.Preload("OrderItems").Preload("OrderItems.Produk").Where("status IN ?", []string{"unpaid", "process", "paid"}).Order("order_date desc").Find(&orders).Error; err != nil {
+	if err := s.db.Preload("OrderItems").Preload("OrderItems.Produk").Preload("Payment").Where("status IN ?", []string{"unpaid", "process", "paid"}).Order("order_date desc").Find(&orders).Error; err != nil {
 		return nil, err
 	}
 	return orders, nil
@@ -102,7 +102,20 @@ func (s *OrderService) GetActiveOrdersByUserID(userID uint) ([]models.Order, err
 	}
 
 	var orders []models.Order
-	if err := s.db.Preload("OrderItems").Preload("OrderItems.Produk").Where("email_pembeli = ? AND status IN ?", user.Email, []string{"unpaid", "process", "paid"}).Order("order_date desc").Find(&orders).Error; err != nil {
+	if err := s.db.Preload("OrderItems").Preload("OrderItems.Produk").Preload("Payment").Where("email_pembeli = ? AND status IN ?", user.Email, []string{"unpaid", "process", "paid"}).Order("order_date desc").Find(&orders).Error; err != nil {
+		return nil, err
+	}
+	return orders, nil
+}
+
+func (s *OrderService) GetTransactionHistoryByUserID(userID uint) ([]models.Order, error) {
+	var user models.Akun
+	if err := s.db.First(&user, userID).Error; err != nil {
+		return nil, err
+	}
+
+	var orders []models.Order
+	if err := s.db.Preload("OrderItems").Preload("OrderItems.Produk").Preload("Payment").Where("email_pembeli = ? AND status = ?", user.Email, "done").Order("order_date desc").Find(&orders).Error; err != nil {
 		return nil, err
 	}
 	return orders, nil
@@ -110,7 +123,7 @@ func (s *OrderService) GetActiveOrdersByUserID(userID uint) ([]models.Order, err
 
 func (s *OrderService) GetOrderById(orderID uint) (*models.Order, error) {
 	var order models.Order
-	if err := s.db.Preload("OrderItems").Preload("OrderItems.Produk").First(&order, orderID).Error; err != nil {
+	if err := s.db.Preload("OrderItems").Preload("OrderItems.Produk").Preload("Payment").First(&order, orderID).Error; err != nil {
 		return nil, err
 	}
 	return &order, nil

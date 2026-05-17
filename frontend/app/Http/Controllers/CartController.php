@@ -111,6 +111,6 @@ class CartController extends Controller
         session()->forget('cart');
         session(['last_order' => $data['data']]);
 
-        return redirect()->route('payment.create')->with('success', 'Checkout berhasil! Silakan lanjutkan pembayaran.');
+        return redirect()->route('payment.create', ['order_id' => $data['data']['id_pesanan']])->with('success', 'Checkout berhasil! Silakan lanjutkan pembayaran.');
     }
 }
