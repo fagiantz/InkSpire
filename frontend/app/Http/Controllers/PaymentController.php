@@ -14,9 +14,6 @@ class PaymentController extends Controller
         $this->orderService = $orderService;
     }
 
-    /**
-     * Menampilkan halaman pembayaran dengan data pesanan terbaru.
-     */
     public function create(Request $request)
     {
         if (!session('token')) {
@@ -47,9 +44,6 @@ class PaymentController extends Controller
         return view('payment.create', compact('order'));
     }
 
-    /**
-     * Memproses upload bukti pembayaran.
-     */
     public function store(Request $request)
     {
         if (!session('token')) {

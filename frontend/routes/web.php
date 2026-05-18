@@ -58,6 +58,7 @@ Route::post('/order/store', [OrderController::class, 'store'])->name('orders.sto
 
 // Detail Produk
 Route::get('/produk/{id}', [KatalogController::class, 'show'])->name('produk.detail');
+Route::get('/products/{filename}', [KatalogController::class, 'viewProductImage'])->name('products.image');
 
 // Admin Routes (staff only)
 Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {

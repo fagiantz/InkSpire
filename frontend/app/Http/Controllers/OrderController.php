@@ -17,9 +17,6 @@ class OrderController extends Controller
         $this->produkService = $produkService;
     }
 
-    /**
-     * Menampilkan halaman form pemesanan.
-     */
     public function create($id)
     {
         if (!session('token')) {
@@ -36,9 +33,6 @@ class OrderController extends Controller
         return view('orders.create', compact('produk'));
     }
 
-    /**
-     * Menyimpan pesanan baru ke backend Go.
-     */
     public function store(Request $request)
     {
         if (!session('token')) {
@@ -66,9 +60,6 @@ class OrderController extends Controller
         return redirect()->route('payment.create', ['order_id' => $data['data']['id_pesanan']])->with('success', 'Pesanan berhasil dibuat! Silakan lanjutkan pembayaran.');
     }
 
-    /**
-     * Menampilkan daftar pesanan aktif milik user yang login.
-     */
     public function index()
     {
         if (!session('token')) {
@@ -81,9 +72,6 @@ class OrderController extends Controller
         return view('orders.index', compact('orders'));
     }
 
-    /**
-     * Menampilkan detail pesanan berdasarkan ID.
-     */
     public function show($id)
     {
         if (!session('token')) {

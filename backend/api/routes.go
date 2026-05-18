@@ -26,6 +26,9 @@ func SetupRouter() *gin.Engine {
 
 	// Serve uploaded receipts publicly
 	r.Static("/receipts", "./transaction_receipts")
+	
+	// Serve product images publicly
+	r.Static("/products", "./product_images")
 
 	authService := services.NewAuthService(database.DB)
 	authController := controllers.NewAuthController(authService)

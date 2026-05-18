@@ -14,9 +14,6 @@ class AdminOrderController extends Controller
         $this->orderService = $orderService;
     }
 
-    /**
-     * Menampilkan daftar semua pesanan aktif (hanya staff).
-     */
     public function index()
     {
         if (!session('token')) {
@@ -25,7 +22,6 @@ class AdminOrderController extends Controller
 
         $user = session('user', []);
 
-        // Proteksi ganda: hanya staff yang bisa akses
         if (!isset($user['role']) || $user['role'] !== 'staff') {
             return redirect()->route('main')->with('error', 'Akses khusus admin.');
         }
@@ -60,9 +56,6 @@ class AdminOrderController extends Controller
         return redirect()->route('admin.orders')->with('success', 'Status pesanan berhasil diperbarui!');
     }
 
-    /**
-     * Proxy request ke backend Go untuk menampilkan bukti pembayaran.
-     */
     public function viewReceipt($filename)
     {
         if (!session('token')) {

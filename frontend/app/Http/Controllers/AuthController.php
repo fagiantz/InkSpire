@@ -72,9 +72,9 @@ class AuthController extends Controller
 
     public function logout()
     {
-        $this->authService->logout();           // Panggil backend Go (opsional, karena token tidak disimpan di server)
-        session()->forget(['token', 'user']);   // Hapus token dan data user dari session Laravel
-        return redirect()->route('login');      // Arahkan kembali ke halaman login
+        $this->authService->logout();
+        session()->forget(['token', 'user']);
+        return redirect()->route('login');
     }
 
 }

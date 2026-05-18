@@ -112,8 +112,12 @@
                         <h6 class="fw-bold mb-3 text-secondary">Item Pesanan:</h6>
                         @foreach($order['items'] as $item)
                             <div class="d-flex align-items-center gap-3 mb-3">
-                                <div style="width: 60px; height: 60px; background-color: #e9ecef; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                                    <i class="bi bi-image" style="font-size: 1.5rem; color: #38BDF8;"></i>
+                                <div style="width: 60px; height: 60px; background-color: #e9ecef; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; overflow: hidden;">
+                                    @if(!empty($item['produk']['image_produk']))
+                                        <img src="{{ route('products.image', $item['produk']['image_produk']) }}" alt="{{ $item['produk']['nama_produk'] ?? '' }}" style="width: 100%; height: 100%; object-fit: cover;">
+                                    @else
+                                        <i class="bi bi-image" style="font-size: 1.5rem; color: #38BDF8;"></i>
+                                    @endif
                                 </div>
                                 <div class="flex-grow-1">
                                     <h6 class="fw-bold mb-1 text-dark">{{ $item['produk']['nama_produk'] ?? 'Produk ID: ' . $item['id_produk'] }}</h6>

@@ -46,11 +46,9 @@ class CartController extends Controller
 
         $cart = session()->get('cart', []);
 
-        // Jika produk sudah ada di keranjang, tambahkan kuantitasnya
         if (isset($cart[$id])) {
             $cart[$id]['kuantitas'] += $kuantitas;
         } else {
-            // Jika belum ada, tambahkan ke keranjang
             $cart[$id] = [
                 'id_produk' => $produk['id_produk'],
                 'nama_produk' => $produk['nama_produk'],
@@ -81,7 +79,7 @@ class CartController extends Controller
         return back()->with('success', 'Produk dihapus dari keranjang.');
     }
 
-    public function checkout(Request $request)
+    public function checkout()
     {
         if (!session('token')) {
             return redirect()->route('login');
@@ -107,7 +105,6 @@ class CartController extends Controller
             return back()->with('error', $data['error']);
         }
 
-        // Hapus session keranjang setelah checkout berhasil
         session()->forget('cart');
         session(['last_order' => $data['data']]);
 

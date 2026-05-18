@@ -10,16 +10,16 @@ import (
 // SeedProduk generates 10 initial dummy products if they don't already exist
 func SeedProduk(db *gorm.DB) {
 	dummyProduk := []models.Produk{
-		{Nama_produk: "Custom Mug", Harga: 25000},
-		{Nama_produk: "Stiker", Harga: 10000},
-		{Nama_produk: "Custom Banner", Harga: 85000},
-		{Nama_produk: "Custom Undangan", Harga: 5000},
-		{Nama_produk: "Custom 3D Model", Harga: 300000},
-		{Nama_produk: "Jasa Print 3D Model", Harga: 100000},
-		{Nama_produk: "Kalender", Harga: 20000},
-		{Nama_produk: "Pin Gantungan Kunci", Harga: 5000},
-		{Nama_produk: "ID Card / Kartu Pelajar", Harga: 5000},
-		{Nama_produk: "Name Tag / Nametag", Harga: 5000},
+		{Nama_produk: "Custom Mug", Harga: 25000, Kategori: "mug", Image_produk: "custom_mug.webp"},
+		{Nama_produk: "Stiker", Harga: 10000, Kategori: "sticker", Image_produk: "custom_sticker.jpg"},
+		{Nama_produk: "Custom Banner", Harga: 85000, Kategori: "banner", Image_produk: "custom_banner.jpg"},
+		{Nama_produk: "Custom Undangan", Harga: 5000, Kategori: "paper", Image_produk: "custom_undangan.jpg"},
+		{Nama_produk: "Custom 3D Model", Harga: 300000, Kategori: "model", Image_produk: "custom_3d.webp"},
+		{Nama_produk: "Jasa Print 3D Model", Harga: 100000, Kategori: "service", Image_produk: "3d_print_service.webp"},
+		{Nama_produk: "Kalender", Harga: 20000, Kategori: "paper", Image_produk: "custom_calendar.jpg"},
+		{Nama_produk: "Pin Gantungan Kunci", Harga: 5000, Kategori: "keychain", Image_produk: "custom_ganci.jpg"},
+		{Nama_produk: "ID Card / Kartu Pelajar", Harga: 5000, Kategori: "card", Image_produk: "custom_id_card.webp"},
+		{Nama_produk: "Name Tag / Nametag", Harga: 5000, Kategori: "card", Image_produk: "custom_nametag.jpg"},
 	}
 
 	for _, produk := range dummyProduk {

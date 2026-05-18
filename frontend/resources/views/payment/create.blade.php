@@ -134,21 +134,29 @@
                         Panduan Pembayaran
                     </div>
                     <div class="card-body">
+                        <div class="mb-4 p-3 bg-light rounded" style="border-left: 4px solid #38BDF8;">
+                            <h6 class="fw-bold mb-2" style="color: #0D95D2;">Rekening Tujuan Transfer:</h6>
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                <span class="badge bg-primary px-2 py-1">BANK MANDIRI</span>
+                                <strong class="fs-6">123-4567-890-12</strong>
+                            </div>
+                            <p class="mb-0 text-muted small">Atas Nama: <strong>PT InkSpire Indonesia</strong></p>
+                        </div>
                         <ol class="list-unstyled list-step">
                             <li>
-                                <span class="step-number">1</span>
+                                <span class="step-number">1.</span>
                                 Lakukan transfer ke rekening tujuan
                             </li>
                             <li>
-                                <span class="step-number">2</span>
+                                <span class="step-number">2.</span>
                                 Screenshot atau simpan bukti transfer
                             </li>
                             <li>
-                                <span class="step-number">3</span>
+                                <span class="step-number">3.</span>
                                 Upload bukti transfer melalui form di samping
                             </li>
                             <li>
-                                <span class="step-number">4</span>
+                                <span class="step-number">4.</span>
                                 Admin akan memverifikasi pembayaran Anda
                             </li>
                         </ol>

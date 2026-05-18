@@ -5,9 +5,11 @@ import (
 )
 
 type Produk struct {
-	Id_produk   uint    `gorm:"primaryKey;autoIncrement" json:"id_produk"`
-	Nama_produk string  `gorm:"not null;type:varchar(255)" json:"nama_produk"`
-	Harga       float64 `gorm:"not null" json:"harga"`
+	Id_produk    uint    `gorm:"primaryKey;autoIncrement" json:"id_produk"`
+	Nama_produk  string  `gorm:"not null;type:varchar(255)" json:"nama_produk"`
+	Kategori     string  `gorm:"not null;type:varchar(255)" json:"kategori"`
+	Harga        float64 `gorm:"not null" json:"harga"`
+	Image_produk string  `gorm:"column:image_produk;not null;type:text" json:"image_produk"`
 }
 
 func (Produk) TableName() string {

@@ -46,8 +46,12 @@
             Katalog</a>
         <div class="row">
             <div class="col-md-5">
-                <div class="product-image">
-                    <i class="bi bi-image" style="font-size: 5rem; color: #38BDF8;"></i>
+                <div class="product-image" style="background-color: #f8f9fa; border-radius: 12px; height: 300px; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 1px solid #e9ecef;">
+                    @if(!empty($produk['image_produk']))
+                        <img src="{{ route('products.image', $produk['image_produk']) }}" alt="{{ $produk['nama_produk'] }}" style="max-height: 100%; max-width: 100%; object-fit: contain;">
+                    @else
+                        <i class="bi bi-image" style="font-size: 5rem; color: #38BDF8;"></i>
+                    @endif
                 </div>
             </div>
             <div class="col-md-7">

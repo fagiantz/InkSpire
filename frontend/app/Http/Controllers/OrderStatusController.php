@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Services\OrderService;
 
 class OrderStatusController extends Controller
@@ -14,16 +13,12 @@ class OrderStatusController extends Controller
         $this->orderService = $orderService;
     }
 
-    /**
-     * Menampilkan halaman status pesanan terbaru.
-     */
     public function show()
     {
         if (!session('token')) {
             return redirect()->route('login');
         }
 
-        // Ambil data pesanan terakhir dari session (sama dengan payment)
         $order = session('last_order');
 
         if (!$order) {

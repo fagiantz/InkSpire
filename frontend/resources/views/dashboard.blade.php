@@ -150,8 +150,12 @@
                     <div class="order-card d-flex flex-column flex-md-row align-items-md-center gap-3">
 
                         <!-- Gambar Produk -->
-                        <div class="product-placeholder">
-                            <i class="bi bi-image" style="font-size: 2.5rem; color: #38BDF8;"></i>
+                        <div class="product-placeholder" style="background-color: #f8f9fa; border: 1px solid #dee2e6; border-radius: 12px; width: 120px; height: 120px; display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0;">
+                            @if (count($order['items']) > 0 && !empty($order['items'][0]['produk']['image_produk']))
+                                <img src="{{ route('products.image', $order['items'][0]['produk']['image_produk']) }}" alt="{{ $order['items'][0]['produk']['nama_produk'] ?? '' }}" style="width: 100%; height: 100%; object-fit: cover;">
+                            @else
+                                <i class="bi bi-image" style="font-size: 2.5rem; color: #38BDF8;"></i>
+                            @endif
                         </div>
 
                         <!-- Detail Produk -->

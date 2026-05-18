@@ -116,35 +116,46 @@
                 <div class="sidebar">
                     <h3 class="fw-bold mb-4">Katalog</h3>
 
-                    <!-- Search -->
-                    <div class="search-wrapper">
-                        <input type="text" class="form-control" placeholder="Cari">
-                        <i class="bi bi-search search-icon"></i>
-                    </div>
-                    <div class="search-divider"></div>
+                    <form action="{{ route('katalog') }}" method="GET" id="filterForm">
+                        <!-- Search -->
+                        <div class="search-wrapper">
+                            <input type="text" name="query" class="form-control" placeholder="Cari"
+                                value="{{ request('query') }}">
+                            <button type="submit" class="search-icon"
+                                style="background: none; border: none; padding: 0; outline: none;">
+                                <i class="bi bi-search"></i>
+                            </button>
+                        </div>
+                        <div class="search-divider"></div>
 
-                    <!-- Kategori filter -->
-                    <div class="mb-3 fw-bold">Kategori</div>
-                    <div class="category-item form-check">
-                        <input class="form-check-input" type="radio" name="kategori" id="catBanner">
-                        <label class="form-check-label" for="catBanner">Banner</label>
-                    </div>
-                    <div class="category-item form-check">
-                        <input class="form-check-input" type="radio" name="kategori" id="catMug">
-                        <label class="form-check-label" for="catMug">Custom Mug</label>
-                    </div>
-                    <div class="category-item form-check">
-                        <input class="form-check-input" type="radio" name="kategori" id="catPoster">
-                        <label class="form-check-label" for="catPoster">Poster</label>
-                    </div>
-                    <div class="category-item form-check">
-                        <input class="form-check-input" type="radio" name="kategori" id="catKeychain">
-                        <label class="form-check-label" for="catKeychain">Keychain</label>
-                    </div>
-                    <div class="category-item form-check">
-                        <input class="form-check-input" type="radio" name="kategori" id="catStiker">
-                        <label class="form-check-label" for="catStiker">Stiker</label>
-                    </div>
+                        <!-- Kategori filter -->
+                        <div class="mb-3 fw-bold">Kategori</div>
+                        <div class="category-item form-check">
+                            <input class="form-check-input" value="" type="radio" name="cat" id="catAll"
+                                onchange="this.form.submit()" {{ !request()->has('cat') || request('cat') == '' ? 'checked' : '' }}>
+                            <label class="form-check-label" for="catAll">Semua</label>
+                        </div>
+                        <div class="category-item form-check">
+                            <input class="form-check-input" value="banner" type="radio" name="cat" id="catBanner"
+                                onchange="this.form.submit()" {{ request('cat') == 'banner' ? 'checked' : '' }}>
+                            <label class="form-check-label" for="catBanner">Banner</label>
+                        </div>
+                        <div class="category-item form-check">
+                            <input class="form-check-input" value="mug" type="radio" name="cat" id="catMug"
+                                onchange="this.form.submit()" {{ request('cat') == 'mug' ? 'checked' : '' }}>
+                            <label class="form-check-label" for="catMug">Custom Mug</label>
+                        </div>
+                        <div class="category-item form-check">
+                            <input class="form-check-input" value="keychain" type="radio" name="cat" id="catKeychain"
+                                onchange="this.form.submit()" {{ request('cat') == 'keychain' ? 'checked' : '' }}>
+                            <label class="form-check-label" for="catKeychain">Keychain</label>
+                        </div>
+                        <div class="category-item form-check">
+                            <input class="form-check-input" value="sticker" type="radio" name="cat" id="catStiker"
+                                onchange="this.form.submit()" {{ request('cat') == 'sticker' ? 'checked' : '' }}>
+                            <label class="form-check-label" for="catStiker">Stiker</label>
+                        </div>
+                    </form>
                 </div>
             </div>
 
@@ -155,12 +166,22 @@
                         <div class="col-6 col-lg-4">
                             <a href="{{ route('produk.detail', $produk['id_produk']) }}" class="text-decoration-none">
                                 <div class="product-card">
-                                    <div class="product-img">
-                                        <i class="bi bi-image" style="font-size: 3rem; color: #38BDF8;"></i>
+                                    <div class="product-img"
+                                        style="height: 200px; display: flex; align-items: center; justify-content: center; background-color: #f8f9fa; overflow: hidden;">
+                                        @if(!empty($produk['image_produk']))
+                                            <img src="{{ route('products.image', $produk['image_produk']) }}"
+                                                alt="{{ $produk['nama_produk'] }}"
+                                                style="width: 100%; height: 100%; object-fit: cover;">
+                                        @else
+                                            <i class="bi bi-image" style="font-size: 3rem; color: #38BDF8;"></i>
+                                        @endif
                                     </div>
                                     <div class="product-info">
                                         <h6 class="product-title">{{ $produk['nama_produk'] }}</h6>
-                                        <p class="product-desc">Rp {{ number_format($produk['harga'], 0, ',', '.') }}
+                                        <span class="badge mb-2"
+                                            style="background-color: #0D95D2;">{{ ucfirst($produk['kategori'] ?? '') }}</span>
+                                        <p class="product-desc text-primary fw-bold mb-0">Rp
+                                            {{ number_format($produk['harga'], 0, ',', '.') }}
                                         </p>
                                     </div>
                                 </div>
