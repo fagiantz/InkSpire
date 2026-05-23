@@ -97,8 +97,12 @@
 
                 @forelse ($orders as $order)
                     <div class="order-card d-flex flex-column flex-md-row align-items-md-center gap-3">
-                        <div class="product-placeholder">
-                            <i class="bi bi-image" style="font-size: 2.5rem; color: #38BDF8;"></i>
+                        <div class="product-placeholder" style="overflow: hidden;">
+                            @if (count($order['items'] ?? []) > 0 && !empty($order['items'][0]['produk']['image_produk']))
+                                <img src="{{ route('products.image', $order['items'][0]['produk']['image_produk']) }}" alt="{{ $order['items'][0]['produk']['nama_produk'] ?? '' }}" style="width: 100%; height: 100%; object-fit: cover;">
+                            @else
+                                <i class="bi bi-image" style="font-size: 2.5rem; color: #38BDF8;"></i>
+                            @endif
                         </div>
                         <div class="flex-grow-1">
                             <h6 class="fw-bold mb-1">
