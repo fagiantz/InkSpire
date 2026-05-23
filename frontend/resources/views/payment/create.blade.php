@@ -166,9 +166,7 @@
         </div>
     </main>
 
-    <footer class="text-center text-muted py-4">
-        <small>&copy; 2025 InkSpire. All rights reserved.</small>
-    </footer>
+    @include("partials.footer")
 </body>
 
 </html>

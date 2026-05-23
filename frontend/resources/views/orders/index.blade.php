@@ -99,7 +99,9 @@
                     <div class="order-card d-flex flex-column flex-md-row align-items-md-center gap-3">
                         <div class="product-placeholder" style="overflow: hidden;">
                             @if (count($order['items'] ?? []) > 0 && !empty($order['items'][0]['produk']['image_produk']))
-                                <img src="{{ route('products.image', $order['items'][0]['produk']['image_produk']) }}" alt="{{ $order['items'][0]['produk']['nama_produk'] ?? '' }}" style="width: 100%; height: 100%; object-fit: cover;">
+                                <img src="{{ route('products.image', $order['items'][0]['produk']['image_produk']) }}"
+                                    alt="{{ $order['items'][0]['produk']['nama_produk'] ?? '' }}"
+                                    style="width: 100%; height: 100%; object-fit: cover;">
                             @else
                                 <i class="bi bi-image" style="font-size: 2.5rem; color: #38BDF8;"></i>
                             @endif
@@ -139,7 +141,10 @@
                                 <span class="badge {{ $badgeClass }}">{{ $statusText }}</span>
                             </p>
                             <p class="mb-0 text-muted small">Tanggal:
-                                {{ \Carbon\Carbon::parse($order['order_date'])->format('d M Y, H:i') }}</p>
+                                <span class="local-datetime" data-utc="{{ \Carbon\Carbon::parse($order['order_date'])->toIso8601String() }}">
+                                    {{ \Carbon\Carbon::parse($order['order_date'])->format('d M Y, H:i') }}
+                                </span>
+                            </p>
                         </div>
                         <div class="text-md-end">
                             <p class="fw-bold fs-5">Rp {{ number_format($order['total_harga'], 0, ',', '.') }}</p>
@@ -159,9 +164,24 @@
         </div>
     </div>
 
-    <footer class="text-center text-muted py-4">
-        <small>&copy; 2025 InkSpire. All rights reserved.</small>
-    </footer>
+    @include("partials.footer")
+    <script>
+        document.querySelectorAll('.local-datetime').forEach(function(el) {
+            const utcDateStr = el.getAttribute('data-utc');
+            if (utcDateStr) {
+                const date = new Date(utcDateStr);
+                if (!isNaN(date.getTime())) {
+                    const day = date.getDate().toString().padStart(2, '0');
+                    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                    const month = monthNames[date.getMonth()];
+                    const year = date.getFullYear();
+                    const hour = date.getHours().toString().padStart(2, '0');
+                    const minute = date.getMinutes().toString().padStart(2, '0');
+                    el.textContent = `${day} ${month} ${year}, ${hour}:${minute}`;
+                }
+            }
+        });
+    </script>
 </body>
 
 </html>

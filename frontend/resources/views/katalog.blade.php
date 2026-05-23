@@ -196,11 +196,7 @@
             </div>
         </div>
     </main>
-
-    <footer class="text-center text-muted py-4">
-        <small>&copy; 2025 InkSpire. All rights reserved.</small>
-    </footer>
-
+    @include("partials.footer")
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 

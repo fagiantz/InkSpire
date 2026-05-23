@@ -70,7 +70,8 @@
                 @forelse ($cart as $id => $item)
                     @php $totalPrice += $item['harga'] * $item['kuantitas']; @endphp
                     <div class="cart-card d-flex flex-column flex-md-row align-items-md-center gap-3 position-relative">
-                        <form action="{{ route('cart.remove') }}" method="POST" class="position-absolute" style="top: 15px; right: 15px;">
+                        <form action="{{ route('cart.remove') }}" method="POST" class="position-absolute"
+                            style="top: 15px; right: 15px;">
                             @csrf
                             <input type="hidden" name="id_produk" value="{{ $id }}">
                             <button type="submit" class="btn btn-link text-danger p-0 border-0" title="Hapus produk">
@@ -80,7 +81,8 @@
 
                         <div class="product-placeholder" style="overflow: hidden;">
                             @if(!empty($item['image_produk']))
-                                <img src="{{ route('products.image', $item['image_produk']) }}" alt="{{ $item['nama_produk'] }}" style="width: 100%; height: 100%; object-fit: cover;">
+                                <img src="{{ route('products.image', $item['image_produk']) }}" alt="{{ $item['nama_produk'] }}"
+                                    style="width: 100%; height: 100%; object-fit: cover;">
                             @else
                                 <i class="bi bi-image" style="font-size: 2.5rem; color: #38BDF8;"></i>
                             @endif
@@ -91,7 +93,8 @@
                             <p class="mb-0 fw-semibold">Jumlah: {{ $item['kuantitas'] }}</p>
                         </div>
                         <div class="text-md-end mt-3 mt-md-0 pe-md-4">
-                            <p class="fw-bold fs-5 text-primary mb-0">Rp {{ number_format($item['harga'] * $item['kuantitas'], 0, ',', '.') }}</p>
+                            <p class="fw-bold fs-5 text-primary mb-0">Rp
+                                {{ number_format($item['harga'] * $item['kuantitas'], 0, ',', '.') }}</p>
                         </div>
                     </div>
                 @empty
@@ -117,11 +120,12 @@
                         <span class="fw-bold fs-5">Total Bayar</span>
                         <span class="fw-bold fs-5 text-primary">Rp {{ number_format($totalPrice, 0, ',', '.') }}</span>
                     </div>
-                    
+
                     @if(count($cart) > 0)
                         <form action="{{ route('cart.checkout') }}" method="POST">
                             @csrf
-                            <button type="submit" class="btn btn-lg w-100" style="background-color: #38BDF8; color: white; border-radius: 30px;">
+                            <button type="submit" class="btn btn-lg w-100"
+                                style="background-color: #38BDF8; color: white; border-radius: 30px;">
                                 Beli Sekarang
                             </button>
                         </form>
@@ -135,9 +139,7 @@
         </div>
     </div>
 
-    <footer class="text-center text-muted py-4 mt-5">
-        <small>&copy; 2025 InkSpire. All rights reserved.</small>
-    </footer>
+    @include('partials.footer')
 </body>
 
 </html>

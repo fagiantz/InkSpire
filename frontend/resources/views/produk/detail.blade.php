@@ -46,9 +46,11 @@
             Katalog</a>
         <div class="row">
             <div class="col-md-5">
-                <div class="product-image" style="background-color: #f8f9fa; border-radius: 12px; height: 300px; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 1px solid #e9ecef;">
+                <div class="product-image"
+                    style="background-color: #f8f9fa; border-radius: 12px; height: 300px; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 1px solid #e9ecef;">
                     @if(!empty($produk['image_produk']))
-                        <img src="{{ route('products.image', $produk['image_produk']) }}" alt="{{ $produk['nama_produk'] }}" style="max-height: 100%; max-width: 100%; object-fit: contain;">
+                        <img src="{{ route('products.image', $produk['image_produk']) }}" alt="{{ $produk['nama_produk'] }}"
+                            style="max-height: 100%; max-width: 100%; object-fit: contain;">
                     @else
                         <i class="bi bi-image" style="font-size: 5rem; color: #38BDF8;"></i>
                     @endif
@@ -64,7 +66,8 @@
                         <input type="hidden" name="id_produk" value="{{ $produk['id_produk'] }}">
                         <div class="d-flex align-items-center mb-3">
                             <label for="kuantitas" class="form-label me-2 mb-0 fw-semibold">Jumlah:</label>
-                            <input type="number" name="kuantitas" id="kuantitas" value="1" min="1" class="form-control" style="width: 80px; border-color: #38BDF8;">
+                            <input type="number" name="kuantitas" id="kuantitas" value="1" min="1" class="form-control"
+                                style="width: 80px; border-color: #38BDF8;">
                         </div>
                         <button type="submit" class="btn btn-lg"
                             style="background-color: #38BDF8; color: white; border-radius: 30px; padding: 10px 30px;">
@@ -75,7 +78,7 @@
             </div>
         </div>
     </main>
-    <footer class="text-center text-muted py-4"><small>&copy; 2025 InkSpire. All rights reserved.</small></footer>
+    @include("partials.footer")
 </body>
 
 </html>
