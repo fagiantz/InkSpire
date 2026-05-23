@@ -78,8 +78,12 @@
                             </button>
                         </form>
 
-                        <div class="product-placeholder">
-                            <i class="bi bi-image" style="font-size: 2.5rem; color: #38BDF8;"></i>
+                        <div class="product-placeholder" style="overflow: hidden;">
+                            @if(!empty($item['image_produk']))
+                                <img src="{{ route('products.image', $item['image_produk']) }}" alt="{{ $item['nama_produk'] }}" style="width: 100%; height: 100%; object-fit: cover;">
+                            @else
+                                <i class="bi bi-image" style="font-size: 2.5rem; color: #38BDF8;"></i>
+                            @endif
                         </div>
                         <div class="flex-grow-1">
                             <h5 class="fw-bold mb-1">{{ $item['nama_produk'] }}</h5>

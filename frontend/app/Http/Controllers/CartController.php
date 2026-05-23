@@ -54,6 +54,7 @@ class CartController extends Controller
                 'nama_produk' => $produk['nama_produk'],
                 'harga' => $produk['harga'],
                 'kuantitas' => $kuantitas,
+                'image_produk' => $produk['image_produk'] ?? null,
             ];
         }
 
