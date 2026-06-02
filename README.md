@@ -19,80 +19,72 @@
 ## 🎨 Mockup Antarmuka
 Rancangan UI aplikasi yang berfokus pada pengalaman pengguna.
 
-## Authentication
+## 📸 Mockup Sistem
 
-|                                     Login User                                     |                                      Register User                                     |                                        Login Admin                                       |
-| :--------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------: |
-| <img src="docs/mockup/login (user).png" alt="Login User" width="300" height="200"> | <img src="docs/mockup/daftar (user).png" alt="Register User" width="300" height="200"> | <img src="docs/mockup/Login-rev (admin).png" alt="Login Admin" width="300" height="200"> |
+### Authentication
 
-## Landing Page
+|                               Login User                               |
+| :--------------------------------------------------------------------: |
+| <img src="docs/mockup/login (user).jpeg" alt="Login User" width="500"> |
 
-|                                      Landing User                                      |                                       Landing Admin                                      |
-| :------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------: |
-| <img src="docs/mockup/landing (user).png" alt="Landing User" width="300" height="200"> | <img src="docs/mockup/landing (admin).png" alt="Landing Admin" width="300" height="200"> |
+### Dashboard
 
-## Dashboard
+|                                   Dashboard User                                   |                                 Dashboard Admin                                 |
+| :--------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------: |
+| <img src="docs/mockup/dashboard_user - rev.jpeg" alt="Dashboard User" width="400"> | <img src="docs/mockup/dashboard -admin.jpeg" alt="Dashboard Admin" width="400"> |
 
-|                                         Dashboard User                                         |                                          Dashboard Admin                                         |
-| :--------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------: |
-| <img src="docs/mockup/dashboard_user - rev.png" alt="Dashboard User" width="300" height="200"> | <img src="docs/mockup/dashboard_admin - rev.png" alt="Dashboard Admin" width="300" height="200"> |
+### Katalog Produk
 
-## Katalog
+|                                        Katalog                                        |
+| :-----------------------------------------------------------------------------------: |
+| <img src="docs/mockup/hal katalog (login ver).jpeg" alt="Katalog Produk" width="500"> |
 
-|                                          Katalog (Logout)                                          |                                          Katalog (Login)                                         |
-| :------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------: |
-| <img src="docs/mockup/hal katalog (logout ver).png" alt="Katalog Logout" width="300" height="200"> | <img src="docs/mockup/hal katalog (login ver).png" alt="Katalog Login" width="300" height="200"> |
+### Pemesanan
 
-## Pemesanan
+|                              Form Pemesanan                              |
+| :----------------------------------------------------------------------: |
+| <img src="docs/mockup/pemesanan - rev.jpeg" alt="Pemesanan" width="500"> |
 
-|                                    Form Pemesanan                                    |
-| :----------------------------------------------------------------------------------: |
-| <img src="docs/mockup/pemesanan - rev.png" alt="Pemesanan" width="300" height="200"> |
+### Keranjang
 
-## Pembayaran
+|                          Keranjang Belanja                         |
+| :----------------------------------------------------------------: |
+| <img src="docs/mockup/Keranjang.jpeg" alt="Keranjang" width="500"> |
 
-|                                   Halaman Pembayaran                                  |                                          Notifikasi Pembayaran                                         |
-| :-----------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------: |
-| <img src="docs/mockup/pembayaran- rev.png" alt="Pembayaran" width="300" height="200"> | <img src="docs/mockup/pembayaran notif- rev.png" alt="Notifikasi Pembayaran" width="300" height="200"> |
+### Pembayaran
 
-## Status Pemesanan
+|                                 Pembayaran                                |
+| :-----------------------------------------------------------------------: |
+| <img src="docs/mockup/pembayaran- rev.jpeg" alt="Pembayaran" width="500"> |
 
-|                                          Status Pemesanan                                         |                                             Notifikasi Status Pemesanan                                            |
-| :-----------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------: |
-| <img src="docs/mockup/staus pemesanan - rev.png" alt="Status Pemesanan" width="300" height="200"> | <img src="docs/mockup/staus pemesanan notif - rev.png" alt="Notifikasi Status Pemesanan" width="300" height="200"> |
+### Riwayat Pesanan
 
-## Manajemen Pesanan Admin
+|                                  Riwayat Pesanan                                 |
+| :------------------------------------------------------------------------------: |
+| <img src="docs/mockup/orders_user - rev.jpeg" alt="Riwayat Pesanan" width="500"> |
 
-|                                           Daftar Pesanan                                           |                                          Edit Pesanan                                         |                                              Edit Pesanan Dropdown                                              |
-| :------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------: |
-| <img src="docs/mockup/orders_admin - rev.png" alt="Daftar Pesanan Admin" width="300" height="200"> | <img src="docs/mockup/editorder_admin - rev.png" alt="Edit Pesanan" width="300" height="200"> | <img src="docs/mockup/editorder_dropdown_admin - rev.png" alt="Edit Pesanan Dropdown" width="300" height="200"> |
+### Manajemen Status Pesanan
 
-## Riwayat Pesanan User
-
-|                                          Riwayat Pesanan                                          |
-| :-----------------------------------------------------------------------------------------------: |
-| <img src="docs/mockup/orders_user - rev.png" alt="Riwayat Pesanan User" width="300" height="200"> |
-
-## Homepage User
-
-|                                              Homepage User                                             |
-| :----------------------------------------------------------------------------------------------------: |
-| <img src="docs/mockup/homepage_user ver logout- rev.png" alt="Homepage User" width="300" height="200"> |
+|                                   Ubah Status Pesanan                                  |
+| :------------------------------------------------------------------------------------: |
+| <img src="docs/mockup/ubah_status_pesanan.jpeg" alt="Ubah Status Pesanan" width="500"> |
 
 ---
+
+## 📄 Dokumentasi
+
+| Dokumen                              | Tautan                                                                                           |
+| ------------------------------------ | ------------------------------------------------------------------------------------------------ |
+| User Manual                          | [📄 Buka Dokumen](docs/manual/Panduan%20User%20Manual.pdf)                                       |
+| User Manual & Test Plan Terintegrasi | [📄 Buka Dokumen](docs/manual/Standar%20User%20Manual%20%26%20Test%20Plan%20Terintegrasi%20.pdf) |
+| Test Plan Frontend                   | [📄 Buka Dokumen](docs/manual/Test%20Plan%20-%20Frontend%20-%20Inkspire.pdf)                     |
+
 
 ## 🛠️ Stack Teknologi
 - **Frontend:** Laravel
 - **Backend:** Go
 - **Database:** MySQL
 
----
-## 📄 Dokumentasi
-
-| Dokumen | Link |
-|----------|----------|
-| User Manual | [📄 Buka Dokumen](docs/manual/Panduan%20User%20Manual.pdf) |
-| User Manual & Test Plan | [📄 Buka Dokumen](docs/manual/Standar%20User%20Manual%20%26%20Test%20Plan%20Terintegrasi%20.pdf) |>
 ---
 
 ## 📂 Cara Instalasi
