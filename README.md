@@ -14,6 +14,15 @@
 ![DFD Level 1](docs/diagrams/IPPL-DFD1.jpg)<br/>
 *Detail proses bisnis dan integrasi database.*
 
+### ERD 
+![ERD](docs/diagrams/IPPL-ERD.jpg)<br/>
+
+### Class Diagram
+![Class Diagram](docs/diagrams/IPPL-ClassDiagram.jpg)
+
+### Sequence Diagram
+![Sequence Diagram](docs/diagrams/IPPL-SequenceDiagram.jpg)<br/>
+
 ---
 
 ## 🎨 Mockup Antarmuka
