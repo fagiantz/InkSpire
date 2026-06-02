@@ -1,0 +1,45 @@
+package dto
+
+import "github.com/fagiantz/InkSpire/backend/database/models"
+
+type CreateProdukRequest struct {
+	NamaProduk string  `json:"nama_produk" binding:"required"`
+	Harga      float64 `json:"harga" binding:"required,gt=0"`
+}
+
+type UpdateProdukRequest struct {
+	NamaProduk string  `json:"nama_produk"`
+	Harga      float64 `json:"harga" binding:"required,gt=0"`
+}
+
+type ProdukResponse struct {
+	IdProduk    uint    `json:"id_produk"`
+	NamaProduk  string  `json:"nama_produk"`
+	Harga       float64 `json:"harga"`
+	Kategori    string  `json:"kategori"`
+	ImageProduk string  `json:"image_produk"`
+}
+
+// ToResponse formats a single model into a API-safe response struct
+func (ProdukResponse) ToResponse(produk models.Produk) ProdukResponse {
+	return ProdukResponse{
+		IdProduk:    produk.Id_produk,
+		NamaProduk:  produk.Nama_produk,
+		Harga:       produk.Harga,
+		Kategori:    produk.Kategori,
+		ImageProduk: produk.Image_produk,
+	}
+}
+
+// ToResponseList formats an array of models into API-safe response structs
+func (ProdukResponse) ToResponseList(produks []models.Produk) []ProdukResponse {
+	var responses []ProdukResponse
+	for _, p := range produks {
+		responses = append(responses, ProdukResponse{}.ToResponse(p))
+	}
+	// Return empty array instead of null if 0 items
+	if responses == nil {
+		return []ProdukResponse{}
+	}
+	return responses
+}
