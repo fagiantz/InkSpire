@@ -7,101 +7,144 @@
     <title>Katalog - InkSpire</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     @vite(['resources/css/app.scss', 'resources/js/app.js'])
     <style>
         body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #FEFEFD;
+            font-family: 'Inter', sans-serif;
+            background-color: #F3F7FC;
+            color: #1E293B;
+            margin: 0;
         }
 
-        /* Styling sidebar */
-        .sidebar {
-            background-color: #fff;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
-        }
-
-        .search-wrapper {
-            position: relative;
-        }
-
-        .search-wrapper .form-control {
-            border-color: #38BDF8;
-            border-radius: 20px;
-            padding-right: 40px;
-        }
-
-        .search-wrapper .search-icon {
-            position: absolute;
-            top: 50%;
-            right: 15px;
-            transform: translateY(-50%);
-            color: #333;
-            font-size: 1.2rem;
-        }
-
-        .search-divider {
-            height: 1px;
-            background-color: #38BDF8;
-            margin: 15px 0;
-        }
-
-        /* Kategori radio */
-        .category-item {
+        .page-title {
+            font-size: 2.25rem;
+            font-weight: 800;
+            margin-top: 10px;
             margin-bottom: 8px;
         }
 
+        .page-subtitle {
+            font-size: 0.95rem;
+            color: #64748B;
+            margin-bottom: 36px;
+        }
+
+        .sidebar-card {
+            background-color: #ffffff;
+            border-radius: 20px;
+            padding: 32px 24px;
+            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.1);
+            border: none;
+        }
+
+        .search-control {
+            border: 1.5px solid #2563EB;
+            border-radius: 12px;
+            padding: 10px 16px;
+            font-size: 0.9rem;
+            color: #0F172A;
+            transition: all 0.2s ease;
+        }
+
+        .search-control:focus {
+            border-color: #1D4ED8;
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+            outline: none;
+        }
+
+        .category-title {
+            color: #2563EB;
+            font-weight: 700;
+            font-size: 1.05rem;
+            margin-top: 24px;
+            margin-bottom: 16px;
+        }
+
+        .category-item {
+            margin-bottom: 12px;
+        }
+
         .category-item .form-check-input {
-            border-color: #38BDF8;
-            background-color: white;
+            border-color: #2563EB;
+            background-color: #ffffff;
+            width: 1.1rem;
+            height: 1.1rem;
+            cursor: pointer;
         }
 
         .category-item .form-check-input:checked {
-            background-color: #38BDF8;
-            border-color: #38BDF8;
+            background-color: #2563EB;
+            border-color: #2563EB;
         }
 
         .category-item .form-check-label {
             font-weight: 500;
+            font-size: 0.95rem;
+            color: #1E293B;
+            margin-left: 6px;
+            cursor: pointer;
         }
 
-        /* Product card */
-        .product-card {
-            border: 1px solid #e9ecef;
-            border-radius: 12px;
+        .product-link {
+            text-decoration: none !important;
+            color: inherit !important;
+            display: block;
+        }
+
+        .product-card-custom {
+            background-color: #ffffff;
+            border-radius: 20px;
             overflow: hidden;
-            transition: 0.2s;
-            background: white;
+            box-shadow: 0 10px 30px rgba(13, 70, 183, 0.1);
+            border: none;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
-        .product-card:hover {
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+        .product-link:hover .product-card-custom {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 35px rgba(13, 70, 183, 0.15);
         }
 
-        .product-img {
-            background-color: #e9ecef;
-            height: 160px;
+        .product-image-container {
+            height: 180px;
+            background-color: #E0ECFC;
             display: flex;
             align-items: center;
             justify-content: center;
+            overflow: hidden;
+            border-bottom: 2px solid #2563EB;
+            position: relative;
         }
 
-        .product-info {
-            padding: 15px;
+        .product-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
-        .product-title {
+        .product-info-container {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-name-title {
+            font-size: 1.05rem;
             font-weight: 700;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
         }
 
-        .product-desc {
-            color: #6c757d;
+        .product-description-text {
+            color: #64748B;
             font-size: 0.875rem;
             line-height: 1.5;
+            margin-bottom: 0;
         }
     </style>
 </head>
@@ -109,27 +152,25 @@
 <body>
     @include('partials.header')
 
-    <main class="container py-5">
+    <main class="container-fluid py-4 px-4">
+        <!-- Title and Subtitle -->
+        <h2 class="page-title">Katalog Produk</h2>
+        <p class="page-subtitle">Pilih produk custom terbaik untuk kebutuhan Anda</p>
+
         <div class="row">
             <!-- Sidebar -->
-            <div class="col-md-3 mb-4 mb-md-0">
-                <div class="sidebar">
-                    <h3 class="fw-bold mb-4">Katalog</h3>
-
+            <div class="col-lg-2 col-md-3 mb-4 mb-md-0">
+                <div class="sidebar-card">
                     <form action="{{ route('katalog') }}" method="GET" id="filterForm">
                         <!-- Search -->
-                        <div class="search-wrapper">
-                            <input type="text" name="query" class="form-control" placeholder="Cari"
-                                value="{{ request('query') }}">
-                            <button type="submit" class="search-icon"
-                                style="background: none; border: none; padding: 0; outline: none;">
-                                <i class="bi bi-search"></i>
-                            </button>
+                        <div class="mb-3">
+                            <input type="text" name="query" class="form-control search-control"
+                                placeholder="Cari Produk" value="{{ request('query') }}">
                         </div>
-                        <div class="search-divider"></div>
 
                         <!-- Kategori filter -->
-                        <div class="mb-3 fw-bold">Kategori</div>
+                        <div class="category-title">Kategori</div>
+
                         <div class="category-item form-check">
                             <input class="form-check-input" value="" type="radio" name="cat" id="catAll"
                                 onchange="this.form.submit()" {{ !request()->has('cat') || request('cat') == '' ? 'checked' : '' }}>
@@ -146,6 +187,11 @@
                             <label class="form-check-label" for="catMug">Custom Mug</label>
                         </div>
                         <div class="category-item form-check">
+                            <input class="form-check-input" value="poster" type="radio" name="cat" id="catPoster"
+                                onchange="this.form.submit()" {{ request('cat') == 'poster' ? 'checked' : '' }}>
+                            <label class="form-check-label" for="catPoster">Poster</label>
+                        </div>
+                        <div class="category-item form-check">
                             <input class="form-check-input" value="keychain" type="radio" name="cat" id="catKeychain"
                                 onchange="this.form.submit()" {{ request('cat') == 'keychain' ? 'checked' : '' }}>
                             <label class="form-check-label" for="catKeychain">Keychain</label>
@@ -153,49 +199,55 @@
                         <div class="category-item form-check">
                             <input class="form-check-input" value="sticker" type="radio" name="cat" id="catStiker"
                                 onchange="this.form.submit()" {{ request('cat') == 'sticker' ? 'checked' : '' }}>
-                            <label class="form-check-label" for="catStiker">Stiker</label>
+                            <label class="form-check-label" for="catStiker">Sticker</label>
                         </div>
                     </form>
                 </div>
             </div>
 
             <!-- Konten Utama -->
-            <div class="col-md-9">
+            <div class="col-lg-10 col-md-9">
                 <div class="row g-4">
                     @forelse ($produks as $produk)
-                        <div class="col-6 col-lg-4">
-                            <a href="{{ route('produk.detail', $produk['id_produk']) }}" class="text-decoration-none">
-                                <div class="product-card">
-                                    <div class="product-img"
-                                        style="height: 200px; display: flex; align-items: center; justify-content: center; background-color: #f8f9fa; overflow: hidden;">
+                        <div class="col-6 col-lg-3">
+                            <a href="{{ route('produk.detail', $produk['id_produk']) }}" class="product-link">
+                                <div class="product-card-custom">
+                                    <!-- Gambar Produk -->
+                                    <div class="product-image-container">
                                         @if(!empty($produk['image_produk']))
                                             <img src="{{ route('products.image', $produk['image_produk']) }}"
-                                                alt="{{ $produk['nama_produk'] }}"
-                                                style="width: 100%; height: 100%; object-fit: cover;">
+                                                alt="{{ $produk['nama_produk'] }}">
                                         @else
-                                            <i class="bi bi-image" style="font-size: 3rem; color: #38BDF8;"></i>
+                                            <i class="bi bi-image text-primary fs-2"></i>
                                         @endif
                                     </div>
-                                    <div class="product-info">
-                                        <h6 class="product-title">{{ $produk['nama_produk'] }}</h6>
-                                        <span class="badge mb-2"
-                                            style="background-color: #0D95D2;">{{ ucfirst($produk['kategori'] ?? '') }}</span>
-                                        <p class="product-desc text-primary fw-bold mb-0">Rp
-                                            {{ number_format($produk['harga'], 0, ',', '.') }}
+                                    <!-- Info Produk -->
+                                    <div class="product-info-container">
+                                        <h6 class="product-name-title">{{ $produk['nama_produk'] }}</h6>
+                                        <div class="mb-2">
+                                            <span class="badge rounded-pill text-white"
+                                                style="background-color: #2563EB; font-size: 0.75rem; padding: 4px 10px;">
+                                                {{ ucfirst($produk['kategori'] ?? '') }}
+                                            </span>
+                                        </div>
+                                        <p class="fw-bold text-primary mb-0 mt-auto" style="font-size: 1.05rem;">
+                                            Rp {{ number_format($produk['harga'], 0, ',', '.') }}
                                         </p>
                                     </div>
                                 </div>
                             </a>
                         </div>
                     @empty
-                        <div class="col-12 text-center py-5">
-                            <p class="text-muted">Belum ada produk tersedia.</p>
+                        <div class="col-12 text-center py-5 bg-white rounded-5 shadow-sm">
+                            <i class="bi bi-inbox display-1 text-muted"></i>
+                            <p class="mt-3 text-muted">Belum ada produk tersedia.</p>
                         </div>
                     @endforelse
                 </div>
             </div>
         </div>
     </main>
+
     @include("partials.footer")
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
