@@ -217,8 +217,10 @@
         <!-- Breadcrumb Progress -->
         <div class="progress-indicator-custom">
             <span class="step-pill-active">Detail Pesanan</span>
-            <span class="step-arrow-custom">›</span>
-            <span class="step-pill-inactive">Pembayaran</span>
+            @if ($order['status'] == 'unpaid')
+                <span class="step-arrow-custom">›</span>
+                <span class="step-pill-inactive">Pembayaran</span>
+            @endif
         </div>
 
         <div class="row align-items-start">

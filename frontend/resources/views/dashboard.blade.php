@@ -130,6 +130,15 @@
             margin-bottom: 2px;
         }
 
+        .status-badge-custom {
+            display: inline-block;
+            font-size: 0.75rem;
+            padding: 4px 12px;
+            font-weight: 600;
+            border-radius: 50px;
+            margin-left: 6px;
+        }
+
         .btn-detail-custom {
             background-color: #2563EB;
             color: #ffffff !important;
@@ -223,7 +232,19 @@
                                     </h6>
                                     <p class="order-meta-text">Jumlah : {{ collect($order['items'])->sum('kuantitas') }} pcs
                                     </p>
-                                    <p class="order-meta-text">Status : {{ $statusText }}</p>
+                                    <p class="order-meta-text d-flex align-items-center">
+                                        Status : 
+                                        @php
+                                            $badgeStyle = match ($order['status']) {
+                                                'unpaid' => 'background-color: #F59E0B; color: #ffffff;',
+                                                'paid' => 'background-color: #2563EB; color: #ffffff;',
+                                                'process' => 'background-color: #0D95D2; color: #ffffff;',
+                                                'done' => 'background-color: #10B981; color: #ffffff;',
+                                                default => 'background-color: #64748B; color: #ffffff;',
+                                            };
+                                        @endphp
+                                        <span class="status-badge-custom" style="{{ $badgeStyle }}">{{ $statusText }}</span>
+                                    </p>
                                 </div>
 
                                 <!-- Harga & Aksi -->
