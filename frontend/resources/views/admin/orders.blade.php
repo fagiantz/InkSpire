@@ -7,51 +7,69 @@
     <title>Pesanan Admin - InkSpire</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     @vite(['resources/css/app.scss', 'resources/js/app.js'])
     <style>
         body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #FEFEFD;
+            font-family: 'Inter', sans-serif;
+            background-color: #F3F7FC;
+            color: #1E293B;
         }
 
-        .sidebar {
-            background-color: #fff;
-            border-right: 2px solid #38BDF8;
-            min-height: calc(100vh - 56px);
-            padding: 30px 20px;
+        .sidebar-card {
+            background-color: #ffffff;
+            border-radius: 20px;
+            padding: 24px 16px;
+            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.02);
+            border: none;
         }
 
-        .sidebar .nav-link {
-            color: #6c757d;
-            border-radius: 8px;
-            padding: 10px 15px;
+        .sidebar-card .nav-link {
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 5px;
+            gap: 12px;
+            padding: 12px 20px;
+            color: #64748B;
+            font-weight: 600;
+            border-radius: 12px;
+            margin-bottom: 8px;
+            text-decoration: none;
+            transition: all 0.2s ease;
         }
 
-        .sidebar .nav-link.active {
-            background-color: #E6F4FE;
-            color: #0D95D2;
+        .sidebar-card .nav-link:hover {
+            background-color: #F8FAFC;
+            color: #0F172A;
         }
 
-        .sidebar .nav-link i {
+        .sidebar-card .nav-link.active {
+            background-color: #EBF3FF;
+            color: #2563EB;
+        }
+
+        .sidebar-card .nav-link i {
             font-size: 1.2rem;
         }
 
         .main-content {
-            background-color: #F8F9FA;
-            padding: 30px;
+            padding: 10px 20px 40px 20px;
+        }
+
+        .page-title {
+            font-size: 2.25rem;
+            font-weight: 800;
+            color: #0F172A;
+            margin-bottom: 24px;
+            text-transform: uppercase;
         }
 
         .table-card {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 24px;
+            padding: 32px;
+            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.03);
+            border: none;
         }
 
         .search-box {
@@ -60,22 +78,52 @@
         }
 
         .search-box .form-control {
-            border-color: #38BDF8;
-            border-radius: 20px;
-            padding-right: 35px;
+            border: 1px solid #E2E8F0;
+            border-radius: 50px;
+            padding: 10px 40px 10px 20px;
+            font-size: 0.9rem;
+            color: #0F172A;
+            outline: none;
+            box-shadow: none;
+            transition: all 0.2s ease;
+        }
+
+        .search-box .form-control:focus {
+            border-color: #2563EB;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
         }
 
         .search-box .search-icon {
             position: absolute;
             top: 50%;
-            right: 15px;
+            right: 18px;
             transform: translateY(-50%);
-            color: #6c757d;
+            color: #94A3B8;
+            font-size: 1rem;
         }
 
         .table thead th {
+            font-size: 0.9rem;
             font-weight: 700;
-            border-bottom: 2px solid #dee2e6;
+            color: #1E293B;
+            border-bottom: 2px solid #E2E8F0;
+            padding-bottom: 16px;
+        }
+
+        .table tbody td {
+            font-size: 0.95rem;
+            color: #475569;
+            padding: 16px 8px;
+            border-bottom: 1px solid #F1F5F9;
+        }
+
+        /* Status badge styles */
+        .status-badge-custom {
+            display: inline-block;
+            font-size: 0.8rem;
+            padding: 6px 16px;
+            font-weight: 600;
+            border-radius: 50px;
         }
 
         .btn-edit {
@@ -83,8 +131,10 @@
             border: none;
             color: white;
             border-radius: 8px;
-            padding: 5px 15px;
-            font-size: 0.9rem;
+            padding: 6px 16px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
         }
 
         .btn-edit:hover {
@@ -96,12 +146,14 @@
             border: none;
             color: white;
             border-radius: 8px;
-            padding: 5px 15px;
-            font-size: 0.9rem;
+            padding: 6px 16px;
+            font-size: 0.875rem;
+            font-weight: 600;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
-            gap: 5px;
+            gap: 6px;
+            transition: all 0.2s ease;
         }
 
         .btn-receipt:hover {
@@ -110,15 +162,20 @@
         }
 
         .btn-simpan {
-            background-color: #38BDF8;
+            background-color: #2563EB;
             color: white;
-            border-radius: 12px;
-            padding: 10px 25px;
+            border-radius: 50px;
+            padding: 12px 24px;
+            font-weight: 700;
             border: none;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+            transition: all 0.2s ease;
         }
 
         .btn-simpan:hover {
-            background-color: #0ea5e9;
+            background-color: #1D4ED8;
+            color: white;
+            box-shadow: 0 6px 16px rgba(37, 99, 235, 0.25);
         }
 
         .custom-dropdown {
@@ -128,21 +185,28 @@
 
         .custom-dropdown-toggle {
             background-color: white;
-            border: 2px solid #38BDF8;
-            border-radius: 8px;
-            padding: 8px 15px;
+            border: 1px solid #CBD5E1;
+            border-radius: 12px;
+            padding: 12px 16px;
             width: 100%;
             text-align: left;
             position: relative;
             cursor: pointer;
+            font-size: 0.95rem;
+            color: #0F172A;
+            transition: all 0.2s ease;
+        }
+
+        .custom-dropdown-toggle:hover {
+            border-color: #2563EB;
         }
 
         .custom-dropdown-toggle i {
             position: absolute;
-            right: 15px;
+            right: 16px;
             top: 50%;
             transform: translateY(-50%);
-            color: #0D95D2;
+            color: #64748B;
             transition: transform 0.2s;
         }
 
@@ -152,15 +216,17 @@
 
         .custom-dropdown-menu {
             position: absolute;
-            top: 100%;
+            top: 105%;
             left: 0;
             right: 0;
             background: white;
-            border: 2px solid #38BDF8;
-            border-top: none;
-            border-radius: 0 0 8px 8px;
+            border: 1px solid #E2E8F0;
+            border-radius: 12px;
             display: none;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
             z-index: 1000;
+            overflow: hidden;
+            padding: 6px;
         }
 
         .custom-dropdown-menu.show {
@@ -168,24 +234,45 @@
         }
 
         .custom-dropdown-item {
-            padding: 8px 15px;
+            padding: 10px 16px;
             cursor: pointer;
-            border-bottom: 1px solid #eee;
-            transition: background-color 0.1s;
-        }
-
-        .custom-dropdown-item:last-child {
-            border-bottom: none;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            color: #475569;
+            transition: all 0.15s ease;
         }
 
         .custom-dropdown-item:hover {
-            background-color: #F0F9FF;
+            background-color: #F1F5F9;
+            color: #0F172A;
         }
 
         .custom-dropdown-item.active {
-            background-color: #E6F4FE;
-            color: #0D95D2;
-            font-weight: 500;
+            background-color: #EBF3FF;
+            color: #2563EB;
+            font-weight: 600;
+        }
+
+        .alert-success {
+            background-color: #DCFCE7;
+            color: #15803D;
+            border: none;
+            border-radius: 12px;
+            padding: 12px 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+
+        .alert-danger {
+            background-color: #FEE2E2;
+            color: #B91C1C;
+            border: none;
+            border-radius: 12px;
+            padding: 12px 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 24px;
         }
     </style>
 </head>
@@ -193,49 +280,50 @@
 <body>
     @include('admin.partials.header')
 
-    <div class="container-fluid">
+    <div class="container-fluid py-4">
         <div class="row">
             <!-- Sidebar -->
-            <div class="col-md-3 col-lg-2 sidebar">
-                <ul class="nav flex-column">
-                    {{-- <li class="nav-item">
-                        <a class="nav-link" href="{{ route('admin.orders') }}"> <i class="bi bi-grid-fill"></i>
-                            Dashboard
-                        </a>
-                    </li> --}}
-                    <li class="nav-item">
-                        <a class="nav-link active" href="{{ route('admin.orders') }}">
-                            <i class="bi bi-cart-fill"></i>
-                            Pesanan
-                        </a>
-                    </li>
-                </ul>
+            <div class="col-md-4 col-lg-2 mb-4">
+                <div class="sidebar-card">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{{ route('admin.orders') }}">
+                                <i class="bi bi-cart-fill"></i>
+                                Pesanan
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
 
             <!-- Konten Utama -->
-            <div class="col-md-9 col-lg-10 main-content">
-                <h2 class="fw-bold mb-4">PESANAN</h2>
+            <div class="col-md-8 col-lg-10 main-content">
+                <h2 class="page-title">PESANAN</h2>
 
                 @if (session('success'))
-                    <div class="alert alert-success">{{ session('success') }}</div>
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        {{ session('success') }}
+                    </div>
                 @endif
 
                 @if (session('error'))
-                    <div class="alert alert-danger">{{ session('error') }}</div>
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        {{ session('error') }}
+                    </div>
                 @endif
 
                 <div class="table-card">
                     <!-- Search Bar -->
-                    <div class="d-flex justify-content-end mb-3">
+                    <div class="d-flex justify-content-end mb-4">
                         <div class="search-box">
-                            <input type="text" class="form-control" placeholder="Cari">
+                            <input type="text" class="form-control" id="table-search" placeholder="Cari">
                             <i class="bi bi-search search-icon"></i>
                         </div>
                     </div>
 
                     <!-- Tabel -->
                     <div class="table-responsive">
-                        <table class="table table-hover align-middle">
+                        <table class="table align-middle" id="orders-table">
                             <thead>
                                 <tr>
                                     <th>No. Pesanan</th>
@@ -248,17 +336,17 @@
                             <tbody>
                                 @forelse ($orders as $order)
                                     <tr>
-                                        <td>#{{ $order['no_pesanan'] }}</td>
+                                        <td class="fw-semibold">#{{ $order['no_pesanan'] }}</td>
                                         <td>{{ $order['email_pembeli'] ?? 'N/A' }}</td>
                                         <td>{{ \Carbon\Carbon::parse($order['order_date'])->format('d-m-Y') }}</td>
                                         <td>
                                             @php
-                                                $badgeClass = match ($order['status']) {
-                                                    'unpaid' => 'bg-warning text-dark',
-                                                    'paid' => 'bg-primary',
-                                                    'process' => 'bg-info',
-                                                    'done' => 'bg-success',
-                                                    default => 'bg-secondary',
+                                                $badgeStyle = match ($order['status']) {
+                                                    'unpaid' => 'background-color: #F59E0B; color: #ffffff;',
+                                                    'paid' => 'background-color: #2563EB; color: #ffffff;',
+                                                    'process' => 'background-color: #0D95D2; color: #ffffff;',
+                                                    'done' => 'background-color: #10B981; color: #ffffff;',
+                                                    default => 'background-color: #64748B; color: #ffffff;',
                                                 };
 
                                                 $statusText = match ($order['status']) {
@@ -266,13 +354,12 @@
                                                     'paid' => 'Sudah dibayar',
                                                     'process' => 'Diproses',
                                                     'done' => 'Selesai',
-                                                    default => $order[
-                                                        'status'
-                                                    ], // fallback ke teks asli jika status tidak dikenali
+                                                    default => $order['status'],
                                                 };
                                             @endphp
 
-                                            <span class="badge {{ $badgeClass }}">{{ $statusText }}</span>
+                                            <span class="status-badge-custom"
+                                                style="{{ $badgeStyle }}">{{ $statusText }}</span>
                                         </td>
                                         <td>
                                             <button type="button" class="btn btn-edit" data-bs-toggle="modal"
@@ -282,15 +369,15 @@
                                             </button>
                                             @if (isset($order['payment']) && !empty($order['payment']['image_path']))
                                                 <a href="{{ route('admin.orders.receipt', basename($order['payment']['image_path'])) }}"
-                                                    target="_blank" class="btn-receipt ms-1">
-                                                    <i class="bi bi-file-earmark-image"></i> Bukti
+                                                    target="_blank" class="btn-receipt ms-2">
+                                                    <i class="bi bi-file-earmark-text-fill"></i> Bukti
                                                 </a>
                                             @endif
                                         </td>
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="5" class="text-center py-4">
+                                        <td colspan="5" class="text-center py-5">
                                             <i class="bi bi-inbox display-4 text-muted"></i>
                                             <p class="mt-2 mb-0">Belum ada pesanan aktif.</p>
                                         </td>
@@ -307,10 +394,10 @@
     <!-- Modal Ubah Status -->
     <div class="modal fade" id="editStatusModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content rounded-4 shadow">
+            <div class="modal-content rounded-4 shadow border-0">
                 <div class="modal-body p-4">
                     <h4 class="fw-bold mb-3">Ubah Status</h4>
-                    <label class="fw-semibold mb-2">Status Pesanan</label>
+                    <label class="fw-semibold mb-2 text-secondary" style="font-size: 0.9rem;">Status Pesanan</label>
 
                     <form id="formUpdateStatus" method="POST" action="">
                         @csrf
@@ -358,8 +445,17 @@
                 var orderId = button.getAttribute('data-order-id');
                 var currentStatus = button.getAttribute('data-current-status');
 
+                // Map value to display text
+                var statusMap = {
+                    'unpaid': 'Belum dibayar',
+                    'paid': 'Sudah dibayar',
+                    'process': 'Diproses',
+                    'done': 'Selesai'
+                };
+
                 // Set teks dropdown
-                selectedText.textContent = currentStatus;
+                var displayName = statusMap[currentStatus] || currentStatus;
+                selectedText.textContent = displayName;
                 inputStatus.value = currentStatus;
 
                 // Tandai item yang aktif
@@ -391,7 +487,8 @@
                 var item = e.target.closest('.custom-dropdown-item');
                 if (item) {
                     var value = item.getAttribute('data-value');
-                    selectedText.textContent = value;
+                    var text = item.textContent;
+                    selectedText.textContent = text;
                     inputStatus.value = value;
 
                     var items = customMenu.querySelectorAll('.custom-dropdown-item');
@@ -412,6 +509,23 @@
                     customToggle.classList.remove('open');
                 }
             });
+
+            // Client-side search filtering
+            const searchInput = document.getElementById('table-search');
+            if (searchInput) {
+                searchInput.addEventListener('keyup', function () {
+                    const query = this.value.toLowerCase();
+                    const rows = document.querySelectorAll('#orders-table tbody tr');
+
+                    rows.forEach(row => {
+                        const cells = row.querySelectorAll('td');
+                        if (cells.length > 1) { // Skip empty state row
+                            const text = row.textContent.toLowerCase();
+                            row.style.display = text.includes(query) ? '' : 'none';
+                        }
+                    });
+                });
+            }
         });
     </script>
 </body>

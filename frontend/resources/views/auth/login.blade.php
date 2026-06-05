@@ -7,151 +7,156 @@
     <title>Login - InkSpire</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     @vite(['resources/css/app.scss', 'resources/js/app.js'])
     <style>
         body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #FEFEFD;
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(circle at center, #edf2fc 0%, #dbe3f5 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
         }
 
-        .input-icon-wrapper {
-            position: relative;
+        .login-card {
+            background-color: #ffffff;
+            border-radius: 24px;
+            padding: 48px 40px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 20px 40px rgba(37, 99, 235, 0.08), 0 10px 20px rgba(37, 99, 235, 0.04);
+            border: none;
         }
 
-        .input-icon-wrapper .icon-left {
-            position: absolute;
-            top: 50%;
-            left: 14px;
-            transform: translateY(-50%);
-            color: #38BDF8;
-            z-index: 10;
-            font-size: 1rem;
+        .brand-title {
+            color: #2563EB;
+            font-size: 2.25rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 6px;
+            letter-spacing: -0.03em;
         }
 
-        .input-icon-wrapper .icon-eye {
-            position: absolute;
-            top: 50%;
-            right: 14px;
-            transform: translateY(-50%);
-            color: #979CA6;
-            cursor: pointer;
-            z-index: 10;
-            font-size: 1rem;
+        .brand-subtitle {
+            color: #64748B;
+            font-size: 0.875rem;
+            font-weight: 500;
+            text-align: center;
+            margin-bottom: 36px;
         }
 
-        .input-icon-wrapper .form-control {
-            width: 332px;
-            padding-left: 2.5rem;
-            padding-right: 2.5rem;
-            border-color: #38BDF8;
-            border-radius: 50px;
-            border-width: 1.5px;
-            box-sizing: border-box;
+        .form-label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #1E293B;
+            margin-bottom: 8px;
         }
 
-        .input-icon-wrapper .form-control:focus {
-            box-shadow: 0 0 0 0.2rem rgba(56, 189, 248, 0.25);
-            border-color: #38BDF8;
+        .form-control {
+            border: 1px solid #E2E8F0;
+            border-radius: 12px;
+            padding: 12px 16px;
+            font-size: 0.875rem;
+            color: #0F172A;
+            transition: all 0.2s ease;
+            height: auto;
+        }
+
+        .form-control::placeholder {
+            color: #94A3B8;
+        }
+
+        .form-control:focus {
+            border-color: #3B82F6;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+            outline: none;
         }
 
         .btn-login {
-            background-color: #38BDF8;
-            border-color: #38BDF8;
-            color: white;
-            font-weight: 700;
-            border-radius: 50px;
-            width: 332px;                 /* disamakan dengan input */
-            height: 48px;
-            font-size: 1rem;
+            background-color: #2563EB;
+            border: none;
+            color: #ffffff;
+            font-weight: 600;
+            border-radius: 12px;
+            padding: 12px 48px;
+            font-size: 0.95rem;
             display: block;
-            margin: 0 auto;
+            margin: 32px auto 0 auto;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
         }
 
         .btn-login:hover {
-            background-color: #0ea5e9;
-            border-color: #0ea5e9;
+            background-color: #1D4ED8;
             color: white;
+            box-shadow: 0 6px 16px rgba(37, 99, 235, 0.25);
+            transform: translateY(-1px);
+        }
+
+        .btn-login:active {
+            transform: translateY(0);
+        }
+
+        .register-text {
+            text-align: center;
+            margin-top: 28px;
+            font-size: 0.875rem;
+            color: #64748B;
+        }
+
+        .register-link {
+            color: #2563EB;
+            font-weight: 700;
+            text-decoration: none;
+            margin-left: 4px;
+        }
+
+        .register-link:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 
 <body>
-    <main class="container">
-        <div class="row justify-content-center min-vh-100 align-items-center">
-            <div class="col-md-6 col-lg-5">
-                <div class="card shadow-sm rounded-4" style="border: 2px solid #38BDF8;">
-                    <div class="card-body py-5" style="padding-left: 107px; padding-right: 107px;">
+    <div class="login-card">
+        <h1 class="brand-title">InkSpire</h1>
+        <p class="brand-subtitle">Website Custom Printing Modern</p>
 
-                        <h3 class="fw-bold text-left mb-4">Login</h3>
-
-                        @if (session('error'))
-                            <div class="alert alert-danger">
-                                {{ session('error') }}
-                            </div>
-                        @endif
-
-                        <form method="POST" action="/login">
-                            @csrf
-                            
-                            <!-- Email -->
-                            <div class="mb-3">
-                                <label for="email" class="form-label fw-semibold">Email</label>
-                                <div class="input-icon-wrapper">
-                                    <i class="bi bi-envelope-fill icon-left"></i>
-                                    <input type="email" class="form-control" id="email" name="email"
-                                        placeholder="email@example.com" required autofocus>
-                                </div>
-                            </div>
-
-                            <!-- Password -->
-                            <div class="mb-3">
-                                <label for="password" class="form-label fw-semibold">Password</label>
-                                <div class="input-icon-wrapper">
-                                    <i class="bi bi-lock-fill icon-left"></i>
-                                    <input type="password" class="form-control" id="password" name="password"
-                                        placeholder="masukkan kata sandi" required>
-                                    <i class="bi bi-eye-fill icon-eye" id="togglePasswordIcon"
-                                        onclick="togglePassword('password', 'togglePasswordIcon')"></i>
-                                </div>
-                            </div>
-
-                            <!-- Tombol Login -->
-                            <div class="mt-4">
-                                <button type="submit" class="btn btn-login">Login</button>
-                            </div>
-                        </form>
-
-                        {{-- <div class="text-center mt-3">
-                            <small>Belum punya akun? <a href="/register" style="color: #38BDF8;">Daftar di sini</a></small>
-                        </div> --}}
-
-                    </div>
-                </div>
+        @if (session('error'))
+            <div class="alert alert-danger mb-4 py-2 px-3 rounded-3" style="font-size: 0.85rem;">
+                {{ session('error') }}
             </div>
-        </div>
-    </main>
+        @endif
 
-    <footer class="text-center text-muted py-4">
-        <small>&copy; 2025 InkSpire. All rights reserved.</small>
-    </footer>
+        <form method="POST" action="/login">
+            @csrf
 
-    <script>
-        function togglePassword(inputId, iconId) {
-            const input = document.getElementById(inputId);
-            const icon = document.getElementById(iconId);
-            if (input.type === 'password') {
-                input.type = 'text';
-                icon.classList.remove('bi-eye-fill');
-                icon.classList.add('bi-eye-slash-fill');
-            } else {
-                input.type = 'password';
-                icon.classList.remove('bi-eye-slash-fill');
-                icon.classList.add('bi-eye-fill');
-            }
-        }
-    </script>
+            <!-- Email -->
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control w-100" id="email" name="email" placeholder="example@email.com"
+                    required autofocus>
+            </div>
+
+            <!-- Password -->
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control w-100" id="password" name="password"
+                    placeholder="Masukkan password" required>
+            </div>
+
+            <!-- Tombol Login -->
+            <button type="submit" class="btn btn-login">Login</button>
+        </form>
+
+        <!-- <div class="register-text">
+            Belum punya akun? <a href="/register" class="register-link">Daftar</a>
+        </div> -->
+    </div>
+    @include('partials.footer')
 </body>
 
 </html>
