@@ -97,6 +97,27 @@ Rancangan UI aplikasi yang berfokus pada pengalaman pengguna.
 ---
 
 ## 📂 Cara Instalasi
-1. `git clone https://github.com/fagiantz/InkSpire`
-2. `npm install` (atau sesuaikan dengan environment)
-3. `npm run dev`
+1. Clone/Copy Repository
+```sh
+git clone https://github.com/fagiantz/InkSpire.git
+```
+
+2. Install Laravel Dependencies
+   - `cd frontend`
+   - `composer install`
+
+3. Install Go Dependencies
+   - `cd backend`
+   - `go mod download`
+
+4. Seed Database
+   - `cd backend`
+   - `go run seed.go`
+
+5. Run Backend
+   - `cd backend`
+   - `go run main.go`
+
+6. Run Frontend (Dev)
+   - `cd frontend`
+   - `php artisan serve`
