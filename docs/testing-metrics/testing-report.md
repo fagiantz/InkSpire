@@ -102,7 +102,7 @@ Pengguna berhasil login menggunakan email dan password yang benar sehingga siste
 
 Pengguna memasukkan password yang salah dan sistem menampilkan pesan **Invalid Credentials**.
 
-![Login Password Salah](images/login-password-salah.png)
+![Login Password Salah](images/login-password-salah.jpg)
 
 ---
 
@@ -118,7 +118,7 @@ Pengguna menekan tombol login tanpa mengisi email sehingga browser menampilkan v
 
 Setelah proses login berhasil, sistem menampilkan dashboard pengguna dengan informasi yang sesuai.
 
-![Dashboard User](images/dashboard-user.png)
+![Dashboard User](images/dashboard-user.jng)
 
 ---
 
