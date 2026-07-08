@@ -118,7 +118,7 @@ Pengguna menekan tombol login tanpa mengisi email sehingga browser menampilkan v
 
 Setelah proses login berhasil, sistem menampilkan dashboard pengguna dengan informasi yang sesuai.
 
-![Dashboard User](images/dashboard-user.jng)
+![Dashboard User](images/dashboard-user.jpg)
 
 ---
 
