@@ -89,6 +89,7 @@ Secara keseluruhan, seluruh 15 test case memperoleh hasil PASS sehingga menghasi
 5. Dokumentasi Pengujian
 Dokumentasi berikut merupakan hasil pengujian yang dilakukan pada aplikasi InkSpire menggunakan metode Black Box Testing. Setiap fitur diuji berdasarkan skenario yang telah ditentukan untuk memastikan bahwa sistem dapat berjalan sesuai dengan kebutuhan pengguna.
 
+
 ## 5.1 Pengujian Login Menggunakan Akun yang Valid
 
 Pengguna berhasil login menggunakan email dan password yang benar sehingga sistem menampilkan halaman dashboard.
@@ -105,17 +106,17 @@ Pengguna memasukkan password yang salah dan sistem menampilkan pesan **Invalid C
 
 ---
 
-## 5.3 Pengujian Login Tanpa Mengisi Email dan Password
+## 5.3 Pengujian Login Tanpa Mengisi Email
 
-Pengguna menekan tombol login tanpa mengisi data sehingga browser menampilkan validasi **"Isi isian ini"**.
+Pengguna menekan tombol login tanpa mengisi email sehingga browser menampilkan validasi **"Isi isian ini"**.
 
 ![Login Kosong](images/login-kosong.png)
 
 ---
 
-## 5.4 Pengujian Dashboard Pengguna
+## 5.4 Pengujian Dashboard User
 
-Dashboard berhasil ditampilkan setelah proses login berhasil dilakukan.
+Setelah proses login berhasil, sistem menampilkan dashboard pengguna dengan informasi yang sesuai.
 
 ![Dashboard User](images/dashboard-user.png)
 
@@ -123,7 +124,7 @@ Dashboard berhasil ditampilkan setelah proses login berhasil dilakukan.
 
 ## 5.5 Pengujian Katalog Produk
 
-Seluruh produk berhasil ditampilkan pada halaman katalog.
+Halaman katalog berhasil menampilkan seluruh daftar produk yang tersedia.
 
 ![Katalog Produk](images/katalog-produk.png)
 
@@ -131,7 +132,7 @@ Seluruh produk berhasil ditampilkan pada halaman katalog.
 
 ## 5.6 Pengujian Detail Produk
 
-Informasi produk yang dipilih berhasil ditampilkan secara lengkap.
+Informasi detail produk berhasil ditampilkan secara lengkap sesuai produk yang dipilih.
 
 ![Detail Produk](images/detail-produk.png)
 
@@ -139,7 +140,7 @@ Informasi produk yang dipilih berhasil ditampilkan secara lengkap.
 
 ## 5.7 Pengujian Menambahkan Produk ke Keranjang
 
-Produk berhasil ditambahkan ke keranjang belanja.
+Produk berhasil ditambahkan ke keranjang belanja dan langsung muncul pada daftar keranjang.
 
 ![Keranjang Belanja](images/keranjang-belanja.png)
 
@@ -147,7 +148,7 @@ Produk berhasil ditambahkan ke keranjang belanja.
 
 ## 5.8 Pengujian Menghapus Produk dari Keranjang
 
-Produk berhasil dihapus dari keranjang dan daftar produk langsung diperbarui.
+Produk berhasil dihapus dari keranjang dan daftar keranjang langsung diperbarui.
 
 ![Hapus Keranjang](images/hapus-keranjang.png)
 
@@ -155,7 +156,7 @@ Produk berhasil dihapus dari keranjang dan daftar produk langsung diperbarui.
 
 ## 5.9 Pengujian Checkout
 
-Checkout berhasil dilakukan dan sistem membuat pesanan baru.
+Checkout berhasil dilakukan dan sistem membuat pesanan baru serta mengarahkan pengguna ke halaman pembayaran.
 
 ![Checkout](images/checkout.png)
 
@@ -171,7 +172,7 @@ Bukti pembayaran berhasil diunggah dan sistem menampilkan notifikasi bahwa pemba
 
 ## 5.11 Pengujian Status Pesanan
 
-Status pesanan berhasil ditampilkan sesuai dengan kondisi pesanan.
+Status pesanan berhasil ditampilkan sesuai dengan kondisi pesanan yang sedang diproses.
 
 ![Status Pesanan](images/status-pesanan.png)
 
@@ -179,7 +180,7 @@ Status pesanan berhasil ditampilkan sesuai dengan kondisi pesanan.
 
 ## 5.12 Pengujian Daftar Pesanan
 
-Riwayat pesanan berhasil ditampilkan dan pesanan yang baru dibuat muncul pada daftar.
+Daftar pesanan berhasil ditampilkan dan pesanan yang baru dibuat muncul pada riwayat pesanan.
 
 ![Daftar Pesanan](images/daftar-pesanan.png)
 
@@ -187,7 +188,7 @@ Riwayat pesanan berhasil ditampilkan dan pesanan yang baru dibuat muncul pada da
 
 ## 5.13 Pengujian Dashboard Admin
 
-Dashboard admin berhasil menampilkan seluruh data pesanan.
+Dashboard admin berhasil dibuka dan seluruh data pesanan ditampilkan dengan baik.
 
 ![Dashboard Admin](images/dashboard-admin.png)
 
@@ -195,9 +196,9 @@ Dashboard admin berhasil menampilkan seluruh data pesanan.
 
 ## 5.14 Pengujian Update Status Pesanan
 
-Admin berhasil mengubah status pesanan dan perubahan langsung tersimpan.
+Admin berhasil memperbarui status pesanan dan perubahan langsung tersimpan pada sistem.
 
-![Update Status](images/update-status-pesanan.png)
+![Update Status Pesanan](images/update-status-pesanan.png)
 
 ---
 
@@ -206,7 +207,6 @@ Admin berhasil mengubah status pesanan dan perubahan langsung tersimpan.
 Logout berhasil dilakukan dan sistem kembali ke halaman login.
 
 ![Logout](images/logout.png)
- 
 
 6. Analisis
 Pengujian pada aplikasi InkSpire dilakukan menggunakan metode Black Box Testing, yaitu dengan menguji fungsi-fungsi yang tersedia tanpa melihat kode program. Pengujian difokuskan pada fitur yang paling sering digunakan oleh pengguna, mulai dari proses login, melihat katalog produk, melakukan pemesanan, hingga pengelolaan pesanan oleh admin. Seluruh pengujian dilakukan secara langsung pada aplikasi yang telah di-deploy sehingga hasil yang diperoleh menggambarkan kondisi aplikasi saat digunakan.
