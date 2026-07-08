@@ -206,7 +206,7 @@ Admin berhasil memperbarui status pesanan dan perubahan langsung tersimpan pada 
 
 Logout berhasil dilakukan dan sistem kembali ke halaman login.
 
-![Logout](images/logout.png)
+![Logout](images/logout.jpg)
 
 6. Analisis
 Pengujian pada aplikasi InkSpire dilakukan menggunakan metode Black Box Testing, yaitu dengan menguji fungsi-fungsi yang tersedia tanpa melihat kode program. Pengujian difokuskan pada fitur yang paling sering digunakan oleh pengguna, mulai dari proses login, melihat katalog produk, melakukan pemesanan, hingga pengelolaan pesanan oleh admin. Seluruh pengujian dilakukan secara langsung pada aplikasi yang telah di-deploy sehingga hasil yang diperoleh menggambarkan kondisi aplikasi saat digunakan.
