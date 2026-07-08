@@ -134,7 +134,7 @@ Halaman katalog berhasil menampilkan seluruh daftar produk yang tersedia.
 
 Informasi detail produk berhasil ditampilkan secara lengkap sesuai produk yang dipilih.
 
-![Detail Produk](images/detail-produk.png)
+![Detail Produk](images/detail-produk.jpg)
 
 ---
 
@@ -174,7 +174,7 @@ Bukti pembayaran berhasil diunggah dan sistem menampilkan notifikasi bahwa pemba
 
 Status pesanan berhasil ditampilkan sesuai dengan kondisi pesanan yang sedang diproses.
 
-![Status Pesanan](images/status-pesanan.png)
+![Status Pesanan](images/status-pesanan.jpg)
 
 ---
 
